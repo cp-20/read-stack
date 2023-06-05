@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { NextPage } from 'next';
 import { Description } from '@/shared/components/Description';
 
-export const Home: NextPage = () => {
+export const LandingPage: NextPage = () => {
   return (
     <>
       <Description

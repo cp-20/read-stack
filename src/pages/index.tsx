@@ -1,3 +1,3 @@
-import { Home } from '@/client/home';
+import { LandingPage } from '@/client/LandingPage';
 
-export default Home;
+export default LandingPage;
