@@ -1,0 +1,4 @@
+$path.ts
+*.md
+/*.js
+next-env.d.ts
