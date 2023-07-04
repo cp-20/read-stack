@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  clips     clips[]
+}
+
+model clips {
+  id        Int     @id @default(autoincrement())
+  // 0: 未読, 1: 読み中, 2: 読了
+  status    Int     @default(0)
+  progress  Int     @default(0)
+  comment   String?
+  article   article @relation(fields: [articleId], references: [id])
+  articleId Int     @map("articleId")
+  author    users   @relation(fields: [authorId], references: [id])
+  authorId  Int     @map("userId")
+}
+
+model article {
+  id        Int      @id @default(autoincrement())
+  url       String   @unique
+  title     String
+  body      String
+  tags      tag[]
+  summary   String?
+  createdAt DateTime @default(now())
+  clips     clips[]
+}
+
+model tag {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  article   article @relation(fields: [articleId], references: [id])
+  articleId Int
+}
+
+// Drizzle ORMの定義も書いてみたけどちょっと機能不足感が否めなかったのでここで供養
+// 採用することになったらまた復活させる
+// 
+// import {
+//   pgTable,
+//   serial,
+//   text,
+//   varchar,
+//   date,
+//   char,
+//   integer,
+// } from 'drizzle-orm/pg-core';
+
+// export const users = pgTable('users', {
+//   id: serial('id').primaryKey(),
+//   name: varchar('name', { length: 32 }).notNull(),
+//   email: text('email').notNull(),
+//   created_at: date('created_at', { mode: 'date' }).notNull().defaultNow(),
+//   updated_at: date('updated_at', { mode: 'date' }).notNull(),
+// });
+
+// export const clips = pgTable('clips', {
+//   id: serial('id').primaryKey(),
+//   status: char('status', { enum: ['unread', 'progress', 'done'] }).notNull(),
+//   progress: integer('progress').notNull(),
+//   comment: text('comment'),
+//   articleId: integer('article_id')
+//     .notNull()
+//     .references(() => articles.id),
+//   authorId: integer('author_id')
+//     .notNull()
+//     .references(() => users.id),
+// });
+
+// export const articles = pgTable('articles', {
+//   id: serial('id').primaryKey(),
+//   url: text('url'),
+//   title: text('title'),
+//   body: text('body'),
+//   summary: text('summary'),
+//   created_at: date('created_at', { mode: 'date' }).notNull(),
+//   updated_at: date('updated_at', { mode: 'date' }).notNull(),
+// });
+
+// export const tags = pgTable('tags', {
+//   id: serial('id').primaryKey(),
+//   name: text('name'),
+//   articleId: integer('article_id')
+//     .notNull()
+//     .references(() => articles.id),
+// });
