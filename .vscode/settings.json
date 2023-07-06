@@ -10,5 +10,8 @@
   "stylelint.configFile": ".stylelintrc.js",
   "stylelint.packageManager": "pnpm",
   "files.insertFinalNewline": true,
-  "stylelint.validate": ["css", "scss", "typescript", "typescriptreact"]
+  "stylelint.validate": ["css", "scss", "typescript", "typescriptreact"],
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }
