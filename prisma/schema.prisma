@@ -32,14 +32,29 @@ model clips {
 }
 
 model article {
-  id        Int      @id @default(autoincrement())
-  url       String   @unique
-  title     String
-  body      String
-  tags      tag[]
-  summary   String?
-  createdAt DateTime @default(now())
-  clips     clips[]
+  id         Int          @id @default(autoincrement())
+  url        String       @unique
+  title      String
+  body       String
+  ogImageUrl String?
+  tags       tag[]
+  summary    String?
+  createdAt  DateTime     @default(now())
+  clips      clips[]
+  articleId  Int?
+  areferFrom articleRef[] @relation("referFrom")
+  areferTo   articleRef[] @relation("referTo")
+}
+
+model articleRef {
+  referFrom   article  @relation(fields: [referFromId], references: [id], name: "referFrom")
+  referFromId Int
+  referTo     article  @relation(fields: [referToId], references: [id], name: "referTo")
+  referToId   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@id([referFromId, referToId])
 }
 
 model tag {
