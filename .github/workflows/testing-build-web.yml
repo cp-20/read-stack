@@ -19,7 +19,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm web install
 
       - name: Testing build Next.js App
-        run: pnpm build
+        run: pnpm web build
