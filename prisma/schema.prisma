@@ -41,9 +41,8 @@ model article {
   summary    String?
   createdAt  DateTime     @default(now())
   clips      clips[]
-  articleId  Int?
-  areferFrom articleRef[] @relation("referFrom")
-  areferTo   articleRef[] @relation("referTo")
+  referFrom  articleRef[] @relation("referFrom")
+  referTo    articleRef[] @relation("referTo")
 }
 
 model articleRef {
