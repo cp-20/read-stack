@@ -1,6 +1,5 @@
 {
   "eslint.workingDirectories": ["./packages/web"],
-  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.tslint": true,
