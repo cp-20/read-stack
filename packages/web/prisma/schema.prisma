@@ -11,7 +11,7 @@ datasource db {
 }
 
 model users {
-  id        Int      @id @default(autoincrement())
+  id        String   @id
   email     String   @unique
   name      String
   avatarUrl String?
@@ -29,7 +29,7 @@ model clips {
   article   article @relation(fields: [articleId], references: [id])
   articleId Int     @map("articleId")
   author    users   @relation(fields: [authorId], references: [id])
-  authorId  Int     @map("userId")
+  authorId  String  @map("userId")
 }
 
 model article {
