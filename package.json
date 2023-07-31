@@ -8,5 +8,8 @@
     "web": "pnpm -F \"read-stack-web\"",
     "build": "turbo build",
     "lint": "turbo lint"
+  },
+  "dependencies": {
+    "turbo": "^1.10.12"
   }
 }
