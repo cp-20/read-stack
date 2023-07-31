@@ -5,6 +5,8 @@
   "author": "cp20",
   "license": "MIT",
   "scripts": {
-    "web": "pnpm -F \"read-stack-web\""
+    "web": "pnpm -F \"read-stack-web\"",
+    "build": "turbo build",
+    "lint": "turbo lint"
   }
 }

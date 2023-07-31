@@ -1,25 +1,37 @@
-name: Testing build Next.js App
+name: Testing Turbo Build & Lint
 
 on:
-  pull_request:
-    branches:
-      - main
-      - develop
+  - push
+  - pull_request
+
+permissions: read-all
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Launch Turbo Remote Cache Server
+        uses: dtinth/setup-github-actions-caching-for-turbo@v1.1.0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.node-version'
-          cache: pnpm
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm web install
+        run: pnpm i
 
-      - name: Testing build Next.js App
-        run: pnpm web build
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Build
+        run: pnpm run build
