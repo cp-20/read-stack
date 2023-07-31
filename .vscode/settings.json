@@ -1,3 +1,14 @@
 {
-  "eslint.workingDirectories": ["./packages/web"]
+  "eslint.workingDirectories": ["./packages/web"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.tslint": true,
+    "source.fixAll": true
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
 }
