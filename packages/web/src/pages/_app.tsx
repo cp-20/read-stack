@@ -6,6 +6,8 @@ import type { Session } from '@supabase/auth-helpers-react';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import type { AppProps } from 'next/app';
 import { useState } from 'react';
+import { SWRConfig } from 'swr';
+import { fetcher } from '@/features/swr/fetcher';
 import { GoogleTagManagerBody } from '@/shared/components/GoogleTagManager';
 
 function MyApp({
@@ -36,7 +38,9 @@ function MyApp({
           supabaseClient={supabaseClient}
           initialSession={pageProps.initialSession}
         >
-          <Component {...pageProps} />
+          <SWRConfig value={{ fetcher }}>
+            <Component {...pageProps} />
+          </SWRConfig>
         </SessionContextProvider>
       </MantineProvider>
     </>
