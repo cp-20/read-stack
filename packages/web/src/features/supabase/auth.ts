@@ -1,8 +1,9 @@
-import { useSession } from '@supabase/auth-helpers-react';
+import { useSession, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import useSWR from 'swr';
 
-export const useAutoRedirect = (path: string) => {
+export const useAutoRedirectIfLoggedIn = (path: string) => {
   const router = useRouter();
   const session = useSession();
 
@@ -11,4 +12,22 @@ export const useAutoRedirect = (path: string) => {
       router.push(path);
     }
   }, [path, router, session]);
+};
+
+export const useAutoRedirectIfNotLoggedIn = (path: string) => {
+  const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (!session) {
+      router.push(path);
+    }
+  }, [path, router, session]);
+};
+
+export const useUserData = () => {
+  const user = useUser();
+  const userData = useSWR('/api/v1/users/me');
+
+  return { userData };
 };
