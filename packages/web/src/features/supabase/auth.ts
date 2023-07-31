@@ -29,5 +29,5 @@ export const useUserData = () => {
   const user = useUser();
   const userData = useSWR('/api/v1/users/me');
 
-  return { userData };
+  return { user, userData };
 };

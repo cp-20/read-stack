@@ -4,7 +4,7 @@ export type useArticlesOptions = {
   unreadOnly?: boolean;
 };
 
-export const useArticles = (options?: useArticlesOptions) => {
+export const useArticles = (_options?: useArticlesOptions) => {
   const articles = new Array(20).fill(0).map((_, i) => ({
     id: `id-${i}`,
     title: '【無料】GPUがなくてもStable Diffusionで遊びたい！',
