@@ -37,4 +37,4 @@ jobs:
         run: pnpm run lint
 
       - name: Build
-        run: NEXT_PUBLIC_SUPABASE_URL="dummy url" NEXT_PUBLIC_SUPABASE_ANON_KEY="dummy key" pnpm run build
+        run: NEXT_PUBLIC_SUPABASE_URL="https://this-is-dummy-url" NEXT_PUBLIC_SUPABASE_ANON_KEY="dummy key" pnpm run build
