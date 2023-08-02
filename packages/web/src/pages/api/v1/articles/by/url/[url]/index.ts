@@ -1,3 +1,4 @@
 import { getArticleByUrl } from '@/server/handlers/articles/by/url/get';
+import { methodRouter } from '@/server/utils/router';
 
-export default getArticleByUrl;
+export default methodRouter({ GET: getArticleByUrl });
