@@ -3,6 +3,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.tslint": true,
+    "source.fixAll.stylelint": true,
     "source.fixAll": true
   },
   "eslint.validate": [
@@ -11,4 +12,16 @@
     "typescript",
     "typescriptreact"
   ],
+  "stylelint.validate": ["css", "scss", "typescript", "typescriptreact"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.configPath": "./packages/web/.prettierrc.json",
+  "stylelint.configFile": "./packages/web/.stylelintrc.js",
+  "stylelint.packageManager": "pnpm",
+  "files.insertFinalNewline": true,
+
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }
