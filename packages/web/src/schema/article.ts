@@ -1,27 +1,38 @@
 import { z } from 'zod';
 
-export const ArticleMetaSchema = z.object({
+export const UserSchema = z.object({
   id: z.string(),
-  title: z.string(),
-  ogImage: z.string(),
-  head: z.string(),
-  href: z.string(),
-  tags: z.array(z.string()),
-  referTo: z.array(z.string()),
-  referredBy: z.array(z.string()),
-  createdAt: z.string(),
+  email: z.string(),
+  name: z.string(),
+  displayName: z.string().optional(),
+  avatarUrl: z.string().optional(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
-export type ArticleMeta = z.infer<typeof ArticleMetaSchema>;
+export type User = z.infer<typeof UserSchema>;
 
-export const ArticleSchema = ArticleMetaSchema.extend({
-  content: z.string(),
+export const ClipSchema = z.object({
+  id: z.number().int(),
+  status: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+  progress: z.number().int().min(0).max(100),
+  comment: z.string().optional(),
+  articleId: z.number().int(),
+  authorId: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export type Clip = z.infer<typeof ClipSchema>;
+
+export const ArticleSchema = z.object({
+  id: z.number().int(),
+  url: z.string().url(),
+  title: z.string(),
+  body: z.string(),
+  ogImageUrl: z.string().url().optional(),
+  summary: z.string().optional(),
+  createdAt: z.date(),
 });
 
 export type Article = z.infer<typeof ArticleSchema>;
-
-export const UnreadArticleSchema = ArticleMetaSchema.extend({
-  progress: z.number().int().min(0).max(100),
-});
-
-export type UnreadArticle = z.infer<typeof UnreadArticleSchema>;
