@@ -9,19 +9,18 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 import type { FC } from 'react';
-import type { UnreadArticle } from '@/schema/article';
 
-export type UnreadArticlePanelProps = {
-  article: UnreadArticle;
+import type { ClipWithArticles } from './UnreadClipListItem';
+
+export type UnreadClipPanelProps = {
+  clip: ClipWithArticles;
 };
 
-export const UnreadArticlePanel: FC<UnreadArticlePanelProps> = ({
-  article,
-}) => {
+export const UnreadClipPanel: FC<UnreadClipPanelProps> = ({ clip }) => {
   const theme = useMantineTheme();
   return (
     <Link
-      href={article.href}
+      href={clip.article.url}
       css={css`
         color: inherit;
         text-decoration: none;
@@ -29,18 +28,18 @@ export const UnreadArticlePanel: FC<UnreadArticlePanelProps> = ({
     >
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section mb="md">
-          <Image src={article.ogImage} alt="" width="100%" />
+          <Image src={clip.article.ogImageUrl} alt="" width="100%" />
         </Card.Section>
 
         <Stack>
           <Text fw="bold" color={theme.colors.dark[8]}>
-            {article.title}
+            {clip.article.title}
           </Text>
           <Text color="dimmed" size="xs" lineClamp={3}>
-            {article.head}
+            {clip.article.body}
           </Text>
 
-          <Progress value={article.progress} />
+          <Progress value={clip.progress} />
         </Stack>
       </Card>
     </Link>

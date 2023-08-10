@@ -1,11 +1,11 @@
-import { useArticles } from '@/client/_components/hooks/useArticles';
+import { useUserClips } from '@/client/_components/hooks/useUserClips';
 
 export const Status = () => {
-  const { articles } = useArticles();
+  const { clips } = useUserClips();
 
   return (
     <div>
-      <div>今まで読んだ記事の数: {articles.length}</div>
+      <div>今まで読んだ記事の数: {clips.length}</div>
     </div>
   );
 };

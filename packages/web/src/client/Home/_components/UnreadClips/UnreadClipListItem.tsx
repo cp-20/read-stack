@@ -8,15 +8,17 @@ import {
   RingProgress,
 } from '@mantine/core';
 import type { FC } from 'react';
-import type { UnreadArticle } from '@/schema/article';
+import type { Article, Clip } from '@/schema/article';
 
-export type UnreadArticleListItemProps = {
-  article: UnreadArticle;
+export type ClipWithArticles = Clip & {
+  article: Article;
 };
 
-export const UnreadArticleListItem: FC<UnreadArticleListItemProps> = ({
-  article,
-}) => {
+export type UnreadClipListItemProps = {
+  clip: ClipWithArticles;
+};
+
+export const UnreadClipListItem: FC<UnreadClipListItemProps> = ({ clip }) => {
   const theme = useMantineTheme();
   return (
     <Card withBorder>
@@ -28,22 +30,22 @@ export const UnreadArticleListItem: FC<UnreadArticleListItemProps> = ({
           `}
         >
           <RingProgress
-            sections={[{ value: article.progress, color: 'blue' }]}
+            sections={[{ value: clip.progress, color: 'blue' }]}
             size={64}
             thickness={8}
           />
           <div>
             <Text color={theme.colors.dark[8]} fw="600" lineClamp={1}>
-              {article.title}
+              {clip.article.title}
             </Text>
             <Text color="dimmed" size="xs" lineClamp={2}>
-              {article.head}
+              {clip.article.body}
             </Text>
           </div>
         </div>
 
         <Image
-          src={article.ogImage}
+          src={clip.article.ogImageUrl}
           alt=""
           width={200}
           css={css`
