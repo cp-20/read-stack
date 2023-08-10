@@ -4,8 +4,8 @@ export const UserSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
-  displayName: z.string().optional(),
-  avatarUrl: z.string().optional(),
+  displayName: z.string().nullable(),
+  avatarUrl: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });
@@ -16,7 +16,7 @@ export const ClipSchema = z.object({
   id: z.number().int(),
   status: z.union([z.literal(0), z.literal(1), z.literal(2)]),
   progress: z.number().int().min(0).max(100),
-  comment: z.string().optional(),
+  comment: z.string().nullable(),
   articleId: z.number().int(),
   authorId: z.string(),
   createdAt: z.date(),
@@ -30,8 +30,8 @@ export const ArticleSchema = z.object({
   url: z.string().url(),
   title: z.string(),
   body: z.string(),
-  ogImageUrl: z.string().url().optional(),
-  summary: z.string().optional(),
+  ogImageUrl: z.string().url().nullable(),
+  summary: z.string().nullable(),
   createdAt: z.date(),
 });
 
