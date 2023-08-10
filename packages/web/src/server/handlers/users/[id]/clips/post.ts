@@ -5,6 +5,9 @@ import { requireAuthWithUserMiddleware } from '@/server/middlewares/authorize';
 
 const postUserClipsSchema = z.object({
   id: z.string(),
+});
+
+const postUserClipsBodySchema = z.object({
   articleId: z.number().int(),
 });
 
@@ -14,7 +17,14 @@ export const postUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
     if (!query.success) {
       return res.status(400).json({ error: query.error });
     }
-    const { id, articleId } = query.data;
+
+    const body = postUserClipsBodySchema.safeParse(req.body);
+    if (!body.success) {
+      return res.status(400).json({ error: body.error });
+    }
+
+    const { id } = query.data;
+    const { articleId } = body.data;
 
     const clip = await prisma.clips.create({
       data: {
