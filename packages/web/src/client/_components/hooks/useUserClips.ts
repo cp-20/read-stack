@@ -2,16 +2,18 @@ import type { clips } from '@prisma/client';
 import useSWRInfinite from 'swr/infinite';
 import type { ClipWithArticles } from '@/client/Home/_components/UnreadClips/UnreadClipListItem';
 import { useUserData } from '@/features/supabase/auth';
+import type { ClipSearchQuery } from '@/schema/clipSearchQuery';
 
 export type useArticlesOptions = {
   limit?: number;
-  unreadOnly?: boolean;
+  query?: ClipSearchQuery;
 };
 
 export const useUserClips = (options?: useArticlesOptions) => {
   const limit = options?.limit ?? 20;
 
   const { user } = useUserData();
+  console.log(options);
 
   const { data } = useSWRInfinite<ClipWithArticles[], unknown>(
     (size, acc: clips[][] | null) => {
@@ -22,8 +24,13 @@ export const useUserClips = (options?: useArticlesOptions) => {
         ? { cursor: acc.flat().slice(-1)[0].id.toString() }
         : {};
 
+      const queryOption: { query: string } | undefined = options?.query
+        ? { query: JSON.stringify(options?.query) }
+        : undefined;
+
       const url = new URLSearchParams({
         limit: limit.toString(),
+        ...queryOption,
         ...cursorOption,
       });
 
