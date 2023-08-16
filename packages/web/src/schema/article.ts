@@ -6,8 +6,8 @@ export const UserSchema = z.object({
   name: z.string(),
   displayName: z.string().nullable(),
   avatarUrl: z.string().nullable(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
 export type User = z.infer<typeof UserSchema>;
@@ -19,8 +19,8 @@ export const ClipSchema = z.object({
   comment: z.string().nullable(),
   articleId: z.number().int(),
   authorId: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
 export type Clip = z.infer<typeof ClipSchema>;
@@ -32,7 +32,7 @@ export const ArticleSchema = z.object({
   body: z.string(),
   ogImageUrl: z.string().url().nullable(),
   summary: z.string().nullable(),
-  createdAt: z.date(),
+  createdAt: z.string(),
 });
 
 export type Article = z.infer<typeof ArticleSchema>;
