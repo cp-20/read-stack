@@ -1,4 +1,5 @@
 import type { clips } from '@prisma/client';
+import { useCallback } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import type { ClipWithArticles } from '@/client/Home/_components/UnreadClips/UnreadClipListItem';
 import { useUserData } from '@/features/supabase/auth';
@@ -50,7 +51,7 @@ export const useUserClips = (options?: useArticlesOptions) => {
 
   const clips = data ? data.flat() : [];
 
-  const loadNext = () => setSize((size) => size + 1);
+  const loadNext = useCallback(() => setSize((size) => size + 1), [setSize]);
 
   const isFinished = data?.slice(-1)[0]?.length === 0;
 
