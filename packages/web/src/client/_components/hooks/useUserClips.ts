@@ -13,7 +13,6 @@ export const useUserClips = (options?: useArticlesOptions) => {
   const limit = options?.limit ?? 20;
 
   const { user } = useUserData();
-  console.log(options);
 
   const { data, setSize } = useSWRInfinite<ClipWithArticles[], unknown>(
     (size, acc: clips[][] | null) => {
