@@ -52,5 +52,7 @@ export const useUserClips = (options?: useArticlesOptions) => {
 
   const loadNext = () => setSize((size) => size + 1);
 
-  return { clips, loadNext };
+  const isFinished = data?.slice(-1)[0]?.length === 0;
+
+  return { clips, loadNext, isFinished };
 };
