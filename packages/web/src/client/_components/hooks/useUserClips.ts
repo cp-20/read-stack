@@ -3,14 +3,15 @@ import { useCallback } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import type { ClipWithArticles } from '@/client/Home/_components/UnreadClips/UnreadClipListItem';
 import { useUserData } from '@/features/supabase/auth';
+import { ArticleSchema, ClipSchema } from '@/schema/article';
 import type { ClipSearchQuery } from '@/schema/clipSearchQuery';
 
-export type useArticlesOptions = {
+export type useUserClipsOptions = {
   limit?: number;
   query?: ClipSearchQuery;
 };
 
-export const useUserClips = (options?: useArticlesOptions) => {
+export const useUserClips = (options?: useUserClipsOptions) => {
   const limit = options?.limit ?? 20;
 
   const { user } = useUserData();
@@ -56,4 +57,41 @@ export const useUserClips = (options?: useArticlesOptions) => {
   const isFinished = data?.slice(-1)[0]?.length === 0;
 
   return { clips, loadNext, isFinished };
+};
+
+export const useAddClip = () => {
+  const { user } = useUserData();
+
+  const addClip = useCallback(
+    async (url: string) => {
+      if (user === null) return false;
+
+      const body = { url };
+      const articleRes = await fetch('/api/v1/articles', {
+        method: 'POST',
+        body: JSON.stringify(body),
+      });
+      const articleJson = await articleRes.json();
+
+      const articleData = ArticleSchema.safeParse(articleJson);
+      if (!articleData.success) return false;
+
+      const article = articleData.data;
+
+      const clipRes = await fetch(`/api/v1/users/${user.id}/clips`, {
+        method: 'POST',
+        body: JSON.stringify({ articleId: article.id }),
+      });
+
+      const clipJson = await clipRes.json();
+      const clip = ClipSchema.safeParse(clipJson);
+
+      if (!clip.success) return false;
+
+      return clip.data;
+    },
+    [user],
+  );
+
+  return { addClip };
 };

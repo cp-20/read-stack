@@ -35,6 +35,6 @@ export const postUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
       },
     });
 
-    return res.status(200).json({ clip });
+    return res.status(200).json(clip);
   },
 );
