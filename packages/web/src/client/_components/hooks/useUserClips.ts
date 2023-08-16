@@ -15,10 +15,12 @@ export const useUserClips = (options?: useArticlesOptions) => {
   const { user } = useUserData();
   console.log(options);
 
-  const { data } = useSWRInfinite<ClipWithArticles[], unknown>(
+  const { data, setSize } = useSWRInfinite<ClipWithArticles[], unknown>(
     (size, acc: clips[][] | null) => {
       if (!user) return null;
       if ((size + 1) * limit <= (acc?.length ?? 0)) return null;
+      // 最後に到達したらやめる
+      if (acc?.slice(-1)[0]?.length === 0) return null;
 
       const cursorOption: { cursor: string } | Record<string, never> = acc
         ? { cursor: acc.flat().slice(-1)[0].id.toString() }
@@ -49,5 +51,7 @@ export const useUserClips = (options?: useArticlesOptions) => {
 
   const clips = data ? data.flat() : [];
 
-  return { clips };
+  const loadNext = () => setSize((size) => size + 1);
+
+  return { clips, loadNext };
 };
