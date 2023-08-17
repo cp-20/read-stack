@@ -22,15 +22,17 @@ model users {
 }
 
 model clips {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   // 0: 未読, 1: 読み中, 2: 読了
-  status    Int     @default(0)
-  progress  Int     @default(0)
+  status    Int      @default(0)
+  progress  Int      @default(0)
   comment   String?
-  article   article @relation(fields: [articleId], references: [id])
-  articleId Int     @map("articleId")
-  author    users   @relation(fields: [authorId], references: [id])
-  authorId  String  @map("userId")
+  article   article  @relation(fields: [articleId], references: [id])
+  articleId Int      @map("articleId")
+  author    users    @relation(fields: [authorId], references: [id])
+  authorId  String   @map("userId")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model article {

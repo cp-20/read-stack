@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import type { NextPage } from 'next';
-import { Status } from '@/client/Home/_components/Status';
-import { UnreadArticles } from '@/client/Home/_components/UnreadArticles';
+
+import { Status } from './_components/Status';
+import { UnreadClips } from './_components/UnreadClips';
 
 export const Home: NextPage = () => {
   return (
@@ -21,7 +22,7 @@ export const Home: NextPage = () => {
         >
           未読の記事一覧
         </h2>
-        <UnreadArticles />
+        <UnreadClips />
       </div>
     </>
   );

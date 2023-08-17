@@ -8,13 +8,13 @@ const postArticleSchema = z.object({
 });
 
 export const postArticle: NextApiHandler = async (req, res) => {
-  const query = postArticleSchema.safeParse(req.query);
-  if (!query.success) {
-    res.status(400).json(query.error);
+  const body = postArticleSchema.safeParse(req.body);
+  if (!body.success) {
+    res.status(400).json(body.error);
     return;
   }
 
-  const { url } = query.data;
+  const { url } = body.data;
 
   const articleData = await fetchArticle(url);
 

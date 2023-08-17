@@ -2,9 +2,11 @@ import { JSDOM } from 'jsdom';
 import { z } from 'zod';
 
 const zennApiSchema = z.object({
-  title: z.string(),
-  body_html: z.string(),
-  og_image_url: z.string().url(),
+  article: z.object({
+    title: z.string(),
+    body_html: z.string(),
+    og_image_url: z.string().url(),
+  }),
 });
 
 export const fetchArticleFromZenn = async (url: string) => {
@@ -15,7 +17,11 @@ export const fetchArticleFromZenn = async (url: string) => {
   const json = await apiResponse.json();
   const query = zennApiSchema.parse(json);
 
-  const { title, body_html: bodyHtml, og_image_url: ogImageUrl } = query;
+  const {
+    title,
+    body_html: bodyHtml,
+    og_image_url: ogImageUrl,
+  } = query.article;
 
   const textBody = new JSDOM(bodyHtml).window.document.textContent ?? '';
 

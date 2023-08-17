@@ -6,7 +6,10 @@
   "license": "MIT",
   "scripts": {
     "web": "pnpm -F \"read-stack-web\"",
+    "dev": "turbo dev",
     "build": "turbo build",
+    "deploy": "turbo deploy",
+    "test": "turbo test",
     "lint": "turbo lint"
   },
   "dependencies": {
