@@ -22,8 +22,6 @@ export const useUserClips = (options?: useUserClipsOptions) => {
   const limit = options?.limit ?? 20;
 
   const fetcher = async (url: string) => {
-    console.log(url);
-
     const res = await fetch(url);
     // TODO: アサーションを上手く回避したいね
     const { clips } = (await res.json()) as { clips: ClipWithArticles[] };
