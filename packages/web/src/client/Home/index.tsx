@@ -1,10 +1,13 @@
 import { css } from '@emotion/react';
+import { useMantineTheme } from '@mantine/core';
 import type { NextPage } from 'next';
 
 import { Status } from './_components/Status';
 import { UnreadClips } from './_components/UnreadClips';
+import { AddClipButton } from '@/client/Home/_components/AddClipButton';
 
 export const Home: NextPage = () => {
+  const theme = useMantineTheme();
   return (
     <>
       <div
@@ -23,6 +26,17 @@ export const Home: NextPage = () => {
           未読の記事一覧
         </h2>
         <UnreadClips />
+        <div
+          css={css`
+            position: fixed;
+            z-index: 100;
+            right: 1rem;
+            bottom: 1rem;
+            box-shadow: ${theme.shadows.md};
+          `}
+        >
+          <AddClipButton />
+        </div>
       </div>
     </>
   );
