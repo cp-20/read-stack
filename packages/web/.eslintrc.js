@@ -68,6 +68,7 @@ module.exports = {
       },
     ],
     'react/jsx-pascal-case': 'error',
+    'no-console': 'error',
   },
   overrides: [
     {
