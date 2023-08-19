@@ -18,7 +18,7 @@ export const postUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
       return res.status(400).json({ error: query.error });
     }
 
-    const body = postUserClipsBodySchema.safeParse(req.body);
+    const body = postUserClipsBodySchema.safeParse(JSON.parse(req.body));
     if (!body.success) {
       return res.status(400).json({ error: body.error });
     }
@@ -35,6 +35,6 @@ export const postUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
       },
     });
 
-    return res.status(200).json({ clip });
+    return res.status(200).json(clip);
   },
 );
