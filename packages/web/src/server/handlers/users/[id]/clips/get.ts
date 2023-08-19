@@ -47,8 +47,6 @@ export const getUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
         : undefined),
     };
 
-    console.log({ queryOption, searchQuery });
-
     const clips = await prisma.clips.findMany({
       where: {
         authorId: id,
