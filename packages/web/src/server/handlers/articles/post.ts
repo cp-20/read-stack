@@ -8,7 +8,7 @@ const postArticleSchema = z.object({
 });
 
 export const postArticle: NextApiHandler = async (req, res) => {
-  const body = postArticleSchema.safeParse(req.body);
+  const body = postArticleSchema.safeParse(JSON.parse(req.body));
   if (!body.success) {
     res.status(400).json(body.error);
     return;
@@ -16,11 +16,21 @@ export const postArticle: NextApiHandler = async (req, res) => {
 
   const { url } = body.data;
 
+  const article = await prisma.article.findUnique({
+    where: {
+      url,
+    },
+  });
+
+  if (article !== null) {
+    return res.status(201).json(article);
+  }
+
   const articleData = await fetchArticle(url);
 
-  const article = await prisma.article.create({
+  const newArticle = await prisma.article.create({
     data: articleData,
   });
 
-  res.status(200).json(article);
+  res.status(200).json(newArticle);
 };
