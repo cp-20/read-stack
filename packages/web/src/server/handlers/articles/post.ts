@@ -26,6 +26,7 @@ export const postArticle: NextApiHandler = async (req, res) => {
     return res.status(201).json(article);
   }
 
+  // FIX: 同じ記事が同時に投稿されると、重複して記事が作成される可能性がある
   const articleData = await fetchArticle(url);
 
   const newArticle = await prisma.article.create({
