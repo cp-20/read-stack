@@ -117,3 +117,34 @@ export const useAddClip = () => {
 
   return { addClip };
 };
+
+export const useDeleteClip = () => {
+  const { user } = useUserData();
+  const [updateClips] = useAtom(updateClipsAtom);
+
+  const deleteClip = useCallback(
+    async (clipId: number) => {
+      if (user === null) return false;
+
+      const res = await fetch(`/api/v1/users/${user.id}/clips/${clipId}`, {
+        method: 'DELETE',
+      });
+
+      if (res.status !== 200) return false;
+
+      const clipJson = await res.json();
+      const clipData = ClipSchema.safeParse(clipJson.clip);
+
+      if (!clipData.success) return false;
+
+      const clip = clipData.data;
+
+      updateClips.forEach((update) => update());
+
+      return { clip };
+    },
+    [updateClips, user],
+  );
+
+  return { deleteClip };
+};
