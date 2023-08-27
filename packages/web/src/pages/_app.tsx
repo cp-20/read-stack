@@ -5,10 +5,17 @@ import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import type { Session } from '@supabase/auth-helpers-react';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import type { AppProps } from 'next/app';
+import { Noto_Sans_JP as fontNotoSansJP } from 'next/font/google';
 import { useState } from 'react';
 import { SWRConfig } from 'swr';
 import { fetcher } from '@/features/swr/fetcher';
 import { GoogleTagManagerBody } from '@/shared/components/GoogleTagManager';
+
+const font = fontNotoSansJP({
+  weight: ['400', '600'],
+  subsets: ['latin', 'latin-ext', 'cyrillic'],
+  preload: true,
+});
 
 function MyApp({
   Component,
@@ -27,11 +34,12 @@ function MyApp({
           colorScheme: 'light',
           breakpoints: {
             xs: '360px',
-            sm: '800px',
-            md: '1000px',
-            lg: '1200px',
-            xl: '1400px',
+            sm: '540px',
+            md: '720px',
+            lg: '1080px',
+            xl: '1200px',
           },
+          fontFamily: font.style.fontFamily,
         }}
       >
         <SessionContextProvider
