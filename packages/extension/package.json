@@ -1,6 +1,6 @@
 {
-  "name": "read-stack",
-  "displayName": "Read stack",
+  "name": "read-stack-extension",
+  "displayName": "ReadStack Extension",
   "version": "0.0.1",
   "description": "An official browser extension for ReadStack.",
   "author": "cp20",
