@@ -20,6 +20,7 @@ const updateUserClipByIdBodySchema = z.object({
 
 export const updateUserClipById: NextApiHandler =
   requireAuthWithUserMiddleware()(async (req, res) => {
+    // eslint-disable-next-line no-console
     console.log(JSON.stringify(req));
 
     const query = updateUserClipByIdQuerySchema.safeParse(req.query);
