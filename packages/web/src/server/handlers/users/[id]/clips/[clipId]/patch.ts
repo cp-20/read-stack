@@ -20,6 +20,8 @@ const updateUserClipByIdBodySchema = z.object({
 
 export const updateUserClipById: NextApiHandler =
   requireAuthWithUserMiddleware()(async (req, res) => {
+    console.log(JSON.stringify(req));
+
     const query = updateUserClipByIdQuerySchema.safeParse(req.query);
     if (!query.success) {
       return res.status(400).json({ error: query.error });
