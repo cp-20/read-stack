@@ -8,7 +8,7 @@ const postArticleSchema = z.object({
 });
 
 export const postArticle: NextApiHandler = async (req, res) => {
-  const body = postArticleSchema.safeParse(JSON.parse(req.body));
+  const body = postArticleSchema.safeParse(req.body);
   if (!body.success) {
     res.status(400).json(body.error);
     return;

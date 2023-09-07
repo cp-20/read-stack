@@ -88,6 +88,9 @@ export const useAddClip = () => {
       const articleRes = await fetch('/api/v1/articles', {
         method: 'POST',
         body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       const articleJson = await articleRes.json();
 
@@ -99,6 +102,9 @@ export const useAddClip = () => {
       const clipRes = await fetch(`/api/v1/users/${user.id}/clips`, {
         method: 'POST',
         body: JSON.stringify({ articleId: article.id }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
       const clipJson = await clipRes.json();
