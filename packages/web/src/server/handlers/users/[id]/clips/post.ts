@@ -23,18 +23,31 @@ export const postUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
       return res.status(400).json({ error: body.error });
     }
 
-    const { id } = query.data;
+    const { id: authorId } = query.data;
     const { articleId } = body.data;
 
-    const clip = await prisma.clips.create({
+    const clip = await prisma.clips.findUnique({
+      where: {
+        articleId_authorId: {
+          articleId,
+          authorId,
+        },
+      },
+    });
+
+    if (clip !== null) {
+      return res.status(201).json(clip);
+    }
+
+    const newClip = await prisma.clips.create({
       data: {
         status: 0,
         progress: 0,
-        authorId: id,
+        authorId,
         articleId,
       },
     });
 
-    return res.status(200).json(clip);
+    return res.status(200).json(newClip);
   },
 );
