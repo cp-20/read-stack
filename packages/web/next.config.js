@@ -11,7 +11,7 @@ const nextConfig = {
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           {
             key: 'Access-Control-Allow-Origin',
-            value: process.env.CRX_ID,
+            value: `${process.env.ALLOW_ORIGIN}`,
           },
           {
             key: 'Access-Control-Allow-Methods',
