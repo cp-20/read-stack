@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom';
+import { load } from 'cheerio';
 import { z } from 'zod';
 
 const qiitaApiSchema = z.object({
@@ -14,17 +14,14 @@ export const fetchArticleFromQiita = async (url: string) => {
   const json = await apiResponse.json();
   const query = qiitaApiSchema.parse(json);
 
-  const { title, rendered_body: renderedBody } = query;
+  const { title, rendered_body: body } = query;
 
-  const textBody = new JSDOM(renderedBody).window.document.textContent ?? '';
+  const textBody = load(body)('body').text();
 
   const articleResponse = await fetch(url);
   const html = await articleResponse.text();
-  const dom = new JSDOM(html);
   const ogImageUrl =
-    dom.window.document
-      .querySelector('meta[property="og:image"]')
-      ?.getAttribute('content') ?? null;
+    load(html)('meta[property="og:image"]').attr('content') ?? null;
 
   const article = {
     url,

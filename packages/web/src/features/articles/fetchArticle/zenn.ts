@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom';
+import { load } from 'cheerio';
 import { z } from 'zod';
 
 const zennApiSchema = z.object({
@@ -17,13 +17,9 @@ export const fetchArticleFromZenn = async (url: string) => {
   const json = await apiResponse.json();
   const query = zennApiSchema.parse(json);
 
-  const {
-    title,
-    body_html: bodyHtml,
-    og_image_url: ogImageUrl,
-  } = query.article;
+  const { title, body_html: body, og_image_url: ogImageUrl } = query.article;
 
-  const textBody = new JSDOM(bodyHtml).window.document.textContent ?? '';
+  const textBody = load(body)('body').text();
 
   const article = {
     url,

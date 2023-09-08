@@ -1,4 +1,4 @@
-import { JSDOM } from 'jsdom';
+import { load } from 'cheerio';
 import { z } from 'zod';
 import type { Article } from '@/features/articles/fetchArticle';
 
@@ -20,7 +20,7 @@ export const fetchArticleFromNote = async (url: string): Promise<Article> => {
 
   const { name, body, eyecatch } = query.data;
 
-  const textBody = new JSDOM(body).window.document.textContent ?? '';
+  const textBody = load(body)('body').text();
 
   const article = {
     url,
