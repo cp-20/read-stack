@@ -2,6 +2,7 @@ import type { clips } from '@prisma/client';
 import { atom, useAtom } from 'jotai';
 import { useCallback, useEffect, useId } from 'react';
 import useSWRInfinite from 'swr/infinite';
+import { z } from 'zod';
 import type { ClipWithArticles } from '@/client/Home/_components/UnreadClips/UnreadClipListItem';
 import { useUserData } from '@/features/supabase/auth';
 import { ArticleSchema, ClipSchema } from '@/schema/article';
@@ -87,39 +88,30 @@ export const useAddClip = () => {
     async (url: string) => {
       if (user === null) return false;
 
-      const body = { url };
-      const articleRes = await fetch('/api/v1/articles', {
+      const res = await fetch(`/api/v1/users/${user.id}/clips`, {
         method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const articleJson = await articleRes.json();
-
-      const articleData = ArticleSchema.safeParse(articleJson);
-      if (!articleData.success) return 0;
-
-      const article = articleData.data;
-
-      const clipRes = await fetch(`/api/v1/users/${user.id}/clips`, {
-        method: 'POST',
-        body: JSON.stringify({ articleId: article.id }),
+        body: JSON.stringify({
+          type: 'url',
+          articleUrl: url,
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      const clipJson = await clipRes.json();
-      const clipData = ClipSchema.safeParse(clipJson);
+      const responseSchema = z.object({
+        article: ArticleSchema,
+        clip: ClipSchema,
+      });
 
-      if (!clipData.success) return null;
+      const json = await res.json();
+      const data = responseSchema.safeParse(json);
 
-      const clip = clipData.data;
+      if (!data.success) return null;
 
       updateClips.forEach((update) => update());
 
-      return { clip, article };
+      return data.data;
     },
     [updateClips, user],
   );

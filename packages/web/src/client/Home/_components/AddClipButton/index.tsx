@@ -18,32 +18,37 @@ export const AddClipButton: FC = () => {
 
       setSubmitting(true);
 
-      const result = await addClip(url);
+      try {
+        const result = await addClip(url);
 
-      if (!result) {
-        return toast('新しい記事の追加に失敗しました', {
-          type: 'error',
-        });
+        if (!result) {
+          return toast('新しい記事の追加に失敗しました', {
+            type: 'error',
+          });
+        }
+
+        toast(
+          <>
+            新しい記事「
+            <span
+              css={css`
+                font-weight: bold;
+              `}
+            >
+              {result.article.title}
+            </span>
+            」を追加しました
+          </>,
+          {
+            type: 'success',
+          },
+        );
+        setUrl('');
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setSubmitting(false);
       }
-
-      toast(
-        <>
-          新しい記事「
-          <span
-            css={css`
-              font-weight: bold;
-            `}
-          >
-            {result.article.title}
-          </span>
-          」を追加しました
-        </>,
-        {
-          type: 'success',
-        },
-      );
-      setUrl('');
-      setSubmitting(false);
     },
     [addClip, url],
   );
