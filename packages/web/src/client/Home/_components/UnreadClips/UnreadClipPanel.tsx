@@ -50,7 +50,7 @@ export const UnreadClipPanel: FC<UnreadClipPanelProps> = ({ clip }) => {
           flex: 1;
         `}
       >
-        <Text fw="bold" color={theme.colors.dark[8]}>
+        <Text fw="bold" color={theme.colors.dark[8]} lineClamp={2}>
           {clip.article.title}
         </Text>
         <Text color="dimmed" size="xs" lineClamp={3}>
