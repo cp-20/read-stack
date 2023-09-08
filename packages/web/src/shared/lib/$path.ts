@@ -16,6 +16,9 @@ export type PagesPath = typeof pagesPath
 export const staticPath = {
   _gitkeep: '/.gitkeep',
   apple_touch_icon_png: '/apple-touch-icon.png',
+  assets: {
+    no_content_png: '/assets/no-content.png'
+  },
   favicon_ico: '/favicon.ico',
   icon_192_png: '/icon-192.png',
   icon_512_png: '/icon-512.png',

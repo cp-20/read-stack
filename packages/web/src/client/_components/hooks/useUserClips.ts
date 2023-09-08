@@ -28,7 +28,10 @@ export const useUserClips = (options?: useUserClipsOptions) => {
     return clips;
   };
 
-  const { data, setSize, mutate } = useSWRInfinite<ClipWithArticles[], unknown>(
+  const { data, setSize, mutate, isLoading } = useSWRInfinite<
+    ClipWithArticles[],
+    unknown
+  >(
     (size, acc: clips[][] | null) => {
       if (!user) return null;
       if ((size + 1) * limit <= (acc?.length ?? 0)) return null;
@@ -73,7 +76,7 @@ export const useUserClips = (options?: useUserClipsOptions) => {
     setUpdateClips((prev) => new Map(prev).set(id, updateClip));
   }, [id, setUpdateClips, updateClip]);
 
-  return { clips, loadNext, isFinished };
+  return { clips, loadNext, isFinished, isLoading };
 };
 
 export const useAddClip = () => {
@@ -89,8 +92,8 @@ export const useAddClip = () => {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       });
       const articleJson = await articleRes.json();
 
