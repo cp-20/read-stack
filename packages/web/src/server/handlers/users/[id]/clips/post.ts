@@ -36,32 +36,36 @@ export const postUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
 
     const { type } = body.data;
 
-    const articleId = await (async () => {
-      if (type === 'id' || type === undefined) {
-        return body.data.articleId;
-      }
+    const saveClipAndGetResponse = async (articleId: number) => {
+      const { exist, clip } = await saveClip(articleId, authorId, () => ({
+        articleId,
+        authorId,
+        progress: 0,
+        status: 0,
+      }));
 
-      if (type === 'url') {
-        const { articleUrl } = body.data;
-        const { article } = await saveArticleByUrl(articleUrl, () =>
-          fetchArticle(articleUrl),
-        );
-        return article.id;
-      }
+      const status = exist ? 200 : 201;
 
-      const _: never = type;
-      return _;
-    })();
+      return { status, clip };
+    };
 
-    const { exist, clip } = await saveClip(articleId, authorId, () => ({
-      articleId,
-      authorId,
-      progress: 0,
-      status: 0,
-    }));
+    if (type === 'id' || type === undefined) {
+      const { articleId } = body.data;
+      const { status, clip } = await saveClipAndGetResponse(articleId);
+      return res.status(status).json(clip);
+    }
 
-    const status = exist ? 200 : 201;
+    if (type === 'url') {
+      const { articleUrl } = body.data;
+      const { article } = await saveArticleByUrl(articleUrl, () =>
+        fetchArticle(articleUrl),
+      );
 
-    return res.status(status).json(clip);
+      const { status, clip } = await saveClipAndGetResponse(article.id);
+      return res.status(status).json({ article, clip });
+    }
+
+    const _: never = type;
+    return _;
   },
 );
