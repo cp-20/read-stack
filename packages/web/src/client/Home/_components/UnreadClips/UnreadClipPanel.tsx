@@ -33,6 +33,12 @@ export const UnreadClipPanel: FC<UnreadClipPanelProps> = ({ clip }) => {
         flex-direction: column;
         color: inherit;
         text-decoration: none;
+        transition: box-shadow 0.2s, transform 0.2s;
+
+        &:hover {
+          box-shadow: ${theme.shadows.md};
+          transform: translateY(-2px);
+        }
       `}
     >
       <Card.Section mb="md">
