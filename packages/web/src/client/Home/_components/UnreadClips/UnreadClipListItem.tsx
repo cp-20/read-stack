@@ -26,6 +26,7 @@ export const UnreadClipListItem: FC<UnreadClipListItemProps> = ({ clip }) => {
         <div
           css={css`
             display: flex;
+            min-width: 0;
             gap: 0.5rem;
           `}
         >
@@ -34,7 +35,11 @@ export const UnreadClipListItem: FC<UnreadClipListItemProps> = ({ clip }) => {
             size={64}
             thickness={8}
           />
-          <div>
+          <div
+            css={css`
+              min-width: 0;
+            `}
+          >
             <Text color={theme.colors.dark[8]} fw="600" lineClamp={1}>
               {clip.article.title}
             </Text>
