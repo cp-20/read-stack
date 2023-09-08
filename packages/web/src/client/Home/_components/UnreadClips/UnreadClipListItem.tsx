@@ -31,6 +31,12 @@ export const UnreadClipListItem: FC<UnreadClipListItemProps> = ({ clip }) => {
       css={css`
         color: inherit;
         text-decoration: none;
+        transition: box-shadow 0.2s, transform 0.2s;
+
+        &:hover {
+          box-shadow: ${theme.shadows.xs};
+          transform: translateY(-2px);
+        }
       `}
     >
       <Group position="apart" noWrap>
