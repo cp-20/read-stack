@@ -7,6 +7,7 @@ import {
   Group,
   RingProgress,
 } from '@mantine/core';
+import Link from 'next/link';
 import type { FC } from 'react';
 import type { Article, Clip } from '@/schema/article';
 
@@ -21,7 +22,17 @@ export type UnreadClipListItemProps = {
 export const UnreadClipListItem: FC<UnreadClipListItemProps> = ({ clip }) => {
   const theme = useMantineTheme();
   return (
-    <Card withBorder>
+    <Card
+      withBorder
+      component={Link}
+      href={clip.article.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      css={css`
+        color: inherit;
+        text-decoration: none;
+      `}
+    >
       <Group position="apart" noWrap>
         <div
           css={css`

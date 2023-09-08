@@ -19,29 +19,45 @@ export type UnreadClipPanelProps = {
 export const UnreadClipPanel: FC<UnreadClipPanelProps> = ({ clip }) => {
   const theme = useMantineTheme();
   return (
-    <Link
+    <Card
+      shadow="sm"
+      padding="lg"
+      radius="md"
+      withBorder
+      component={Link}
       href={clip.article.url}
+      target="_blank"
+      rel="noopener noreferrer"
       css={css`
+        display: flex;
+        flex-direction: column;
         color: inherit;
         text-decoration: none;
       `}
     >
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Card.Section mb="md">
-          <Image src={clip.article.ogImageUrl} alt="" width="100%" />
-        </Card.Section>
+      <Card.Section mb="md">
+        <Image src={clip.article.ogImageUrl} alt="" width="100%" />
+      </Card.Section>
 
-        <Stack>
-          <Text fw="bold" color={theme.colors.dark[8]}>
-            {clip.article.title}
-          </Text>
-          <Text color="dimmed" size="xs" lineClamp={3}>
-            {clip.article.body}
-          </Text>
+      <Stack
+        css={css`
+          flex: 1;
+        `}
+      >
+        <Text fw="bold" color={theme.colors.dark[8]}>
+          {clip.article.title}
+        </Text>
+        <Text color="dimmed" size="xs" lineClamp={3}>
+          {clip.article.body}
+        </Text>
 
-          <Progress value={clip.progress} />
-        </Stack>
-      </Card>
-    </Link>
+        <Progress
+          value={clip.progress}
+          css={css`
+            margin-top: auto;
+          `}
+        />
+      </Stack>
+    </Card>
   );
 };
