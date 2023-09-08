@@ -45,10 +45,11 @@ export const updateUserClipById: NextApiHandler =
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         if (err.code === 'P2015') {
-          res.status(404).json({ message: 'Not Found' });
+          return res.status(404).json({ message: 'Not Found' });
         }
 
         // TODO: 他のエラーコードのときのエラーハンドリング
       }
+      return res.status(500).json({ message: 'Internal Server Error' });
     }
   });
