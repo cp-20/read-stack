@@ -5,7 +5,7 @@ import { prisma } from '@/features/database/prismaClient';
 import { requireAuthWithUserMiddleware } from '@/server/middlewares/authorize';
 
 const updateUserClipByIdQuerySchema = z.object({
-  clipId: z.number().int(),
+  clipId: z.string(),
 });
 
 const updateUserClipByIdBodySchema = z.object({
@@ -20,9 +20,6 @@ const updateUserClipByIdBodySchema = z.object({
 
 export const updateUserClipById: NextApiHandler =
   requireAuthWithUserMiddleware()(async (req, res) => {
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(req));
-
     const query = updateUserClipByIdQuerySchema.safeParse(req.query);
     if (!query.success) {
       return res.status(400).json({ error: query.error });
@@ -31,8 +28,13 @@ export const updateUserClipById: NextApiHandler =
     if (!body.success) {
       return res.status(400).json({ error: body.error });
     }
-    const { clipId } = query.data;
+    const { clipId: clipIdStr } = query.data;
     const { clip: patchClip } = body.data;
+
+    const clipId = parseInt(clipIdStr, 10);
+    if (isNaN(clipId)) {
+      return res.status(400).json({ message: 'clipId is not a number' });
+    }
 
     try {
       const clip = await prisma.clips.update({
