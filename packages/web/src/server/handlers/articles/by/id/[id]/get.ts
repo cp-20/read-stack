@@ -1,6 +1,6 @@
 import type { NextApiHandler } from 'next';
 import { z } from 'zod';
-import { prisma } from '@/features/database/prismaClient';
+import { findArticleById } from '@/server/repository/article';
 
 const getArticleByIdSchema = z.object({
   id: z.number().int(),
@@ -15,15 +15,10 @@ export const getArticleById: NextApiHandler = async (req, res) => {
 
   const { id } = query.data;
 
-  const article = await prisma.article.findUnique({
-    where: {
-      id,
-    },
-  });
+  const article = await findArticleById(id);
 
-  if (!article) {
-    res.status(404).json({ message: 'Not found' });
-    return;
+  if (article === null) {
+    return res.status(404).json({ error: 'Not found' });
   }
 
   res.status(200).json(article);

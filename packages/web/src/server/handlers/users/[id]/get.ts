@@ -1,6 +1,6 @@
 import type { NextApiHandler } from 'next';
 import { z } from 'zod';
-import { prisma } from '@/features/database/prismaClient';
+import { findUserById } from '@/server/repository/user';
 
 const getUserQuerySchema = z.object({
   id: z.string(),
@@ -12,15 +12,13 @@ export const getUser: NextApiHandler = async (req, res) => {
     return res.status(400).json(query.error);
   }
 
-  const user = await prisma.users.findUnique({
-    where: {
-      id: query.data.id,
-    },
-  });
+  const { id } = query.data;
 
-  if (user) {
-    return res.status(200).json(user);
+  const user = await findUserById(id);
+
+  if (user === null) {
+    return res.status(404).json({ error: 'Not found' });
   }
 
-  return res.status(404).json({ message: 'user not found' });
+  res.status(200).json(user);
 };

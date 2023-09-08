@@ -12,6 +12,7 @@ const getUserClipsSchema = z.object({
   limit: z.string().optional(),
 });
 
+// TODO: ページング処理をいい感じに抽象化する
 export const getUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
   async (req, res) => {
     const query = getUserClipsSchema.safeParse(req.query);

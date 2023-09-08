@@ -1,15 +1,24 @@
 import type { NextApiHandler } from 'next';
 import { z } from 'zod';
-import { prisma } from '@/features/database/prismaClient';
+import { fetchArticle } from '@/features/articles/fetchArticle';
 import { requireAuthWithUserMiddleware } from '@/server/middlewares/authorize';
+import { saveArticleByUrl } from '@/server/repository/article';
+import { saveClip } from '@/server/repository/clip';
 
 const postUserClipsSchema = z.object({
   id: z.string(),
 });
 
-const postUserClipsBodySchema = z.object({
-  articleId: z.number().int(),
-});
+const postUserClipsBodySchema = z.union([
+  z.object({
+    type: z.literal('id').optional(),
+    articleId: z.number().int(),
+  }),
+  z.object({
+    type: z.literal('url'),
+    articleUrl: z.string().url(),
+  }),
+]);
 
 export const postUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
   async (req, res) => {
@@ -24,30 +33,35 @@ export const postUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
     }
 
     const { id: authorId } = query.data;
-    const { articleId } = body.data;
 
-    const clip = await prisma.clips.findUnique({
-      where: {
-        articleId_authorId: {
-          articleId,
-          authorId,
-        },
-      },
-    });
+    const { type } = body.data;
 
-    if (clip !== null) {
-      return res.status(201).json(clip);
-    }
+    const articleId = await (async () => {
+      if (type === 'id' || type === undefined) {
+        return body.data.articleId;
+      }
 
-    const newClip = await prisma.clips.create({
-      data: {
-        status: 0,
-        progress: 0,
-        authorId,
-        articleId,
-      },
-    });
+      if (type === 'url') {
+        const { articleUrl } = body.data;
+        const { article } = await saveArticleByUrl(articleUrl, () =>
+          fetchArticle(articleUrl),
+        );
+        return article.id;
+      }
 
-    return res.status(200).json(newClip);
+      const _: never = type;
+      return _;
+    })();
+
+    const { exist, clip } = await saveClip(articleId, authorId, () => ({
+      articleId,
+      authorId,
+      progress: 0,
+      status: 0,
+    }));
+
+    const status = exist ? 200 : 201;
+
+    return res.status(status).json(clip);
   },
 );

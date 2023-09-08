@@ -1,6 +1,6 @@
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
 import type { NextApiHandler } from 'next';
-import { prisma } from '@/features/database/prismaClient';
+import { findUserById } from '@/server/repository/user';
 
 export const getMe: NextApiHandler = async (req, res) => {
   const supabaseClient = createPagesServerClient({ req, res });
@@ -11,15 +11,11 @@ export const getMe: NextApiHandler = async (req, res) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const user = await prisma.users.findUnique({
-    where: {
-      id: session.data.session?.user.id,
-    },
-  });
+  const user = await findUserById(session.data.session.user.id);
 
-  if (user !== null) {
-    return res.status(200).json(user);
+  if (user === null) {
+    return res.status(404).json({ message: 'Not found' });
   }
 
-  return res.status(404).json({ message: 'Not Found' });
+  res.status(200).json(user);
 };
