@@ -19,7 +19,13 @@ export const methodRouter =
   (handlers: MethodHandlers): NextApiHandler =>
   (req, res) => {
     // eslint-disable-next-line no-console
-    console.log(JSON.stringify({ req, handlers }));
+    console.log(
+      JSON.stringify({
+        body: req.body,
+        query: req.query,
+        handlers: Object.keys(handlers),
+      }),
+    );
 
     if (req.method === undefined) {
       return res.status(405).json({ error: 'Method Not Allowed' });
