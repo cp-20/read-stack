@@ -9,7 +9,6 @@ import { IconBook2 } from '@tabler/icons-react';
 import type { NextPage } from 'next';
 
 import { useState } from 'react';
-import { Status } from './_components/Status';
 import type { UnreadClipViewType } from './_components/UnreadClips';
 import { UnreadClips } from './_components/UnreadClips';
 import { AddClipButton } from '@/client/Home/_components/AddClipButton';
@@ -26,8 +25,6 @@ export const Home: NextPage = () => {
           padding: 1rem;
         `}
       >
-        <h2>ステータス</h2>
-        <Status />
         <h2
           css={css`
             display: flex;
