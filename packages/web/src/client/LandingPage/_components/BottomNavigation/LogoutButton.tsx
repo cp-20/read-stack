@@ -3,7 +3,10 @@ import { LoadingOverlay, useMantineTheme } from '@mantine/core';
 import { useState, type FC, type ReactNode, useCallback } from 'react';
 import { useSupabase } from '@/features/supabase/supabaseClient';
 
-export const LogoutButton: FC<{ children: ReactNode }> = ({ children }) => {
+export const LogoutButton: FC<{
+  children: ReactNode;
+  afterLogout: () => void;
+}> = ({ children, afterLogout }) => {
   const theme = useMantineTheme();
   const [loading, setLoading] = useState(false);
   const { logout } = useSupabase();
@@ -11,7 +14,8 @@ export const LogoutButton: FC<{ children: ReactNode }> = ({ children }) => {
     setLoading(true);
     await logout();
     setLoading(false);
-  }, [logout]);
+    afterLogout();
+  }, [afterLogout, logout]);
 
   return (
     <button

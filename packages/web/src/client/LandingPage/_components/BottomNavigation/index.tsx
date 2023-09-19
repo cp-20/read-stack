@@ -29,7 +29,11 @@ export const BottomNavigation: FC = () => {
       <NavLink href={pagesPath.$url()}>TOP</NavLink>
       <NavLink href={pagesPath.home.$url()}>HOME</NavLink>
       {!isLoggingIn && <NavLink href={pagesPath.login.$url()}>LOGIN</NavLink>}
-      {isLoggingIn && <LogoutButton>LOGOUT</LogoutButton>}
+      {isLoggingIn && (
+        <LogoutButton afterLogout={() => setIsLoggedIn(false)}>
+          LOGOUT
+        </LogoutButton>
+      )}
     </div>
   );
 };
