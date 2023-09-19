@@ -12,8 +12,11 @@ import { useState } from 'react';
 import type { UnreadClipViewType } from './_components/UnreadClips';
 import { UnreadClips } from './_components/UnreadClips';
 import { AddClipButton } from '@/client/Home/_components/AddClipButton';
+import { useAutoRedirectIfNotLoggedIn } from '@/features/supabase/auth';
 
 export const Home: NextPage = () => {
+  useAutoRedirectIfNotLoggedIn('/login');
+
   const theme = useMantineTheme();
   const [includeRead, setIncludeRead] = useState(false);
   const [viewType, setViewType] = useState<UnreadClipViewType>('panel');
