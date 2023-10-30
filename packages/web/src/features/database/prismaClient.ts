@@ -22,6 +22,7 @@ export const prisma = new PrismaClient({
 });
 
 prisma.$on('query', (e) => {
+  // eslint-disable-next-line no-console
   console.log(
     `Query: ${e.query}\nParams: ${e.params}\nDuration: ${e.duration}ms`,
   );
