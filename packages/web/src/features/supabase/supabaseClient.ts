@@ -6,6 +6,9 @@ export const useSupabase = () => {
   const loginWithGitHub = async () => {
     const { error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'github',
+      options: {
+        redirectTo: location.origin,
+      },
     });
     if (error) throw error;
   };
