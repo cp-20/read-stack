@@ -1,7 +1,8 @@
-import { Prisma } from '@prisma/client';
+import { eq } from 'drizzle-orm';
 import type { NextApiHandler } from 'next';
 import { z } from 'zod';
-import { prisma } from '@/features/database/prismaClient';
+import { db } from '@/features/database/drizzleClient';
+import { clips } from '@/features/database/models';
 import { requireAuthWithUserMiddleware } from '@/server/middlewares/authorize';
 
 const updateUserClipByIdQuerySchema = z.object({
@@ -36,22 +37,14 @@ export const updateUserClipById: NextApiHandler =
       return res.status(400).json({ message: 'clipId is not a number' });
     }
 
-    try {
-      const clip = await prisma.clips.update({
-        where: {
-          id: clipId,
-        },
-        data: patchClip,
-      });
-      return res.status(200).json({ clip });
-    } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === 'P2015') {
-          return res.status(404).json({ message: 'Not Found' });
-        }
+    const clip = await db
+      .update(clips)
+      .set(patchClip)
+      .where(eq(clips.id, clipId));
 
-        // TODO: 他のエラーコードのときのエラーハンドリング
-      }
-      return res.status(500).json({ message: 'Internal Server Error' });
+    if (clip.length === 0) {
+      return res.status(404).json({ message: 'Not found' });
     }
+
+    return res.status(200).json({ clip });
   });

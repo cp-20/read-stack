@@ -1,30 +1,25 @@
 import type { Article } from '@/features/articles/fetchArticle';
-import { prisma } from '@/features/database/prismaClient';
+import { db } from '@/features/database/drizzleClient';
+import { articles } from '@/features/database/models';
 
 export const findArticleById = async (id: number) => {
-  const article = await prisma.article.findUnique({
-    where: {
-      id,
-    },
+  const article = await db.query.articles.findFirst({
+    where: (fields, { eq }) => eq(fields.id, id),
   });
 
   return article;
 };
 
 export const findArticleByUrl = async (url: string) => {
-  const article = await prisma.article.findUnique({
-    where: {
-      url,
-    },
+  const article = await db.query.articles.findFirst({
+    where: (fields, { eq }) => eq(fields.url, url),
   });
 
   return article;
 };
 
 export const createArticle = async (articleData: Article) => {
-  const article = await prisma.article.create({
-    data: articleData,
-  });
+  const article = await db.insert(articles).values(articleData);
 
   return article;
 };
