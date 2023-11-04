@@ -1,7 +1,6 @@
-import { Prisma } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 import { z } from 'zod';
-import { prisma } from '@/features/database/prismaClient';
+import { db } from '@/features/database/drizzleClient';
 import { requireAuthWithUserMiddleware } from '@/server/middlewares/authorize';
 
 const deleteUserClipByIdSchema = z.object({
@@ -16,20 +15,12 @@ export const deleteUserClipById: NextApiHandler =
     }
     const { clipId } = query.data;
 
-    try {
-      const clip = await prisma.clips.delete({
-        where: {
-          id: clipId,
-        },
-      });
-      return res.status(200).json({ clip });
-    } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === 'P2015') {
-          res.status(404).json({ message: 'Not Found' });
-        }
-
-        // TODO: 他のエラーコードのときのエラーハンドリング
-      }
+    const clip = await db.query.clips.findFirst({
+      where: (fields, { eq }) => eq(fields.id, clipId),
+    });
+    if (clip === undefined) {
+      return res.status(404).json({ message: 'Not found' });
     }
+
+    return res.status(200).json({ clip });
   });

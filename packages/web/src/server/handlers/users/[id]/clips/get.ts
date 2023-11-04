@@ -1,8 +1,9 @@
 import type { NextApiHandler } from 'next';
 import { z } from 'zod';
-import { prisma } from '@/features/database/prismaClient';
+import { db } from '@/features/database/drizzleClient';
 import { ClipSearchQuerySchema } from '@/schema/clipSearchQuery';
 import { requireAuthWithUserMiddleware } from '@/server/middlewares/authorize';
+import { excludeFalsy } from '@/shared/lib/excludeFalsy';
 import { parseInt } from '@/shared/lib/parseInt';
 
 const getUserClipsSchema = z.object({
@@ -29,41 +30,35 @@ export const getUserClips: NextApiHandler = requireAuthWithUserMiddleware()(
       return res.status(400).json({ error: searchQuery.error });
     }
 
-    const cursorOption = cursor !== -1 ? { cursor: { id: cursor } } : undefined;
+    const cursorTimestamp =
+      cursor !== -1
+        ? (
+            await db.query.clips.findFirst({
+              columns: {
+                updatedAt: true,
+              },
+              where: (fields, { and, eq }) =>
+                and(eq(fields.authorId, id), eq(fields.id, cursor)),
+            })
+          )?.updatedAt
+        : undefined;
 
-    const queryOption = {
-      ...(searchQuery.data.unreadOnly
-        ? {
-            status: {
-              in: [0, 1],
-            },
-          }
-        : undefined),
-      // bodyとtitleも一応使えるけど、日本語検索が怪しい
-      ...(searchQuery.data.body
-        ? { article: { body: { contains: searchQuery.data.body } } }
-        : undefined),
-      ...(searchQuery.data.title
-        ? { article: { title: { contains: searchQuery.data.title } } }
-        : undefined),
-    };
-
-    const clips = await prisma.clips.findMany({
-      where: {
-        authorId: id,
-        AND: {
-          ...queryOption,
-        },
+    const clips = await db.query.clips.findMany({
+      where: (fields, { and, inArray, lt, eq }) => {
+        const filters = excludeFalsy([
+          searchQuery.data.unreadOnly && inArray(fields.status, [0, 1]),
+          cursorTimestamp !== undefined &&
+            lt(fields.updatedAt, cursorTimestamp),
+        ]);
+        return and(eq(fields.authorId, id), ...filters);
       },
-      orderBy: {
-        updatedAt: 'desc',
-      },
-      include: {
+      orderBy: (clips, { desc }) => desc(clips.updatedAt),
+      // ...cursorOption,
+      limit: Math.min(100, limit),
+      offset: cursor !== -1 ? 1 : 0,
+      with: {
         article: true,
       },
-      ...cursorOption,
-      take: Math.min(100, limit),
-      skip: cursor !== -1 ? 1 : 0,
     });
 
     return res.status(200).json({ clips });

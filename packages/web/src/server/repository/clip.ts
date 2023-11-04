@@ -1,16 +1,13 @@
-import { prisma } from '@/features/database/prismaClient';
+import { db } from '@/features/database/drizzleClient';
+import { clips } from '@/features/database/models';
 
 export const findClipByArticleIdAndAuthorId = async (
   articleId: number,
   authorId: string,
 ) => {
-  const clip = await prisma.clips.findUnique({
-    where: {
-      articleId_authorId: {
-        articleId,
-        authorId,
-      },
-    },
+  const clip = await db.query.clips.findFirst({
+    where: (fields, { and, eq }) =>
+      and(eq(fields.articleId, articleId), eq(fields.authorId, authorId)),
   });
 
   return clip;
@@ -24,11 +21,22 @@ export type Clip = {
 };
 
 export const createClip = async (clip: Clip) => {
-  const newClip = await prisma.clips.create({
-    data: clip,
-  });
+  const newClip = await db
+    .insert(clips)
+    .values({
+      ...clip,
+      updatedAt: new Date(),
+    })
+    .returning({
+      id: clips.id,
+      articleId: clips.articleId,
+      authorId: clips.authorId,
+      progress: clips.progress,
+      status: clips.status,
+      updatedAt: clips.updatedAt,
+    });
 
-  return newClip;
+  return newClip[0];
 };
 
 export const saveClip = async (
@@ -38,7 +46,7 @@ export const saveClip = async (
 ) => {
   const clip = await findClipByArticleIdAndAuthorId(articleId, authorId);
 
-  if (clip !== null) {
+  if (clip !== undefined) {
     return { exist: true, clip };
   }
 
@@ -46,5 +54,5 @@ export const saveClip = async (
 
   const newClip = await createClip(newClipData);
 
-  return { new: false, clip: newClip };
+  return { exist: false, clip: newClip };
 };

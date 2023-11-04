@@ -1,6 +1,6 @@
 import type { NextApiHandler } from 'next';
 import { z } from 'zod';
-import { prisma } from '@/features/database/prismaClient';
+import { db } from '@/features/database/drizzleClient';
 import { requireAuthWithUserMiddleware } from '@/server/middlewares/authorize';
 
 const getUserClipByIdSchema = z.object({
@@ -16,11 +16,9 @@ export const getUserClipById: NextApiHandler = requireAuthWithUserMiddleware()(
     }
     const { id, clipId } = query.data;
 
-    const clip = await prisma.clips.findFirst({
-      where: {
-        authorId: id,
-        id: clipId,
-      },
+    const clip = await db.query.clips.findFirst({
+      where: (fields, { and, eq }) =>
+        and(eq(fields.authorId, id), eq(fields.id, clipId)),
     });
 
     return res.status(200).json({ clip });
