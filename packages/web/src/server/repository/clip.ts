@@ -21,12 +21,22 @@ export type Clip = {
 };
 
 export const createClip = async (clip: Clip) => {
-  const newClip = await db.insert(clips).values({
-    ...clip,
-    updatedAt: new Date(),
-  });
+  const newClip = await db
+    .insert(clips)
+    .values({
+      ...clip,
+      updatedAt: new Date(),
+    })
+    .returning({
+      id: clips.id,
+      articleId: clips.articleId,
+      authorId: clips.authorId,
+      progress: clips.progress,
+      status: clips.status,
+      updatedAt: clips.updatedAt,
+    });
 
-  return newClip;
+  return newClip[0];
 };
 
 export const saveClip = async (
@@ -36,7 +46,7 @@ export const saveClip = async (
 ) => {
   const clip = await findClipByArticleIdAndAuthorId(articleId, authorId);
 
-  if (clip !== null) {
+  if (clip !== undefined) {
     return { exist: true, clip };
   }
 
@@ -44,5 +54,5 @@ export const saveClip = async (
 
   const newClip = await createClip(newClipData);
 
-  return { new: false, clip: newClip };
+  return { exist: false, clip: newClip };
 };

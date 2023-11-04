@@ -19,9 +19,17 @@ export const findArticleByUrl = async (url: string) => {
 };
 
 export const createArticle = async (articleData: Article) => {
-  const article = await db.insert(articles).values(articleData);
+  const article = await db.insert(articles).values(articleData).returning({
+    id: articles.id,
+    url: articles.url,
+    title: articles.title,
+    body: articles.body,
+    summary: articles.summary,
+    ogImageUrl: articles.ogImageUrl,
+    createdAt: articles.createdAt,
+  });
 
-  return article;
+  return article[0];
 };
 
 export const saveArticleByUrl = async (
@@ -30,7 +38,7 @@ export const saveArticleByUrl = async (
 ) => {
   const article = await findArticleByUrl(url);
 
-  if (article !== null) {
+  if (article !== undefined) {
     return { exist: true, article };
   }
 
