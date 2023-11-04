@@ -28,15 +28,6 @@ export const generateCsp = (): csp => {
   };
   object-src 'none';
   base-uri 'none';
-  ${
-    isVercelPreview
-      ? `connect-src 'self' https://vercel.live/ https://vercel.com https://*.pusher.com/ wss://*.pusher.com/;
-      img-src 'self' https://vercel.live/ https://*.vercel.com https://vercel.com https://*.pusher.com/ data: blob:;
-      font-src 'self' https://*.vercel.com https://*.gstatic.com;
-      frame-src 'self' https://vercel.live/ https://vercel.com;
-      `
-      : ''
-  }
   `
     .replace(/\s{2,}/g, ' ')
     .trim();
