@@ -34,6 +34,7 @@ export const createClip = async (clip: Clip) => {
       progress: clips.progress,
       status: clips.status,
       updatedAt: clips.updatedAt,
+      createdAt: clips.createdAt,
     });
 
   return newClip[0];
