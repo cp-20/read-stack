@@ -37,14 +37,24 @@ export const updateUserClipById: NextApiHandler =
       return res.status(400).json({ message: 'clipId is not a number' });
     }
 
-    const clip = await db
+    const updatedClips = await db
       .update(clips)
       .set(patchClip)
-      .where(eq(clips.id, clipId));
+      .where(eq(clips.id, clipId))
+      .returning({
+        id: clips.id,
+        status: clips.status,
+        progress: clips.progress,
+        comment: clips.comment,
+        createdAt: clips.createdAt,
+        updatedAt: clips.updatedAt,
+        articleId: clips.articleId,
+        authorId: clips.authorId,
+      });
 
-    if (clip.length === 0) {
+    if (updatedClips.length === 0) {
       return res.status(404).json({ message: 'Not found' });
     }
 
-    return res.status(200).json({ clip });
+    return res.status(200).json({ clip: updatedClips[0] });
   });
