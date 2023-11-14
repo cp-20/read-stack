@@ -1,11 +1,12 @@
 {
   "name": "read-stack",
-  "description": "",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "private": true,
   "author": "cp20",
   "license": "MIT",
   "scripts": {
     "web": "pnpm -F \"read-stack-web\"",
+    "server": "pnpm -F \"read-stack-server\"",
     "dev": "turbo dev",
     "build": "turbo build",
     "deploy": "turbo deploy",

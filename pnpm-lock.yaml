@@ -12,6 +12,16 @@ importers:
         specifier: ^1.10.13
         version: 1.10.13
 
+  packages/server:
+    dependencies:
+      hono:
+        specifier: ^3.10.0
+        version: 3.10.0
+    devDependencies:
+      bun-types:
+        specifier: ^1.0.7
+        version: 1.0.11
+
   packages/web:
     dependencies:
       '@emotion/react':
@@ -71,6 +81,9 @@ importers:
       react-toastify:
         specifier: ^9.1.3
         version: 9.1.3(react-dom@18.2.0)(react@18.2.0)
+      read-stack-server:
+        specifier: workspace:*
+        version: link:../server
       ress:
         specifier: ^5.0.2
         version: 5.0.2
@@ -2169,6 +2182,10 @@ packages:
       node-gyp-build: 4.6.0
     dev: false
 
+  /bun-types@1.0.11:
+    resolution: {integrity: sha512-XaDwjnBlkdTOtBEAcXhDnPSKFMlwFK/526z0iyairYIDhZJMzZM1QU4D7XRiEI2SpKQWexn0S/LN9Mwx5xSJNg==}
+    dev: true
+
   /bundle-name@3.0.0:
     resolution: {integrity: sha512-PKA4BeSvBpQKQ8iPOGCSiell+N8P+Tf1DlwqmYhpe2gAhKPHn8EYOxVT+ShuGmhg8lN8XiSlS80yiExKXrURlw==}
     engines: {node: '>=12'}
@@ -3714,6 +3731,11 @@ packages:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
       react-is: 16.13.1
+    dev: false
+
+  /hono@3.10.0:
+    resolution: {integrity: sha512-rN8PNMt66U58Qj3+L8gr7EsaYnj56cBDS2MjhUnMgDaXoyw44/OeFDsmXXzn/YQ7CAWeENC3Dq/kp+4RJSNE3Q==}
+    engines: {node: '>=16.0.0'}
     dev: false
 
   /hosted-git-info@2.8.9:
@@ -6242,7 +6264,7 @@ packages:
         optional: true
     dependencies:
       '@types/node': 20.2.0
-      esbuild: 0.18.11
+      esbuild: 0.18.20
       postcss: 8.4.25
       rollup: 3.26.2
     optionalDependencies:
