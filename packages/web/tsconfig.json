@@ -14,7 +14,7 @@
       "@server/*": ["../../packages/server/src/*"]
     },
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["DOM", "DOM.Iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

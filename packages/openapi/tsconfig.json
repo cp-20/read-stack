@@ -1,3 +1,7 @@
 {
-  "extends": "../../tsconfig.base.json"
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["DOM", "DOM.Iterable", "esnext"]
+  }
 }

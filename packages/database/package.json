@@ -11,6 +11,7 @@
     "@neondatabase/serverless": "^0.6.0",
     "@vercel/postgres": "^0.5.1",
     "drizzle-orm": "^0.28.6",
+    "pg": "^8.11.3",
     "postgres": "^3.4.3"
   },
   "devDependencies": {

@@ -65,7 +65,7 @@ export const AddClipButton: FC = () => {
               <TextInput
                 placeholder="記事のURL"
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                onChange={(e) => setUrl((e.target as HTMLInputElement).value)}
                 disabled={submitting}
               />
               <Button type="submit" loading={submitting}>
