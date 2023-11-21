@@ -1,0 +1,14 @@
+{
+  "name": "read-stack-lib",
+  "version": "0.0.0",
+  "private": true,
+  "author": "cp20",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {},
+  "dependencies": {
+    "cheerio": "1.0.0-rc.12",
+    "zod": "^3.21.4"
+  }
+}

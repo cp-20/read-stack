@@ -7,6 +7,9 @@
   "scripts": {
     "web": "pnpm -F \"read-stack-web\"",
     "server": "pnpm -F \"read-stack-server\"",
+    "openapi": "pnpm -F \"read-stack-openapi\"",
+    "database": "pnpm -F \"read-stack-database\"",
+    "lib": "pnpm -F \"read-stack-lib\"",
     "dev": "turbo dev",
     "build": "turbo build",
     "deploy": "turbo deploy",
