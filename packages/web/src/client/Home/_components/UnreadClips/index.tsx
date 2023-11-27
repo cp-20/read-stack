@@ -20,7 +20,7 @@ export const UnreadClips: FC<UnreadClipsProps> = ({ type, includeRead }) => {
   });
 
   const { clips, loadNext, isLoading } = useUserClips({
-    query: { unreadOnly: !includeRead },
+    unreadOnly: !includeRead,
   });
 
   useEffect(() => {

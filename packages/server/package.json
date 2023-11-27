@@ -7,7 +7,8 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "eslint --ext .ts src"
+    "lint": "eslint --ext .ts src",
+    "start": "bun run --hot src/main.ts"
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.8.3",

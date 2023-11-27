@@ -12,12 +12,17 @@ import { ClipSchema } from '@openapi/schema';
 import { z } from 'zod';
 
 export const getClipsRequestQuerySchema = z.object({
-  limit: z.number().int().min(1).max(100).default(20),
-  offset: z.number().int().min(0).default(0),
+  // limit: z.number().int().min(1).max(100).default(20),
+  // unreadOnly: z.boolean().default(true),
+  // cursor: z.number().int().optional(),
+  limit: z.string().default('20'),
+  unreadOnly: z.string().default('true'),
+  cursor: z.string().optional(),
 });
 
 export const getClipsResponseSchema = z.object({
   clips: z.array(ClipSchema),
+  hasMore: z.boolean(),
 });
 
 const getClipsRouteBase = {

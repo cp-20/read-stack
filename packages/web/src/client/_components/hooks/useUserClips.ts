@@ -1,3 +1,4 @@
+import { getClipsResponseSchema } from '@openapi';
 import type { clips } from '@prisma/client';
 import { atom, useAtom } from 'jotai';
 import { useCallback, useEffect, useId } from 'react';
@@ -6,11 +7,10 @@ import { z } from 'zod';
 import type { ClipWithArticles } from '@/client/Home/_components/UnreadClips/UnreadClipListItem';
 import { useUserData } from '@/features/supabase/auth';
 import { ArticleSchema, ClipSchema } from '@/schema/article';
-import type { ClipSearchQuery } from '@/schema/clipSearchQuery';
 
 export type useUserClipsOptions = {
   limit?: number;
-  query?: ClipSearchQuery;
+  unreadOnly?: boolean;
 };
 
 const updateClipsAtom = atom<Map<string, () => void>>(new Map());
@@ -24,8 +24,8 @@ export const useUserClips = (options?: useUserClipsOptions) => {
 
   const fetcher = async (url: string) => {
     const res = await fetch(url);
-    // TODO: アサーションを上手く回避したいね
-    const { clips } = (await res.json()) as { clips: ClipWithArticles[] };
+    const data = await res.json();
+    const parsedData = getClipsResponseSchema.safeParse(data);
     return clips;
   };
 
@@ -43,17 +43,13 @@ export const useUserClips = (options?: useUserClipsOptions) => {
         ? { cursor: acc.flat().slice(-1)[0].id.toString() }
         : {};
 
-      const queryOption: { query: string } | undefined = options?.query
-        ? { query: JSON.stringify(options?.query) }
-        : undefined;
-
       const url = new URLSearchParams({
         limit: limit.toString(),
-        ...queryOption,
+        unreadOnly: options?.unreadOnly?.toString() ?? 'true',
         ...cursorOption,
       });
 
-      return `/api/v1/users/${user.id}/clips?${url.toString()}`;
+      return `/api/v1/users/me/clips?${url.toString()}`;
     },
     {
       fetcher,

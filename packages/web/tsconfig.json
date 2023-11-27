@@ -4,14 +4,14 @@
     "paths": {
       "@/*": ["./src/*"],
       "/*": ["*"],
-      "@database": ["../../packages/database/src/index.ts"],
-      "@database/*": ["../../packages/database/src/*"],
-      "@lib": ["../../packages/lib/src/index.ts"],
-      "@lib/*": ["../../packages/lib/src/*"],
-      "@openapi": ["../../packages/openapi/src/index.ts"],
-      "@openapi/*": ["../../packages/openapi/src/*"],
-      "@server": ["../../packages/server/src/index.ts"],
-      "@server/*": ["../../packages/server/src/*"]
+      "@database": ["../database/src/index.ts"],
+      "@database/*": ["../database/src/*"],
+      "@lib": ["../lib/src/index.ts"],
+      "@lib/*": ["../lib/src/*"],
+      "@openapi": ["../openapi/src/index.ts"],
+      "@openapi/*": ["../openapi/src/*"],
+      "@server": ["../server/src/index.ts"],
+      "@server/*": ["../server/src/*"]
     },
     "target": "es5",
     "lib": ["DOM", "DOM.Iterable", "esnext"],

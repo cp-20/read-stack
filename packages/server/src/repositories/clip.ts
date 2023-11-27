@@ -1,4 +1,5 @@
 import { db, clips } from '@database';
+import { excludeFalsy } from '@lib';
 
 export const findClipByArticleIdAndAuthorId = async (
   articleId: number,
@@ -55,4 +56,47 @@ export const saveClip = async (
   const newClip = await createClip(newClipData);
 
   return { exist: false, clip: newClip };
+};
+
+const findCursorTimestamp = async (authorId: string, cursor?: number) => {
+  if (cursor === undefined) return undefined;
+
+  const clip = await db.query.clips.findFirst({
+    columns: {
+      updatedAt: true,
+    },
+    where: (fields, { and, eq }) =>
+      and(eq(fields.id, cursor), eq(fields.authorId, authorId)),
+  });
+
+  return clip?.updatedAt;
+};
+
+export const findClipsByUserIdOrderByUpdatedAt = async (
+  authorId: string,
+  limit: number,
+  unreadOnly = true,
+  cursor?: number,
+) => {
+  const cursorTimestamp = await findCursorTimestamp(authorId, cursor);
+
+  const clips = await db.query.clips.findMany({
+    where: (fields, { and, inArray, lt, eq }) => {
+      const filters = excludeFalsy([
+        unreadOnly && inArray(fields.status, [0, 1]),
+        cursorTimestamp !== undefined && lt(fields.updatedAt, cursorTimestamp),
+      ]);
+      return and(eq(fields.authorId, authorId), ...filters);
+    },
+    orderBy: (clips, { desc }) => desc(clips.updatedAt),
+    // ...cursorOption,
+    limit: Math.min(100, limit) + 1,
+    with: {
+      article: true,
+    },
+  });
+
+  const hasMore = clips.length === Math.min(100, limit) + 1;
+
+  return { clips, hasMore };
 };

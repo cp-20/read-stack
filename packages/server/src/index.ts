@@ -4,7 +4,7 @@ import { registerDocsHandler } from '@server/handlers/docs';
 import { registerUsersHandlers } from '@server/handlers/users';
 import { handle } from 'hono/vercel';
 
-const app = new OpenAPIHono().basePath('/api');
+export const app = new OpenAPIHono().basePath('/api');
 
 const v1 = app.basePath('/v1');
 
