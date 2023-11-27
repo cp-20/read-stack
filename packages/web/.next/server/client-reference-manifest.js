@@ -1,0 +1,1 @@
+self.__RSC_MANIFEST="{\n  \"ssrModuleMapping\": {},\n  \"edgeSSRModuleMapping\": {},\n  \"clientModules\": {},\n  \"entryCSSFiles\": {}\n}"
