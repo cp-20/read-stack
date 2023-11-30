@@ -12,7 +12,7 @@ const noteApiSchema = z.object({
 });
 
 export const fetchArticleFromNote = async (
-  url: string
+  url: string,
 ): Promise<ArticleResponse> => {
   const { pathname } = new URL(url);
   const key = pathname.split('/').slice(-1)[0];

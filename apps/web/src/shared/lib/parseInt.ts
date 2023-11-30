@@ -10,5 +10,5 @@ export const parseInt = <T>(
   if (Number.isNaN(result)) {
     return fallback;
   }
-  return result;
+  return 0;
 };

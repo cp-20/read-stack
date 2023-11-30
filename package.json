@@ -15,12 +15,18 @@
     "deploy": "turbo deploy",
     "test": "turbo test",
     "lint": "turbo lint",
-    "format": "pnpm biome format --write ./"
+    "format": "turbo format",
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "@biomejs/biome": "1.4.0",
-    "eslint": "^8.54.0",
     "turbo": "^1.10.16",
     "typescript": "^5.3.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.4.0",
+    "eslint": "^8.54.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.1.0"
   }
 }

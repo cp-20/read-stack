@@ -4,7 +4,7 @@ import { JSDOM } from 'jsdom';
 import type { ArticleResponse } from '@/crawler';
 
 export const fetchUsingReadability = async (
-  url: string
+  url: string,
 ): Promise<ArticleResponse | null> => {
   const response = await fetch(url);
   const html = await response.text();
@@ -15,7 +15,7 @@ export const fetchUsingReadability = async (
 
   const ogImageUrl =
     dom.window.document.querySelector<HTMLMetaElement>(
-      'meta[property="og:image"]'
+      'meta[property="og:image"]',
     )?.content ?? null;
 
   if (article === null) return null;

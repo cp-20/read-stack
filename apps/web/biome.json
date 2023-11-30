@@ -1,0 +1,13 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.4.0/schema.json",
+  "extends": ["../../biome.json"],
+  "files": {
+    "ignore": ["./lib.dom.d.ts", "./src/shared/lib/$path.ts"]
+  },
+  "linter": {
+    "enabled": false
+  },
+  "vcs": {
+    "root": "../../"
+  }
+}

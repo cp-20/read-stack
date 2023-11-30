@@ -6,24 +6,28 @@
   "linter": {
     "enabled": false
   },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "lineEnding": "lf"
+  },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
-      "indentStyle": "space",
       "jsxQuoteStyle": "double",
-      "indentWidth": 2,
-      "lineWidth": 80,
       "semicolons": "always",
       "trailingComma": "all"
     }
   },
   "json": {
-    "parser": { "allowComments": true, "allowTrailingCommas": true },
-    "formatter": {}
+    "parser": { "allowComments": true, "allowTrailingCommas": true }
   },
   "vcs": {
     "clientKind": "git",
     "enabled": true,
+    "root": ".",
     "useIgnoreFile": true
   }
 }

@@ -9,9 +9,9 @@ export const AuthHeading: FC<HeadingProps> = ({ children }) => {
   return (
     <h1
       css={css`
-        text-align: center;
         margin-bottom: 32px;
         color: #111;
+        text-align: center;
       `}
     >
       {children}

@@ -47,4 +47,4 @@ export const userIdPathRouteHelper = (config: RouteConfig): RouteConfig =>
       ...config.responses,
       ...forbiddenResponse(),
     },
-  } satisfies RouteConfig);
+  }) satisfies RouteConfig;

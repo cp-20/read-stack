@@ -36,7 +36,7 @@ export const createArticle = async (articleData: ArticleInfo) => {
 
 export const saveArticleByUrl = async (
   url: string,
-  getArticle: () => ArticleInfo | Promise<ArticleInfo>
+  getArticle: () => ArticleInfo | Promise<ArticleInfo>,
 ) => {
   const article = await findArticleByUrl(url);
 

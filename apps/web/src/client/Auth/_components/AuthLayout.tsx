@@ -10,10 +10,10 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
     <div
       css={css`
         display: flex;
-        flex-direction: column;
         max-width: 540px;
+        flex-direction: column;
+        padding: 64px 16px 0;
         margin: 0 auto;
-        padding: 64px 16px 0 16px;
       `}
     >
       {children}

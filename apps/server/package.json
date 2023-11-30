@@ -12,17 +12,17 @@
     "dev": "bun run --hot src/main.ts"
   },
   "dependencies": {
-    "@hono/zod-openapi": "^0.8.3",
+    "@hono/zod-openapi": "^0.9.0",
     "@read-stack/database": "workspace:*",
     "@read-stack/lib": "workspace:*",
     "@read-stack/openapi": "workspace:*",
     "@read-stack/tsconfig": "workspace:*",
-    "@supabase/supabase-js": "^2.26.0",
-    "hono": "^3.10.0",
-    "zod": "^3.21.4"
+    "@supabase/supabase-js": "^2.39.0",
+    "hono": "^3.10.3",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "bun-types": "^1.0.7",
+    "bun-types": "^1.0.14",
     "@read-stack/eslint-config": "workspace:*"
   }
 }

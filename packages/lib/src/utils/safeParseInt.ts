@@ -5,7 +5,7 @@ export const safeParseInt = (value: string) => {
 
 export const parseIntWithDefaultValue = <T>(
   value: string | undefined | null,
-  defaultValue: T
+  defaultValue: T,
 ): number | T => {
   if (!value) return defaultValue;
   const parsed = parseInt(value, 10);
