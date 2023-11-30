@@ -27,6 +27,9 @@ importers:
       lint-staged:
         specifier: ^15.1.0
         version: 15.1.0
+      tsup:
+        specifier: ^8.0.1
+        version: 8.0.1(ts-node@10.9.1)(typescript@5.3.2)
 
   apps/server:
     dependencies:
@@ -182,6 +185,9 @@ importers:
       '@read-stack/lib':
         specifier: workspace:*
         version: link:../lib
+      '@read-stack/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       '@vercel/postgres':
         specifier: ^0.5.1
         version: 0.5.1
@@ -249,6 +255,9 @@ importers:
       '@mozilla/readability':
         specifier: ^0.4.4
         version: 0.4.4
+      '@read-stack/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       cheerio:
         specifier: 1.0.0-rc.12
         version: 1.0.0-rc.12
@@ -277,6 +286,9 @@ importers:
       '@hono/zod-openapi':
         specifier: ^0.8.3
         version: 0.8.3(hono@3.10.3)(zod@3.21.4)
+      '@read-stack/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       openapi3-ts:
         specifier: ^4.1.2
         version: 4.1.2
