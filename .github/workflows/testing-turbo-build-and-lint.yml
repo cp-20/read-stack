@@ -30,9 +30,6 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
-      - name: Setup Prisma
-        run: cd apps/web && pnpm prisma generate && cd ../../
-
       - name: Lint
         run: pnpm run lint
 
