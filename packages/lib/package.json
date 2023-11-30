@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "pnpm run build --watch",
-    "lint": "eslint --ext .ts src"
+    "lint": "eslint --ext .ts src",
+    "format": "biome format --write ."
   },
   "dependencies": {
     "@mozilla/readability": "^0.4.4",

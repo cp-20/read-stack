@@ -13,7 +13,8 @@
     "migration": "pnpm run migration:generate && pnpm run migration:run",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "pnpm run build --watch",
-    "lint": "eslint --ext .ts src"
+    "lint": "eslint --ext .ts src",
+    "format": "biome format --write ."
   },
   "dependencies": {
     "@read-stack/lib": "workspace:*",
