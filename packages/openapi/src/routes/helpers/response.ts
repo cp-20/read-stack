@@ -3,9 +3,7 @@ import type {
   ZodMediaTypeObject,
 } from '@asteasolutions/zod-to-openapi';
 
-type Response = {
-  [statusCode: number]: ResponseConfig;
-};
+type Response = Record<number, ResponseConfig>;
 
 export const okResponse = (config?: Partial<ResponseConfig>): Response => ({
   200: {

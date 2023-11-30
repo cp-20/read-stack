@@ -1,8 +1,9 @@
 import { load } from 'cheerio';
+
 import type { ArticleResponse } from '.';
 
 export const fetchArticleFromOther = async (
-  url: string,
+  url: string
 ): Promise<ArticleResponse> => {
   const response = await fetch(url);
   const html = await response.text();

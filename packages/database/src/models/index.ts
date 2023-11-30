@@ -60,7 +60,7 @@ export const articles = pgTable('article', {
   ogImageUrl: text('ogImageUrl'),
   summary: text('summary'),
   createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
-  // updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull(),
 });
 
 export const articleRefs = pgTable(

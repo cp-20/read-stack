@@ -1,6 +1,8 @@
 import type { RouteConfig } from '@asteasolutions/zod-to-openapi';
-import { forbiddenResponse } from '@openapi/routes/helpers/response';
 import { z } from 'zod';
+
+import { forbiddenResponse } from '@/routes/helpers/response';
+
 export const userIdRequestParamsSchema = z.object({
   userId: z.string(),
 });

@@ -1,0 +1,320 @@
+{
+	"version": "5",
+	"dialect": "pg",
+	"id": "c033ab77-c6db-48b5-92e5-f68a928a4d08",
+	"prevId": "00000000-0000-0000-0000-000000000000",
+	"tables": {
+		"articleRef": {
+			"name": "articleRef",
+			"schema": "",
+			"columns": {
+				"referFrom": {
+					"name": "referFrom",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"referTo": {
+					"name": "referTo",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"articleRef_referFrom_article_id_fk": {
+					"name": "articleRef_referFrom_article_id_fk",
+					"tableFrom": "articleRef",
+					"tableTo": "article",
+					"columnsFrom": ["referFrom"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"articleRef_referTo_article_id_fk": {
+					"name": "articleRef_referTo_article_id_fk",
+					"tableFrom": "articleRef",
+					"tableTo": "article",
+					"columnsFrom": ["referTo"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"articleRef_referFrom_referTo": {
+					"name": "articleRef_referFrom_referTo",
+					"columns": ["referFrom", "referTo"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"article": {
+			"name": "article",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"url": {
+					"name": "url",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"title": {
+					"name": "title",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"body": {
+					"name": "body",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"ogImageUrl": {
+					"name": "ogImageUrl",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"summary": {
+					"name": "summary",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"article_url_unique": {
+					"name": "article_url_unique",
+					"nullsNotDistinct": false,
+					"columns": ["url"]
+				}
+			}
+		},
+		"clips": {
+			"name": "clips",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"status": {
+					"name": "status",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"progress": {
+					"name": "progress",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"comment": {
+					"name": "comment",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"articleId": {
+					"name": "articleId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"userId": {
+					"name": "userId",
+					"type": "varchar",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"clips_articleId_article_id_fk": {
+					"name": "clips_articleId_article_id_fk",
+					"tableFrom": "clips",
+					"tableTo": "article",
+					"columnsFrom": ["articleId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"clips_userId_users_id_fk": {
+					"name": "clips_userId_users_id_fk",
+					"tableFrom": "clips",
+					"tableTo": "users",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"article_and_author": {
+					"name": "article_and_author",
+					"nullsNotDistinct": false,
+					"columns": ["articleId", "userId"]
+				}
+			}
+		},
+		"tags": {
+			"name": "tags",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"articleId": {
+					"name": "articleId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"tags_articleId_article_id_fk": {
+					"name": "tags_articleId_article_id_fk",
+					"tableFrom": "tags",
+					"tableTo": "article",
+					"columnsFrom": ["articleId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"tags_name_unique": {
+					"name": "tags_name_unique",
+					"nullsNotDistinct": false,
+					"columns": ["name"]
+				}
+			}
+		},
+		"users": {
+			"name": "users",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "varchar",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"email": {
+					"name": "email",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(1024)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"displayName": {
+					"name": "displayName",
+					"type": "varchar(1024)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"avatarUrl": {
+					"name": "avatarUrl",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		}
+	},
+	"enums": {},
+	"schemas": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	}
+}

@@ -14,8 +14,7 @@ export const fetchArticleFromZenn = async (url: string) => {
   const key = pathname.split('/').slice(-1)[0];
 
   const apiResponse = await fetch(`https://zenn.dev/api/articles/${key}`);
-  const json = await apiResponse.json();
-  const query = zennApiSchema.parse(json);
+  const query = zennApiSchema.parse(await apiResponse.json());
 
   const { title, body_html: body, og_image_url: ogImageUrl } = query.article;
 

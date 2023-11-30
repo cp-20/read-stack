@@ -5,7 +5,7 @@ import { Raleway as fontRaleway } from 'next/font/google';
 import Image from 'next/image';
 import { BottomNavigation } from '@/client/LandingPage/_components/BottomNavigation';
 import { Description } from '@/shared/components/Description';
-import ogImage from '/public/icon.svg';
+import ogImage from '~/public/icon.svg';
 
 const font = fontRaleway({
   weight: ['600'],
@@ -18,8 +18,8 @@ export const LandingPage: NextPage = () => {
   return (
     <>
       <Description
-        title="ReadStack - 技術記事の未読消化をサポート"
         description="技術記事の未読消化を全力でサポートするアプリです"
+        title="ReadStack - 技術記事の未読消化をサポート"
       />
 
       <div
@@ -43,7 +43,8 @@ export const LandingPage: NextPage = () => {
           `}
         >
           <div>
-            <Image src={ogImage} alt="" width={128} height={128} />
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- SVG画像の型がanyだけど、まぁうまく行く */}
+            <Image alt="" height={128} src={ogImage} width={128} />
           </div>
           <div>
             <h1

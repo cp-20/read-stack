@@ -1,6 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import * as models from '@database/models';
+
+import * as models from '@/models';
 
 const connectionString = process.env.DATABASE_URL;
 if (connectionString === undefined) {

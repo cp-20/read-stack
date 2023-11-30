@@ -3,11 +3,11 @@ import type { FC } from 'react';
 
 const appUrl = 'https://read-stack.vercel.app';
 
-type DescriptionProps = {
+interface DescriptionProps {
   title: string;
   description: string;
   ogp?: string;
-};
+}
 
 export const Description: FC<DescriptionProps> = ({
   title,
@@ -20,20 +20,20 @@ export const Description: FC<DescriptionProps> = ({
       <meta content={description} name="description" />
 
       {/* OGP */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:type" content="article" />
-      <meta property="og:url" content={appUrl} />
-      <meta property="og:site_name" content={title} />
-      <meta property="og:locale" content="ja" />
-      <meta property="og:image" content={ogp ?? `${appUrl}/ogp.png`} />
+      <meta content={title} property="og:title" />
+      <meta content={description} property="og:description" />
+      <meta content="article" property="og:type" />
+      <meta content={appUrl} property="og:url" />
+      <meta content={title} property="og:site_name" />
+      <meta content="ja" property="og:locale" />
+      <meta content={ogp ?? `${appUrl}/ogp.png`} property="og:image" />
 
       {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@__cp20__" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogp ?? `${appUrl}/ogp.png`} />
+      <meta content="summary_large_image" name="twitter:card" />
+      <meta content="@__cp20__" name="twitter:site" />
+      <meta content={title} name="twitter:title" />
+      <meta content={description} name="twitter:description" />
+      <meta content={ogp ?? `${appUrl}/ogp.png`} name="twitter:image" />
     </Head>
   );
 };

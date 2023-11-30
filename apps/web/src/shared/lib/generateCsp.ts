@@ -1,15 +1,15 @@
 // CSP対応
 // 参考: https://zenn.dev/monicle/articles/aee4871b288264
 
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { v4 } from 'uuid';
 
-type csp = {
+interface CspTag {
   csp: string;
   nonce: string;
-};
+}
 
-export const generateCsp = (): csp => {
+export const generateCsp = (): CspTag => {
   const hash = crypto.createHash('sha256');
   hash.update(v4());
   const nonce = hash.digest('base64');

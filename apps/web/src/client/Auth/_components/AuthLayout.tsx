@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import type { FC, ReactNode } from 'react';
 
-type AuthLayoutProps = {
+interface AuthLayoutProps {
   children: ReactNode;
-};
+}
 
 export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
   return (

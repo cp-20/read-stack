@@ -1,0 +1,15 @@
+{
+  "extends": "@read-stack/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "~/*": ["./*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "types": ["bun-types"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "dist"]
+}

@@ -1,20 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "/*": ["*"],
-      "@database": ["../../packages/database/src/index.ts"],
-      "@database/*": ["../../packages/database/src/*"],
-      "@lib": ["../../packages/lib/src/index.ts"],
-      "@lib/*": ["../../packages/lib/src/*"],
-      "@openapi": ["../../packages/openapi/src/index.ts"],
-      "@openapi/*": ["../../packages/openapi/src/*"],
-      "@server": ["../../packages/server/src/index.ts"],
-      "@server/*": ["../../packages/server/src/*"]
+      "~/*": ["*"]
     },
     "target": "es5",
-    "lib": ["DOM", "DOM.Iterable", "esnext"],
+    "lib": ["es2022", "dom", "dom.iterable"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -36,9 +28,9 @@
   },
   "include": [
     "next-env.d.ts",
+    "lib.dom.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.mdx",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]

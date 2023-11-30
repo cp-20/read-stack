@@ -1,6 +1,5 @@
-import { db } from '@database/database/drizzleClient';
-import { articles } from '@database/models';
-import { Article } from '@openapi';
+import { db } from '@/database/drizzleClient';
+import { articles } from '@/models';
 
 export const findArticleById = async (id: number) => {
   const article = await db.query.articles.findFirst({
@@ -18,33 +17,36 @@ export const findArticleByUrl = async (url: string) => {
   return article;
 };
 
-export const createArticle = async (articleData: Article) => {
-  const article = await db.insert(articles).values(articleData).returning({
-    id: articles.id,
-    url: articles.url,
-    title: articles.title,
-    body: articles.body,
-    summary: articles.summary,
-    ogImageUrl: articles.ogImageUrl,
-    createdAt: articles.createdAt,
-  });
+export interface ArticleInfo {
+  url: string;
+  title: string;
+  body: string;
+  summary?: string | null;
+  ogImageUrl?: string | null;
+}
+
+export const createArticle = async (articleData: ArticleInfo) => {
+  const article = await db
+    .insert(articles)
+    .values({ ...articleData, createdAt: new Date(), updatedAt: new Date() })
+    .returning();
 
   return article[0];
 };
 
 export const saveArticleByUrl = async (
   url: string,
-  getArticle: () => Article | Promise<Article>,
+  getArticle: () => ArticleInfo | Promise<ArticleInfo>
 ) => {
   const article = await findArticleByUrl(url);
 
   if (article !== undefined) {
-    return { exist: true, article };
+    return article;
   }
 
   const newArticleData = await getArticle();
 
   const newArticle = await createArticle(newArticleData);
 
-  return { exist: false, article: newArticle };
+  return newArticle;
 };

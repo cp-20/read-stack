@@ -1,17 +1,19 @@
-import { fetchArticleFromNote } from './note';
-import { fetchArticleFromOther } from './other';
-import { fetchArticleFromQiita } from './qiita';
-import { fetchArticleFromZenn } from './zenn';
+import { fetchArticleFromNote } from '@/crawler/note';
+import { fetchArticleFromQiita } from '@/crawler/qiita';
+import { fetchUsingReadability } from '@/crawler/readability';
+import { fetchArticleFromZenn } from '@/crawler/zenn';
 
-export type ArticleResponse = {
+export interface ArticleResponse {
   url: string;
   title: string;
   body: string;
   ogImageUrl: string | null;
-};
+}
 
 // server-side only
-export const fetchArticle = async (url: string) => {
+export const fetchArticle = async (
+  url: string
+): Promise<ArticleResponse | null> => {
   const { host } = new URL(url);
 
   if (host === 'note.com') {
@@ -26,5 +28,5 @@ export const fetchArticle = async (url: string) => {
     return fetchArticleFromZenn(url);
   }
 
-  return fetchArticleFromOther(url);
+  return fetchUsingReadability(url);
 };

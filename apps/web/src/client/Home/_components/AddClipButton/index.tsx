@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { Button, Group, Popover, TextInput } from '@mantine/core';
-import type { FormEventHandler } from 'react';
-import { useState, type FC, useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import type { FormEventHandler, FC } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { useAddClip } from '@/client/_components/hooks/useUserClips';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,7 +35,7 @@ export const AddClipButton: FC = () => {
                 font-weight: bold;
               `}
             >
-              {result.article.title}
+              {result.clip.article.title}
             </span>
             」を追加しました
           </>,
@@ -63,12 +63,14 @@ export const AddClipButton: FC = () => {
           <form onSubmit={handleSubmit}>
             <Group>
               <TextInput
+                disabled={submitting}
+                onChange={(e) => {
+                  setUrl((e.target as HTMLInputElement).value);
+                }}
                 placeholder="記事のURL"
                 value={url}
-                onChange={(e) => setUrl((e.target as HTMLInputElement).value)}
-                disabled={submitting}
               />
-              <Button type="submit" loading={submitting}>
+              <Button loading={submitting} type="submit">
                 追加
               </Button>
             </Group>

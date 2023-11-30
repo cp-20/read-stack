@@ -9,11 +9,6 @@ export const AuthWithGitHubButton: FC = () => {
 
   return (
     <Button
-      type="button"
-      variant="filled"
-      // アイコンが微妙に満足できない
-      leftIcon={<IconBrandGithubFilled />}
-      onClick={loginWithGitHub}
       css={css`
         background-color: black;
 
@@ -21,6 +16,11 @@ export const AuthWithGitHubButton: FC = () => {
           background-color: #222;
         }
       `}
+      // アイコンが微妙に満足できない
+      leftIcon={<IconBrandGithubFilled />}
+      onClick={loginWithGitHub}
+      type="button"
+      variant="filled"
     >
       GitHubで登録
     </Button>

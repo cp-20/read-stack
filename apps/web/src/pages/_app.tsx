@@ -6,7 +6,7 @@ import type { Session } from '@supabase/auth-helpers-react';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import type { AppProps } from 'next/app';
 import { Noto_Sans_JP as fontNotoSansJP } from 'next/font/google';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { SWRConfig } from 'swr';
 import { fetcher } from '@/features/swr/fetcher';
 import { GoogleTagManagerBody } from '@/shared/components/GoogleTagManager';
@@ -17,18 +17,16 @@ const font = fontNotoSansJP({
   preload: true,
 });
 
-function MyApp({
+const MyApp = ({
   Component,
   pageProps,
-}: AppProps<{ initialSession: Session }>) {
-  const [supabaseClient] = useState(() => createPagesBrowserClient());
+}: AppProps<{ initialSession: Session }>) => {
+  const supabaseClient = useMemo(() => createPagesBrowserClient(), []);
 
   return (
     <>
       <GoogleTagManagerBody />
       <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
         theme={{
           /** Put your mantine theme override here */
           colorScheme: 'light',
@@ -41,10 +39,12 @@ function MyApp({
           },
           fontFamily: font.style.fontFamily,
         }}
+        withGlobalStyles
+        withNormalizeCSS
       >
         <SessionContextProvider
-          supabaseClient={supabaseClient}
           initialSession={pageProps.initialSession}
+          supabaseClient={supabaseClient}
         >
           <SWRConfig value={{ fetcher }}>
             <Component {...pageProps} />
@@ -53,6 +53,6 @@ function MyApp({
       </MantineProvider>
     </>
   );
-}
+};
 
 export default MyApp;

@@ -1,5 +1,6 @@
 import { load } from 'cheerio';
 import { z } from 'zod';
+
 import type { ArticleResponse } from '.';
 
 const noteApiSchema = z.object({
@@ -11,14 +12,13 @@ const noteApiSchema = z.object({
 });
 
 export const fetchArticleFromNote = async (
-  url: string,
+  url: string
 ): Promise<ArticleResponse> => {
   const { pathname } = new URL(url);
   const key = pathname.split('/').slice(-1)[0];
 
   const response = await fetch(`https://note.com/api/v3/notes/${key}`);
-  const json = await response.json();
-  const query = noteApiSchema.parse(json);
+  const query = noteApiSchema.parse(await response.json());
 
   const { name, body, eyecatch } = query.data;
 

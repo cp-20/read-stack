@@ -7,16 +7,20 @@
   "scripts": {
     "web": "pnpm -F \"read-stack-web\"",
     "server": "pnpm -F \"read-stack-server\"",
-    "openapi": "pnpm -F \"read-stack-openapi\"",
-    "database": "pnpm -F \"read-stack-database\"",
-    "lib": "pnpm -F \"read-stack-lib\"",
+    "openapi": "pnpm -F \"@read-stack/openapi\"",
+    "database": "pnpm -F \"@read-stack/database\"",
+    "lib": "pnpm -F \"@read-stack/lib\"",
     "dev": "turbo dev",
     "build": "turbo build",
     "deploy": "turbo deploy",
     "test": "turbo test",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "format": "pnpm biome format --write ./"
   },
   "dependencies": {
-    "turbo": "^1.10.13"
+    "@biomejs/biome": "1.4.0",
+    "eslint": "^8.54.0",
+    "turbo": "^1.10.16",
+    "typescript": "^5.3.2"
   }
 }

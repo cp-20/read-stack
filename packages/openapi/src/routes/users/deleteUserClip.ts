@@ -1,15 +1,16 @@
 import type { RouteConfig } from '@asteasolutions/zod-to-openapi';
 import { createRoute } from '@hono/zod-openapi';
+import { z } from 'zod';
+
 import {
   badRequestResponse,
   internalServerErrorResponse,
   notFoundResponse,
   okJsonResponse,
   unauthorizedResponse,
-} from '@openapi/routes/helpers/response';
-import { userIdPathRouteHelper } from '@openapi/routes/users/common';
-import { ClipSchema } from '@openapi/schema';
-import { z } from 'zod';
+} from '@/routes/helpers/response';
+import { userIdPathRouteHelper } from '@/routes/users/common';
+import { ClipSchema } from '@/schema';
 
 export const deleteClipRequestParamsSchema = z.object({
   clipId: z.string(),

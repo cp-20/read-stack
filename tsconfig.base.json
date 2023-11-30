@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["DOM", "DOM.Iterable", "esnext"],
+    "target": "ESNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -11,18 +10,8 @@
     "skipLibCheck": true,
     "noEmit": true,
     "strict": true,
-    "baseUrl": ".",
-    "paths": {
-      "@database": ["./packages/database/src/index.ts"],
-      "@database/*": ["./packages/database/src/*"],
-      "@lib": ["./packages/lib/src/index.ts"],
-      "@lib/*": ["./packages/lib/src/*"],
-      "@openapi": ["./packages/openapi/src/index.ts"],
-      "@openapi/*": ["./packages/openapi/src/*"],
-      "@server": ["./packages/server/src/index.ts"],
-      "@server/*": ["./packages/server/src/*"]
-    }
+    "baseUrl": "."
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/node_modules"]
 }

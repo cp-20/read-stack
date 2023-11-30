@@ -9,7 +9,7 @@ export const useAutoRedirectIfLoggedIn = (path: string) => {
 
   useEffect(() => {
     if (session) {
-      router.push(path);
+      void router.push(path);
     }
   }, [path, router, session]);
 };
@@ -20,7 +20,7 @@ export const useAutoRedirectIfNotLoggedIn = (path: string) => {
 
   useEffect(() => {
     if (!session) {
-      router.push(path);
+      void router.push(path);
     }
   }, [path, router, session]);
 };

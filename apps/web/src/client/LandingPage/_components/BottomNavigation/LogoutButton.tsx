@@ -19,8 +19,6 @@ export const LogoutButton: FC<{
 
   return (
     <button
-      onClick={clickHandler}
-      disabled={loading}
       css={css`
         position: relative;
         color: ${theme.colors[theme.primaryColor][4]};
@@ -35,8 +33,11 @@ export const LogoutButton: FC<{
           color: ${theme.colors[theme.primaryColor][9]};
         }
       `}
+      disabled={loading}
+      onClick={clickHandler}
+      type="button"
     >
-      <LoadingOverlay visible={loading} loaderProps={{ size: 'xs' }} />
+      <LoadingOverlay loaderProps={{ size: 'xs' }} visible={loading} />
       {children}
     </button>
   );

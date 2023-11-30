@@ -1,33 +1,25 @@
 import { css } from '@emotion/react';
 import {
   Card,
-  Text,
-  Image,
-  useMantineTheme,
   Group,
+  Image,
   RingProgress,
+  Text,
+  useMantineTheme,
 } from '@mantine/core';
+import type { ClipWithArticle } from '@read-stack/openapi';
 import Link from 'next/link';
 import type { FC } from 'react';
-import type { Article, Clip } from '@/schema/article';
 
-export type ClipWithArticles = Clip & {
-  article: Article;
-};
-
-export type UnreadClipListItemProps = {
-  clip: ClipWithArticles;
-};
+export interface UnreadClipListItemProps {
+  clip: ClipWithArticle;
+}
 
 export const UnreadClipListItem: FC<UnreadClipListItemProps> = ({ clip }) => {
   const theme = useMantineTheme();
   return (
     <Card
-      withBorder
       component={Link}
-      href={clip.article.url}
-      target="_blank"
-      rel="noopener noreferrer"
       css={css`
         color: inherit;
         text-decoration: none;
@@ -38,8 +30,12 @@ export const UnreadClipListItem: FC<UnreadClipListItemProps> = ({ clip }) => {
           transform: translateY(-2px);
         }
       `}
+      href={clip.article.url}
+      rel="noopener noreferrer"
+      target="_blank"
+      withBorder
     >
-      <Group position="apart" noWrap>
+      <Group noWrap position="apart">
         <div
           css={css`
             display: flex;
@@ -60,20 +56,19 @@ export const UnreadClipListItem: FC<UnreadClipListItemProps> = ({ clip }) => {
             <Text color={theme.colors.dark[8]} fw="600" lineClamp={1}>
               {clip.article.title}
             </Text>
-            <Text color="dimmed" size="xs" lineClamp={2}>
+            <Text color="dimmed" lineClamp={2} size="xs">
               {clip.article.body}
             </Text>
           </div>
         </div>
 
         <Image
-          src={clip.article.ogImageUrl}
           alt=""
-          width={200}
           css={css`
-            margin: -${theme.spacing.md} -${theme.spacing.md} -${theme.spacing
-                .md} 0;
+            margin: -${theme.spacing.md} -${theme.spacing.md} -${theme.spacing.md} 0;
           `}
+          src={clip.article.ogImageUrl}
+          width={200}
         />
       </Group>
     </Card>

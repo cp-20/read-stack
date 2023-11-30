@@ -1,15 +1,16 @@
 import type { RouteConfig } from '@asteasolutions/zod-to-openapi';
 import { createRoute } from '@hono/zod-openapi';
+import { z } from 'zod';
+
 import {
   badRequestResponse,
   internalServerErrorResponse,
   notFoundResponse,
   okJsonResponse,
   unauthorizedResponse,
-} from '@openapi/routes/helpers/response';
-import { userIdPathRouteHelper } from '@openapi/routes/users/common';
-import { ClipSchema } from '@openapi/schema';
-import { z } from 'zod';
+} from '@/routes/helpers/response';
+import { userIdPathRouteHelper } from '@/routes/users/common';
+import { ClipSchema } from '@/schema';
 
 export const patchClipRequestParamsSchema = z.object({
   clipId: z.string(),
@@ -80,6 +81,15 @@ const patchUserClipRouteBase: RouteConfig = {
           authorId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
           createdAt: '2023-11-15T09:05:15.452Z',
           updatedAt: '2023-11-15T09:05:15.452Z',
+          article: {
+            id: 1,
+            url: 'https://example.com',
+            title: 'Example',
+            description: 'This is an example',
+            image: 'https://example.com/image.png',
+            createdAt: '2023-11-15T09:05:15.452Z',
+            updatedAt: '2023-11-15T09:05:15.452Z',
+          },
         },
       },
     }),

@@ -1,0 +1,21 @@
+{
+  "name": "@read-stack/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "author": "cp20",
+  "license": "MIT",
+  "main": "main.js",
+  "devDependencies": {
+    "@next/eslint-plugin-next": "^14.0.3",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "@vercel/style-guide": "^5.1.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-next": "^14.0.3",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  }
+}

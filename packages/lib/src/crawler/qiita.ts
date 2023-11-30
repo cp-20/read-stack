@@ -11,8 +11,7 @@ export const fetchArticleFromQiita = async (url: string) => {
   const key = pathname.split('/').slice(-1)[0];
 
   const apiResponse = await fetch(`https://qiita.com/api/v2/items/${key}`);
-  const json = await apiResponse.json();
-  const query = qiitaApiSchema.parse(json);
+  const query = qiitaApiSchema.parse(await apiResponse.json());
 
   const { title, rendered_body: body } = query;
 

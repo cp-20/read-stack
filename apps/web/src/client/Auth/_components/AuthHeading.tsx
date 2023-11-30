@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import type { FC, ReactNode } from 'react';
 
-type HeadingProps = {
+interface HeadingProps {
   children: ReactNode;
-};
+}
 
 export const AuthHeading: FC<HeadingProps> = ({ children }) => {
   return (

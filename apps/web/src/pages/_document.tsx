@@ -6,12 +6,12 @@ import { generateCsp } from '@/shared/lib/generateCsp';
 
 const stylesServer = createStylesServer();
 
-type DocumentProps = {
+interface DocumentProps {
   csp: string;
   nonce: string;
-};
+}
 
-export default class _Document extends Document<DocumentProps> {
+export default class MyDocument extends Document<DocumentProps> {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
 
@@ -26,8 +26,8 @@ export default class _Document extends Document<DocumentProps> {
         initialProps.styles,
         <ServerStyles
           html={initialProps.html}
-          server={stylesServer}
           key="styles"
+          server={stylesServer}
         />,
       ],
     };
@@ -38,14 +38,14 @@ export default class _Document extends Document<DocumentProps> {
     return (
       <Html lang="ja">
         <Head nonce={nonce}>
-          <meta httpEquiv="Content-Security-Policy" content={csp} />
+          <meta content={csp} httpEquiv="Content-Security-Policy" />
 
           <GoogleTagManager nonce={nonce} />
 
-          <link rel="icon" href="/favicon.ico" sizes="any" />
-          <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-          <link rel="manifest" href="/manifest.webmanifest" />
+          <link href="/favicon.ico" rel="icon" sizes="any" />
+          <link href="/icon.svg" rel="icon" type="image/svg+xml" />
+          <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
+          <link href="/manifest.webmanifest" rel="manifest" />
         </Head>
         <body>
           <Main />

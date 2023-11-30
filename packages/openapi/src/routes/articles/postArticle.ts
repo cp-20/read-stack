@@ -1,12 +1,13 @@
 import { createRoute } from '@hono/zod-openapi';
+import { z } from 'zod';
+
 import {
   badRequestResponse,
   internalServerErrorResponse,
   notFoundResponse,
   okJsonResponse,
-} from '@openapi/routes/helpers/response';
-import { ArticleSchema } from '@openapi/schema';
-import { z } from 'zod';
+} from '@/routes/helpers/response';
+import { ArticleSchema } from '@/schema';
 
 export const postArticleRequestBodySchema = z.object({
   url: z.string().url(),

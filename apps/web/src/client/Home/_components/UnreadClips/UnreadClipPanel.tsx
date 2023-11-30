@@ -9,25 +9,17 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 import type { FC } from 'react';
+import type { ClipWithArticle } from '@read-stack/openapi';
 
-import type { ClipWithArticles } from './UnreadClipListItem';
-
-export type UnreadClipPanelProps = {
-  clip: ClipWithArticles;
-};
+export interface UnreadClipPanelProps {
+  clip: ClipWithArticle;
+}
 
 export const UnreadClipPanel: FC<UnreadClipPanelProps> = ({ clip }) => {
   const theme = useMantineTheme();
   return (
     <Card
-      shadow="sm"
-      padding="lg"
-      radius="md"
-      withBorder
       component={Link}
-      href={clip.article.url}
-      target="_blank"
-      rel="noopener noreferrer"
       css={css`
         display: flex;
         flex-direction: column;
@@ -40,9 +32,16 @@ export const UnreadClipPanel: FC<UnreadClipPanelProps> = ({ clip }) => {
           transform: translateY(-2px);
         }
       `}
+      href={clip.article.url}
+      padding="lg"
+      radius="md"
+      rel="noopener noreferrer"
+      shadow="sm"
+      target="_blank"
+      withBorder
     >
       <Card.Section mb="md">
-        <Image src={clip.article.ogImageUrl} alt="" width="100%" />
+        <Image alt="" src={clip.article.ogImageUrl} width="100%" />
       </Card.Section>
 
       <Stack
@@ -50,18 +49,18 @@ export const UnreadClipPanel: FC<UnreadClipPanelProps> = ({ clip }) => {
           flex: 1;
         `}
       >
-        <Text fw="bold" color={theme.colors.dark[8]} lineClamp={2}>
+        <Text color={theme.colors.dark[8]} fw="bold" lineClamp={2}>
           {clip.article.title}
         </Text>
-        <Text color="dimmed" size="xs" lineClamp={3}>
+        <Text color="dimmed" lineClamp={3} size="xs">
           {clip.article.body}
         </Text>
 
         <Progress
-          value={clip.progress}
           css={css`
             margin-top: auto;
           `}
+          value={clip.progress}
         />
       </Stack>
     </Card>

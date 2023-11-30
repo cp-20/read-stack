@@ -1,20 +1,17 @@
 import Script from 'next/script';
 import type { FC } from 'react';
 
-type GoogleTagManagerProps = {
+interface GoogleTagManagerProps {
   nonce: string;
-};
+}
 
 const id = process.env.NEXT_PUBLIC_GTM_ID;
 
 export const GoogleTagManager: FC<GoogleTagManagerProps> = ({ nonce }) => {
-  if (!id) return <></>;
+  if (!id) return null;
 
   return (
     <Script
-      nonce={nonce}
-      id="gtm"
-      strategy="afterInteractive"
       dangerouslySetInnerHTML={{
         __html: `
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -24,23 +21,25 @@ export const GoogleTagManager: FC<GoogleTagManagerProps> = ({ nonce }) => {
       })(window,document,'script','dataLayer','${id}');
       `,
       }}
+      id="gtm"
+      nonce={nonce}
+      strategy="afterInteractive"
     />
   );
 };
 
 export const GoogleTagManagerBody: FC = () => {
-  if (!id) return <></>;
+  if (!id) return null;
 
   return (
-    <>
-      <noscript>
-        <iframe
-          src={`https://www.googletagmanager.com/ns.html?id=${id}`}
-          height="0"
-          width="0"
-          style={{ display: 'none', visibility: 'hidden' }}
-        />
-      </noscript>
-    </>
+    <noscript>
+      <iframe
+        height="0"
+        src={`https://www.googletagmanager.com/ns.html?id=${id}`}
+        style={{ display: 'none', visibility: 'hidden' }}
+        title="Google Tag Manager"
+        width="0"
+      />
+    </noscript>
   );
 };

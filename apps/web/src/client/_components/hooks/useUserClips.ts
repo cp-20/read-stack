@@ -1,21 +1,23 @@
-import { getClipsResponseSchema } from '@openapi';
-import type { clips } from '@prisma/client';
+import {
+  getClipsResponseSchema,
+  postClipResponseSchema,
+} from '@read-stack/openapi';
 import { atom, useAtom } from 'jotai';
 import { useCallback, useEffect, useId } from 'react';
 import useSWRInfinite from 'swr/infinite';
-import { z } from 'zod';
-import type { ClipWithArticles } from '@/client/Home/_components/UnreadClips/UnreadClipListItem';
+import type { z } from 'zod';
 import { useUserData } from '@/features/supabase/auth';
-import { ArticleSchema, ClipSchema } from '@/schema/article';
 
-export type useUserClipsOptions = {
+export interface UseUserClipsOptions {
   limit?: number;
   unreadOnly?: boolean;
-};
+}
 
 const updateClipsAtom = atom<Map<string, () => void>>(new Map());
 
-export const useUserClips = (options?: useUserClipsOptions) => {
+type GetClipsResponse = z.infer<typeof getClipsResponseSchema>;
+
+export const useUserClips = (options?: UseUserClipsOptions) => {
   const id = useId();
   const { user } = useUserData();
   const [, setUpdateClips] = useAtom(updateClipsAtom);
@@ -24,24 +26,27 @@ export const useUserClips = (options?: useUserClipsOptions) => {
 
   const fetcher = async (url: string) => {
     const res = await fetch(url);
-    const data = await res.json();
-    const parsedData = getClipsResponseSchema.safeParse(data);
-    return clips;
+    const parsedData = getClipsResponseSchema.safeParse(await res.json());
+
+    if (!parsedData.success) {
+      console.error(parsedData.error);
+      return { clips: [], finished: false };
+    }
+
+    return parsedData.data;
   };
 
   const { data, setSize, mutate, isLoading } = useSWRInfinite<
-    ClipWithArticles[],
+    GetClipsResponse,
     unknown
   >(
-    (size, acc: clips[][] | null) => {
+    (_size, acc?: GetClipsResponse) => {
       if (!user) return null;
-      if ((size + 1) * limit <= (acc?.length ?? 0)) return null;
       // 最後に到達したらやめる
-      if (acc?.slice(-1)[0]?.length === 0) return null;
+      if (acc?.finished) return null;
 
-      const cursorOption: { cursor: string } | Record<string, never> = acc
-        ? { cursor: acc.flat().slice(-1)[0].id.toString() }
-        : {};
+      const cursor = acc?.clips.slice(-1)[0]?.id.toString();
+      const cursorOption: { cursor?: string } = cursor ? { cursor } : {};
 
       const url = new URLSearchParams({
         limit: limit.toString(),
@@ -57,16 +62,16 @@ export const useUserClips = (options?: useUserClipsOptions) => {
     },
   );
 
-  const clips = data ? data.flat() : [];
+  const clips = data ? data.flatMap((d) => d.clips) : [];
 
   const loadNext = useCallback(() => setSize((size) => size + 1), [setSize]);
 
-  const isFinished = data?.slice(-1)[0]?.length === 0;
+  const isFinished = data?.slice(-1)[0]?.finished;
 
   // TODO: この実装はちょっとどうなんだろう
   const updateClip = useCallback(() => {
-    setSize(1);
-    mutate();
+    void setSize(1);
+    void mutate();
   }, [mutate, setSize]);
 
   useEffect(() => {
@@ -84,7 +89,7 @@ export const useAddClip = () => {
     async (url: string) => {
       if (user === null) return false;
 
-      const res = await fetch(`/api/v1/users/${user.id}/clips`, {
+      const res = await fetch(`/api/v1/users/me/clips`, {
         method: 'POST',
         body: JSON.stringify({
           type: 'url',
@@ -95,17 +100,13 @@ export const useAddClip = () => {
         },
       });
 
-      const responseSchema = z.object({
-        article: ArticleSchema,
-        clip: ClipSchema,
-      });
-
-      const json = await res.json();
-      const data = responseSchema.safeParse(json);
+      const data = postClipResponseSchema.safeParse(await res.json());
 
       if (!data.success) return null;
 
-      updateClips.forEach((update) => update());
+      updateClips.forEach((update) => {
+        update();
+      });
 
       return data.data;
     },

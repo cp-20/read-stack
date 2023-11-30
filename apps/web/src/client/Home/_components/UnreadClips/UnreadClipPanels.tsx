@@ -1,12 +1,11 @@
 import { css } from '@emotion/react';
 import type { FC } from 'react';
-
-import type { ClipWithArticles } from './UnreadClipListItem';
+import type { ClipWithArticle } from '@read-stack/openapi';
 import { UnreadClipPanel } from './UnreadClipPanel';
 
-export type UnreadClipPanelsProps = {
-  clips: ClipWithArticles[];
-};
+export interface UnreadClipPanelsProps {
+  clips: ClipWithArticle[];
+}
 
 export const UnreadClipPanels: FC<UnreadClipPanelsProps> = ({ clips }) => {
   return (
@@ -18,7 +17,7 @@ export const UnreadClipPanels: FC<UnreadClipPanelsProps> = ({ clips }) => {
       `}
     >
       {clips.map((clip) => (
-        <UnreadClipPanel key={clip.id} clip={clip} />
+        <UnreadClipPanel clip={clip} key={clip.id} />
       ))}
     </div>
   );

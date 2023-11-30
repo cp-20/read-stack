@@ -2,3 +2,4 @@ $path.ts
 *.md
 /*.js
 next-env.d.ts
+lib.dom.d.ts

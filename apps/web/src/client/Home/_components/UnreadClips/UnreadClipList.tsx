@@ -1,18 +1,17 @@
 import { Stack } from '@mantine/core';
 import type { FC } from 'react';
-
-import type { ClipWithArticles } from './UnreadClipListItem';
+import type { ClipWithArticle } from '@read-stack/openapi';
 import { UnreadClipListItem } from './UnreadClipListItem';
 
-export type UnreadClipListProps = {
-  clips: ClipWithArticles[];
-};
+export interface UnreadClipListProps {
+  clips: ClipWithArticle[];
+}
 
 export const UnreadClipList: FC<UnreadClipListProps> = ({ clips }) => {
   return (
     <Stack>
       {clips.map((clip) => (
-        <UnreadClipListItem key={clip.id} clip={clip} />
+        <UnreadClipListItem clip={clip} key={clip.id} />
       ))}
     </Stack>
   );
