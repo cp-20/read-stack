@@ -7,10 +7,9 @@ import {
   postArticleRoute,
 } from '@read-stack/openapi';
 
-import { app } from '@/index';
 import { parseBody } from '@/handlers/helpers/parseBody';
 
-export const registerArticlesHandlers = (_app: OpenAPIHono) => {
+export const registerArticlesHandlers = (app: OpenAPIHono) => {
   app.openapi(getArticleRoute, async (c) => {
     const articleIdStr = c.req.param('articleId');
     const articleId = parseIntWithDefaultValue(articleIdStr, null);
