@@ -12,6 +12,7 @@
     "lib": "pnpm -F \"@read-stack/lib\"",
     "dev": "turbo dev",
     "build": "turbo build",
+    "start": "turbo start",
     "deploy": "turbo deploy",
     "test": "turbo test",
     "lint": "turbo lint",

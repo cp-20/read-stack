@@ -52,6 +52,15 @@
       "cache": false,
       "persistent": true
     },
-    "format": {}
+    "format": {},
+    "start": {
+      "dependsOn": ["build"],
+      "dotEnv": [
+        ".env.production.local",
+        ".env.local",
+        ".env.production",
+        ".env"
+      ]
+    }
   }
 }
