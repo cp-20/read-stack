@@ -2,13 +2,13 @@ import type { RouteConfig } from '@asteasolutions/zod-to-openapi';
 import { createRoute } from '@hono/zod-openapi';
 import { z } from 'zod';
 
-import { ClipWithArticleSchema } from '@/schema';
 import {
   badRequestResponse,
   internalServerErrorResponse,
   okJsonResponse,
   unauthorizedResponse,
 } from '@/routes/helpers/response';
+import { ClipWithArticleSchema } from '@/schema';
 
 // TODO
 export const postClipRequestBodySchema = z.union([
@@ -61,7 +61,7 @@ const postUserClipRouteBase: RouteConfig = {
           progress: 0,
           comment: 'This is a comment',
           articleId: 1,
-          authorId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
+          userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
           createdAt: '2023-11-15T09:05:15.452Z',
           updatedAt: '2023-11-15T09:05:15.452Z',
           article: {
@@ -69,7 +69,7 @@ const postUserClipRouteBase: RouteConfig = {
             title: 'Article title',
             slug: 'article-title',
             url: 'https://zenn.dev/author-id/articles/slug',
-            authorId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
+            userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
             createdAt: '2023-11-15T09:05:15.452Z',
             updatedAt: '2023-11-15T09:05:15.452Z',
           },

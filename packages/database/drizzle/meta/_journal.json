@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1701783970062,
+      "tag": "0000_supreme_squirrel_girl",
+      "breakpoints": true
+    }
+  ]
+}

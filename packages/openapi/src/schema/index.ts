@@ -31,7 +31,7 @@ export const ClipSchema = z.object({
   progress: z.number().int().min(0).max(100),
   comment: z.string().nullable(),
   articleId: z.number().int(),
-  authorId: z.string(),
+  userId: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 });

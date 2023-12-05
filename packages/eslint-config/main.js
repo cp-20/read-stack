@@ -20,8 +20,9 @@ module.exports = {
       'plugin:@typescript-eslint/recommended',
       'google',
       'prettier',
+      'plugin:drizzle/recommended',
     ]),
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'drizzle'],
   rules: {
     'require-jsdoc': ['off'],
     'valid-jsdoc': ['off'],

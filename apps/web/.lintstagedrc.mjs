@@ -25,5 +25,5 @@ const buildCommand = (command) => async (filenames) => {
 export default {
 	"*.{js,jsx,ts,tsx}": buildEslintCommand,
 	"*.{js,jsx,ts,tsx,css,scss}": buildCommand("pnpm stylelint"),
-	"*.{js,jsx,ts,tsx,json}": buildCommand("biome format --write"),
+	"*.{js,jsx,ts,tsx}": buildCommand("biome format --write"),
 };

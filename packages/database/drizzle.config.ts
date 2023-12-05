@@ -6,13 +6,14 @@ if (connectionString === undefined) {
   throw new Error('DATABASE_URL is not defined');
 }
 
-export default ({
+// eslint-disable-next-line import/no-default-export -- for drizzle
+export default {
   schema: './src/models/index.ts',
-  out: './drizzle/migrations',
+  out: './drizzle',
   driver: 'pg',
   dbCredentials: {
     connectionString,
   },
   verbose: true,
   strict: true,
-} satisfies Config);
+} satisfies Config;

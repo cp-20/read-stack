@@ -1,13 +1,13 @@
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import {
-  deleteClipByIdAndAuthorId,
+  deleteClipByIdAndUserId,
   findArticleByUrl,
+  findClipById,
+  findClipsByUserIdOrderByUpdatedAt,
   findUserAndCreateIfNotExists,
   saveArticleByUrl,
   saveClip,
-  updateClipByIdAndAuthorId,
-  findClipById,
-  findClipsByUserIdOrderByUpdatedAt,
+  updateClipByIdAndUserId,
 } from '@read-stack/database';
 import { fetchArticle, parseIntWithDefaultValue } from '@read-stack/lib';
 import {
@@ -21,8 +21,8 @@ import {
   postMyClipRoute,
 } from '@read-stack/openapi';
 
-import { parseBody } from '@/handlers/helpers/parseBody';
 import { getUser } from '@/handlers/helpers/getUser';
+import { parseBody } from '@/handlers/helpers/parseBody';
 
 export const registerUsersHandlers = (app: OpenAPIHono) => {
   app.openapi(getMeRoute, async (c) => {
@@ -81,7 +81,7 @@ export const registerUsersHandlers = (app: OpenAPIHono) => {
       const { articleId } = body;
       const clip = await saveClip(articleId, user.id, () => ({
         articleId,
-        authorId: user.id,
+        userId: user.id,
         progress: 0,
         status: 0,
       }));
@@ -98,7 +98,7 @@ export const registerUsersHandlers = (app: OpenAPIHono) => {
       if (article !== undefined) {
         const { clip } = await saveClip(article.id, user.id, () => ({
           articleId: article.id,
-          authorId: user.id,
+          userId: user.id,
           progress: 0,
           status: 0,
         }));
@@ -115,7 +115,7 @@ export const registerUsersHandlers = (app: OpenAPIHono) => {
 
       const { clip } = await saveClip(savedArticle.id, user.id, () => ({
         articleId: savedArticle.id,
-        authorId: user.id,
+        userId: user.id,
         progress: 0,
         status: 0,
       }));
@@ -138,7 +138,7 @@ export const registerUsersHandlers = (app: OpenAPIHono) => {
     }
 
     const clip = await findClipById(clipId);
-    if (clip === undefined || clip.authorId !== user.id) {
+    if (clip === undefined || clip.userId !== user.id) {
       return c.json({ error: 'clip not found' }, 404);
     }
 
@@ -160,7 +160,7 @@ export const registerUsersHandlers = (app: OpenAPIHono) => {
 
     const { clip } = body;
 
-    const updatedClip = await updateClipByIdAndAuthorId(clipId, user.id, clip);
+    const updatedClip = await updateClipByIdAndUserId(clipId, user.id, clip);
     if (updatedClip === null) {
       return c.json({ error: 'clip not found' }, 404);
     }
@@ -178,7 +178,7 @@ export const registerUsersHandlers = (app: OpenAPIHono) => {
       return c.json({ error: 'clipId is not configured and valid' }, 400);
     }
 
-    const deletedClip = await deleteClipByIdAndAuthorId(clipId, user.id);
+    const deletedClip = await deleteClipByIdAndUserId(clipId, user.id);
 
     if (deletedClip === null) {
       return c.json({ error: 'clip not found' }, 404);

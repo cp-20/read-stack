@@ -22,12 +22,12 @@
   },
   "dependencies": {
     "turbo": "^1.10.16",
-    "typescript": "^5.3.2"
+    "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.4.0",
-    "eslint": "^8.54.0",
-    "husky": "^8.0.0",
+    "@biomejs/biome": "1.4.1",
+    "eslint": "^8.55.0",
+    "husky": "^8.0.3",
     "lint-staged": "^15.1.0",
     "tsup": "^8.0.1"
   }

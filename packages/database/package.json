@@ -9,7 +9,7 @@
   "module": "dist/index.mjs",
   "scripts": {
     "migration:generate": "drizzle-kit generate:pg",
-    "migration:run": "ts-node ./src/database/migrate.ts",
+    "migration:run": "bun run ./src/database/migrate.ts",
     "migration": "pnpm run migration:generate && pnpm run migration:run",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "pnpm run build --watch",
@@ -21,11 +21,11 @@
     "@read-stack/tsconfig": "workspace:*",
     "@vercel/postgres": "^0.5.1",
     "dotenv": "^16.3.1",
-    "drizzle-orm": "^0.28.6",
+    "drizzle-orm": "^0.29.1",
     "postgres": "^3.4.3"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.19.13",
+    "drizzle-kit": "^0.20.6",
     "@read-stack/eslint-config": "workspace:*",
     "ts-node": "^10.9.1"
   }

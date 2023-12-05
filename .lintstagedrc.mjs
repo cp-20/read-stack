@@ -1,3 +1,3 @@
 export default {
-	"*.{css,scss,js,jsx,ts,tsx,json,md}": "biome format --write",
+	"*.{js,jsx,ts,tsx}": "biome format --write",
 };

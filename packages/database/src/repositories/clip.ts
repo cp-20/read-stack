@@ -15,13 +15,13 @@ export const findClipById = async (id: number) => {
   return clip;
 };
 
-export const findClipByArticleIdAndAuthorId = async (
+export const findClipByArticleIdAndUserId = async (
   articleId: number,
-  authorId: string,
+  userId: string
 ) => {
   const clip = await db.query.clips.findFirst({
     where: (fields) =>
-      and(eq(fields.articleId, articleId), eq(fields.authorId, authorId)),
+      and(eq(fields.articleId, articleId), eq(fields.userId, userId)),
   });
 
   return clip;
@@ -29,7 +29,7 @@ export const findClipByArticleIdAndAuthorId = async (
 
 export interface Clip {
   articleId: number;
-  authorId: string;
+  userId: string;
   progress: number;
   status: 0 | 1 | 2;
 }
@@ -50,10 +50,10 @@ export const createClip = async (clip: Clip) => {
 
 export const saveClip = async (
   articleId: number,
-  authorId: string,
-  getClip: () => Clip | Promise<Clip>,
+  userId: string,
+  getClip: () => Clip | Promise<Clip>
 ) => {
-  const clip = await findClipByArticleIdAndAuthorId(articleId, authorId);
+  const clip = await findClipByArticleIdAndUserId(articleId, userId);
 
   if (clip !== undefined) {
     return { exist: true, clip };
@@ -66,27 +66,26 @@ export const saveClip = async (
   return { exist: false, clip: newClip };
 };
 
-const findCursorTimestamp = async (authorId: string, cursor?: number) => {
+const findCursorTimestamp = async (userId: string, cursor?: number) => {
   if (cursor === undefined) return undefined;
 
   const clip = await db.query.clips.findFirst({
     columns: {
       updatedAt: true,
     },
-    where: (fields) =>
-      and(eq(fields.id, cursor), eq(fields.authorId, authorId)),
+    where: (fields) => and(eq(fields.id, cursor), eq(fields.userId, userId)),
   });
 
   return clip?.updatedAt;
 };
 
 export const findClipsByUserIdOrderByUpdatedAt = async (
-  authorId: string,
+  userId: string,
   limit: number,
   unreadOnly = true,
-  cursor?: number,
+  cursor?: number
 ) => {
-  const cursorTimestamp = await findCursorTimestamp(authorId, cursor);
+  const cursorTimestamp = await findCursorTimestamp(userId, cursor);
 
   const selectedClips = await db.query.clips.findMany({
     where: (fields) => {
@@ -94,7 +93,7 @@ export const findClipsByUserIdOrderByUpdatedAt = async (
         unreadOnly && inArray(fields.status, [0, 1]),
         cursorTimestamp !== undefined && lt(fields.updatedAt, cursorTimestamp),
       ]);
-      return and(eq(fields.authorId, authorId), ...filters);
+      return and(eq(fields.userId, userId), ...filters);
     },
     orderBy: (fields, { desc }) => desc(fields.updatedAt),
     limit: Math.min(100, limit) + 1,
@@ -115,10 +114,10 @@ export interface ClipInfo {
   comment?: string;
 }
 
-export const updateClipByIdAndAuthorId = async (
+export const updateClipByIdAndUserId = async (
   id: number,
-  authorId: string,
-  clip: Partial<ClipInfo>,
+  userId: string,
+  clip: Partial<ClipInfo>
 ) => {
   const updatedClip = await db
     .update(clips)
@@ -126,7 +125,7 @@ export const updateClipByIdAndAuthorId = async (
       ...clip,
       updatedAt: new Date(),
     })
-    .where(and(eq(clips.id, id), eq(clips.authorId, authorId)))
+    .where(and(eq(clips.id, id), eq(clips.userId, userId)))
     .returning();
 
   if (updatedClip.length === 0) return null;
@@ -134,13 +133,10 @@ export const updateClipByIdAndAuthorId = async (
   return updatedClip[0];
 };
 
-export const deleteClipByIdAndAuthorId = async (
-  id: number,
-  authorId: string,
-) => {
+export const deleteClipByIdAndUserId = async (id: number, userId: string) => {
   const deletedClip = await db
     .delete(clips)
-    .where(and(eq(clips.id, id), eq(clips.authorId, authorId)))
+    .where(and(eq(clips.id, id), eq(clips.userId, userId)))
     .returning();
 
   if (deletedClip.length === 0) return null;

@@ -36,7 +36,7 @@ export const getUserClipRouteBase: RouteConfig = {
           progress: 0,
           comment: 'This is a comment',
           articleId: 1,
-          authorId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
+          userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
           createdAt: '2023-11-15T09:05:15.452Z',
           updatedAt: '2023-11-15T09:05:15.452Z',
           article: {

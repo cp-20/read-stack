@@ -43,7 +43,7 @@ const getClipsRouteBase = {
             progress: 0,
             comment: 'This is a comment',
             articleId: 1,
-            authorId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
+            userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
             createdAt: '2023-11-15T09:05:15.452Z',
             updatedAt: '2023-11-15T09:05:15.452Z',
             article: {
@@ -62,7 +62,7 @@ const getClipsRouteBase = {
             status: 1,
             progress: 70,
             articleId: 2,
-            authorId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
+            userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
             createdAt: '2023-11-15T09:05:15.452Z',
             updatedAt: '2023-11-15T09:05:15.452Z',
             article: {
@@ -81,7 +81,7 @@ const getClipsRouteBase = {
             status: 2,
             progress: 100,
             articleId: 3,
-            authorId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
+            userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
             createdAt: '2023-11-15T09:05:15.452Z',
             updatedAt: '2023-11-15T09:05:15.452Z',
             article: {
