@@ -5,6 +5,9 @@ export const pagesPath = {
   "login": {
     $url: (url?: { hash?: string }) => ({ pathname: '/login' as const, hash: url?.hash })
   },
+  "privacy": {
+    $url: (url?: { hash?: string }) => ({ pathname: '/privacy' as const, hash: url?.hash })
+  },
   "signup": {
     $url: (url?: { hash?: string }) => ({ pathname: '/signup' as const, hash: url?.hash })
   },
