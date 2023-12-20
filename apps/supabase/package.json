@@ -1,8 +1,12 @@
 {
+  "name": "read-stack-supabase",
+  "version": "0.0.0",
+  "private": true,
+  "author": "cp20",
+  "license": "MIT",
   "scripts": {
-    "supabase": "dotenv -c local -- node_modules/supabase/bin/supabase",
-    "start": "dotenv -c local -- node_modules/supabase/bin/supabase start",
-    "stop": "dotenv -c local -- node_modules/supabase/bin/supabase start"
+    "start": "supabase start",
+    "stop": "supabase stop"
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0",

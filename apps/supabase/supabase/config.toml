@@ -128,8 +128,8 @@ url = ""
 
 [auth.external.github]
 enabled = true
-client_id = "env(GITHUB_CLIENT_ID)"
-secret = "env(GITHUB_CLIENT_SECRET)"
+client_id = "env(SUPABASE_GITHUB_CLIENT_ID)"
+secret = "env(SUPABASE_GITHUB_CLIENT_SECRET)"
 
 [analytics]
 enabled = false
