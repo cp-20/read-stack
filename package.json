@@ -21,14 +21,14 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "turbo": "^1.10.16",
-    "typescript": "5.0.4"
+    "turbo": "^1.11.2",
+    "typescript": "5.3.3"
   },
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
+    "lint-staged": "^15.2.0",
     "tsup": "^8.0.1"
   }
 }
