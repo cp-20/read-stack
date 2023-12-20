@@ -1,9 +1,11 @@
 {
   "scripts": {
-    "supabase": "dotenv -c local -- node_modules/supabase/bin/supabase"
+    "supabase": "dotenv -c local -- node_modules/supabase/bin/supabase",
+    "start": "dotenv -c local -- node_modules/supabase/bin/supabase start",
+    "stop": "dotenv -c local -- node_modules/supabase/bin/supabase start"
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0",
-    "supabase": "^1.4.5"
+    "supabase": "^1.123.4"
   }
 }
