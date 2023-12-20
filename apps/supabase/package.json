@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "supabase start",
-    "stop": "supabase stop"
+    "stop": "supabase stop",
+    "status": "supabase status"
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0",
