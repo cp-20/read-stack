@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "supabase": "dotenv -c local -- node_modules/supabase/bin/supabase"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.3.0",
+    "supabase": "^1.4.5"
+  }
+}

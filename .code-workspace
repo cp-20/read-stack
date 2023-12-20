@@ -13,6 +13,14 @@
       "path": "apps/swagger-viewer"
     },
     {
+      "name": "project-root",
+      "path": "./"
+    },
+    {
+      "name": "supabase-functions",
+      "path": "supabase/functions"
+    },
+    {
       "name": "database",
       "path": "packages/database"
     },
@@ -40,12 +48,12 @@
   "settings": {
     "files.associations": { "turbo.json": "jsonc" },
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-      "source.fixAll.tslint": true,
-      "source.fixAll.stylelint": true,
-      "source.fixAll": true,
-      "quickfix.biome": true,
-      "source.organizeImports.biome": true
+      "source.fixAll.eslint": "explicit",
+      "source.fixAll.tslint": "explicit",
+      "source.fixAll.stylelint": "explicit",
+      "source.fixAll": "explicit",
+      "quickfix.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
     },
     "eslint.validate": [
       "javascript",
@@ -69,6 +77,10 @@
     },
     "[typescriptreact]": {
       "editor.defaultFormatter": "biomejs.biome"
+    },
+
+    "files.exclude": {
+      "supabase/functions/": true
     }
   }
 }
