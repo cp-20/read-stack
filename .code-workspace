@@ -13,12 +13,12 @@
       "path": "apps/swagger-viewer"
     },
     {
-      "name": "project-root",
-      "path": "./"
+      "name": "supabase",
+      "path": "apps/supabase"
     },
     {
       "name": "supabase-functions",
-      "path": "supabase/functions"
+      "path": "apps/supabase/supabase/functions"
     },
     {
       "name": "database",
