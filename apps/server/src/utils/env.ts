@@ -1,9 +1,3 @@
-if (!process.env.SUPABASE_ID) {
-  throw new Error('Missing SUPABASE_ID');
-}
-
-export const SUPABASE_ID = process.env.SUPABASE_ID;
-
 if (!process.env.SUPABASE_URL) {
   throw new Error('Missing SUPABASE_URL');
 }
