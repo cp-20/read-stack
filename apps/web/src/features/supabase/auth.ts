@@ -18,8 +18,6 @@ export const useAutoRedirectIfNotLoggedIn = (path: string) => {
   const router = useRouter();
   const session = useSession();
 
-  console.log(session);
-
   useEffect(() => {
     if (!session) {
       void router.push(path);
