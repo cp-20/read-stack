@@ -1,17 +1,25 @@
+const buildSuffix = (url?: {query?: Record<string, string>, hash?: string}) => {
+  const query = url?.query;
+  const hash = url?.hash;
+  if (!query && !hash) return '';
+  const search = query ? `?${new URLSearchParams(query)}` : '';
+  return `${search}${hash ? `#${hash}` : ''}`;
+};
+
 export const pagesPath = {
   "home": {
-    $url: (url?: { hash?: string }) => ({ pathname: '/home' as const, hash: url?.hash })
+    $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/home' as const, hash: url?.hash })
   },
   "login": {
-    $url: (url?: { hash?: string }) => ({ pathname: '/login' as const, hash: url?.hash })
+    $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/login' as const, hash: url?.hash })
   },
   "signup": {
-    $url: (url?: { hash?: string }) => ({ pathname: '/signup' as const, hash: url?.hash })
+    $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/signup' as const, hash: url?.hash })
   },
-  $url: (url?: { hash?: string }) => ({ pathname: '/' as const, hash: url?.hash })
-}
+  $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/' as const, hash: url?.hash })
+};
 
-export type PagesPath = typeof pagesPath
+export type PagesPath = typeof pagesPath;
 
 export const staticPath = {
   _gitkeep: '/.gitkeep',
@@ -25,6 +33,6 @@ export const staticPath = {
   icon_svg: '/icon.svg',
   manifest_webmanifest: '/manifest.webmanifest',
   ogp_png: '/ogp.png'
-} as const
+} as const;
 
-export type StaticPath = typeof staticPath
+export type StaticPath = typeof staticPath;

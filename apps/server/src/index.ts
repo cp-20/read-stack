@@ -2,6 +2,7 @@ import { OpenAPIHono } from '@hono/zod-openapi';
 import { handle } from 'hono/vercel';
 
 import { registerArticlesHandlers } from '@/handlers/articles';
+import { registerAuthHandlers } from '@/handlers/auth';
 import { registerDocsHandler } from '@/handlers/docs';
 import { registerUsersHandlers } from '@/handlers/users';
 import type { SupabaseMiddlewareVariable } from '@/middleware/supabase';
@@ -28,5 +29,8 @@ registerUsersHandlers(
 );
 registerArticlesHandlers(v1);
 registerDocsHandler(v1);
+registerAuthHandlers(
+  v1 as unknown as OpenAPIHono<{ Variables: SupabaseMiddlewareVariable }>,
+);
 
 export const handler = handle(app);

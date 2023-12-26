@@ -3,10 +3,8 @@ module.exports = {
     'stylelint-config-standard',
     'stylelint-config-idiomatic-order',
     'stylelint-prettier/recommended',
-    'stylelint-config-prettier',
   ],
   rules: {
-    'string-quotes': 'single',
     'at-rule-no-unknown': null,
     'function-url-quotes': 'always',
     'selector-class-pattern': null,
@@ -15,6 +13,7 @@ module.exports = {
     'alpha-value-notation': 'number',
     'function-no-unknown': null,
     'function-name-case': null,
+    'media-query-no-invalid': null,
   },
   overrides: [
     {

@@ -130,6 +130,7 @@ url = ""
 enabled = true
 client_id = "env(SUPABASE_GITHUB_CLIENT_ID)"
 secret = "env(SUPABASE_GITHUB_CLIENT_SECRET)"
+redirect_uri = "env(SUPABASE_REDIRECT_URI)"
 
 [analytics]
 enabled = false

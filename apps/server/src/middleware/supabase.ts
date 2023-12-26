@@ -28,7 +28,6 @@ export const supabaseMiddleware: MiddlewareHandler<{
       },
     },
     cookieOptions: {
-      httpOnly: true,
       secure: true,
     },
   });

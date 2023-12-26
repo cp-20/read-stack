@@ -17,6 +17,7 @@
     "test": "dotenv -- turbo test",
     "lint": "dotenv -- turbo lint",
     "format": "dotenv -- turbo format",
+    "stop": "dotenv -- turbo stop",
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install"
   },
