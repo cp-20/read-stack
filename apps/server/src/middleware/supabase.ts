@@ -10,6 +10,8 @@ export interface SupabaseMiddlewareVariable {
   [key: string]: unknown;
 }
 
+const authCookieName = process.env.NEXT_PUBLIC_SUPABASE_AUTH_COOKIE_NAME;
+
 export const supabaseMiddleware: MiddlewareHandler<{
   Variables: SupabaseMiddlewareVariable;
 }> = async (c, next) => {
@@ -27,6 +29,7 @@ export const supabaseMiddleware: MiddlewareHandler<{
         deleteCookie(c, key, options);
       },
     },
+    ...(authCookieName ? { auth: { storageKey: authCookieName } } : undefined),
     cookieOptions: {
       secure: true,
     },
