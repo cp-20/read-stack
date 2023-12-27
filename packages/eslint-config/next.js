@@ -79,4 +79,12 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['./src/pages/*.tsx'],
+      rules: {
+        'unicorn/filename-case': 'off',
+      },
+    },
+  ],
 };
