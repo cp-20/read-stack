@@ -5,7 +5,7 @@
       "@/*": ["./src/*"],
       "~/*": ["*"]
     },
-    "target": "es5",
+    "target": "ES2015",
     "lib": ["es2022", "dom", "dom.iterable"],
     "allowJs": true,
     "skipLibCheck": true,

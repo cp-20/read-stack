@@ -1,5 +1,7 @@
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import {
+  createApiKey,
+  deleteApiKey,
   deleteClipByIdAndUserId,
   findArticleByUrl,
   findClipById,
@@ -11,6 +13,7 @@ import {
 } from '@read-stack/database';
 import { fetchArticle, parseIntWithDefaultValue } from '@read-stack/lib';
 import {
+  deleteMyApiKeyRoute,
   deleteMyClipRoute,
   getMeRoute,
   getMyClipRoute,
@@ -18,7 +21,9 @@ import {
   patchClipRequestBodySchema,
   patchMyClipRoute,
   postClipRequestBodySchema,
+  postMyApiKeyRoute,
   postMyClipRoute,
+  postUserApiKeyRequestBodySchema,
 } from '@read-stack/openapi';
 
 import { getUser } from '@/handlers/helpers/getUser';
@@ -31,6 +36,11 @@ export const registerUsersHandlers = (
   app.openapi(getMeRoute, async (c) => {
     const user = await getUser(c);
     if (user === null) return c.json({ user: null }, 401);
+
+    if (user.authType === 'apiKey') {
+      const { authType: _, ...userInfo } = user;
+      return c.json({ user: userInfo }, 200);
+    }
 
     // GitHub用になってるから良い感じにヘルパー関数書いて一般化する
     const userInfo = await findUserAndCreateIfNotExists({
@@ -188,5 +198,30 @@ export const registerUsersHandlers = (
     }
 
     return c.json({ clip: deletedClip }, 200);
+  });
+
+  app.openapi(postMyApiKeyRoute, async (c) => {
+    const user = await getUser(c);
+    if (user === null) return c.json({ user: null }, 401);
+
+    const body = await parseBody(c, postUserApiKeyRequestBodySchema);
+    if (body === null) return c.json({ error: 'invalid body' }, 400);
+
+    const { apiKey } = body;
+    // TODO: ここのBunへの依存をなくしたい (でrepositoryに入れたい)
+    const hashedApiKey = await Bun.password.hash(apiKey);
+
+    await createApiKey(user.id, hashedApiKey);
+
+    return c.json({}, 200);
+  });
+
+  app.openapi(deleteMyApiKeyRoute, async (c) => {
+    const user = await getUser(c);
+    if (user === null) return c.json({ user: null }, 401);
+
+    await deleteApiKey(user.id);
+
+    return c.json({}, 200);
   });
 };

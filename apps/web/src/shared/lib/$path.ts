@@ -7,6 +7,9 @@ const buildSuffix = (url?: {query?: Record<string, string>, hash?: string}) => {
 };
 
 export const pagesPath = {
+  "api_key": {
+    $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/api-key' as const, hash: url?.hash })
+  },
   "home": {
     $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/home' as const, hash: url?.hash })
   },

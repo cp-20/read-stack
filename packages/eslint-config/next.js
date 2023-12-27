@@ -37,6 +37,7 @@ module.exports = {
   ignorePatterns: ['node_modules/', 'dist/'],
   // add rules configurations here
   rules: {
+    'import/order': 'off',
     'import/no-default-export': 'off',
     '@next/next/no-img-element': ['off'],
     'react/no-unknown-property': [

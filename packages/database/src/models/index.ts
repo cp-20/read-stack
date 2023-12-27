@@ -20,6 +20,32 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at', { mode: 'date' }).notNull(),
 });
 
+export const usersRelations = relations(users, ({ many }) => ({
+  apiKeys: many(apiKeys),
+}));
+
+export const apiKeys = pgTable(
+  'api_keys',
+  {
+    apiKey: varchar('api_key').primaryKey(),
+    userId: varchar('user_id')
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { mode: 'date' }).notNull(),
+  },
+  (t) => ({
+    unique: unique('user_id_in_api_keys').on(t.userId),
+  })
+);
+
+export const apiKeysRelations = relations(apiKeys, ({ one }) => ({
+  user: one(users, {
+    fields: [apiKeys.userId],
+    references: [users.id],
+  }),
+}));
+
 export const clips = pgTable(
   'clips',
   {

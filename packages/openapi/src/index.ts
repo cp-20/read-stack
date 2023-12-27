@@ -8,5 +8,7 @@ export * from '@/routes/users/postUserClip';
 export * from '@/routes/users/getUserClip';
 export * from '@/routes/users/patchUserClip';
 export * from '@/routes/users/deleteUserClip';
+export * from '@/routes/users/postUserApiKey';
+export * from '@/routes/users/deleteUserApiKey';
 export * from '@/routes/articles/getArticle';
 export * from '@/routes/articles/postArticle';
