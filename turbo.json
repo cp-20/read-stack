@@ -48,6 +48,8 @@
     },
     "stop": {},
     "migration": {},
-    "restart-supabase": {}
+    "restart-supabase": {
+      "cache": false
+    }
   }
 }
