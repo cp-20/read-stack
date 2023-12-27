@@ -12,5 +12,7 @@ const migrationsClient = postgres(connectionString, {
   max: 1,
 });
 
-const db = drizzle(migrationsClient, { logger: true });
+const db = drizzle(migrationsClient);
 await migrate(db, { migrationsFolder: './drizzle' });
+
+process.exit(0);
