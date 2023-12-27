@@ -7,7 +7,7 @@ export const useSupabase = () => {
     const { error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${location.origin}/api/v1/auth-callback`,
+        redirectTo: `${location.origin}`,
       },
     });
     if (error) throw error;
