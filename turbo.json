@@ -38,7 +38,7 @@
     },
     "format": {},
     "start": {
-      "dependsOn": ["build"],
+      "dependsOn": ["migration", "build"],
       "dotEnv": [
         ".env.production.local",
         ".env.local",
