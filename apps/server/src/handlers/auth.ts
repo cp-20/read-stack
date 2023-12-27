@@ -12,13 +12,13 @@ export const registerAuthHandlers = (
       );
       if (error) {
         console.error(error);
-        // return ctx.redirect('/');
+        return ctx.redirect('/');
       }
     } catch (error) {
       console.error(error);
-      // return ctx.redirect('/');
+      return ctx.redirect('/');
     }
 
-    // return ctx.redirect('/');
+    return ctx.redirect('/');
   });
 };
