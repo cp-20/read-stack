@@ -19,6 +19,8 @@ export const supabaseMiddleware: MiddlewareHandler<{
         return getCookie(c as Context, key);
       },
       set: (key, value, options) => {
+        console.log(key, value);
+
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- 知らんけど
         setCookie(c, key, value, options);
       },
