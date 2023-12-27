@@ -209,7 +209,7 @@ export const registerUsersHandlers = (
 
     const { apiKey } = body;
     // TODO: ここのBunへの依存をなくしたい (でrepositoryに入れたい)
-    const hashedApiKey = await Bun.password.hash(apiKey);
+    const hashedApiKey = Bun.hash(apiKey).toString();
 
     await createApiKey(user.id, hashedApiKey);
 

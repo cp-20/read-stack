@@ -19,7 +19,7 @@ const getUserFromApiKey = async (
 
   const apiKey = match[1];
   // TODO: ここのBunへの依存をなくしたい (でrepositoryに入れたい)
-  const hashedApiKey = await Bun.password.hash(apiKey);
+  const hashedApiKey = Bun.hash(apiKey).toString();
 
   const user = await findUserFromApiKey(hashedApiKey);
 
