@@ -5,6 +5,7 @@
   "author": "cp20",
   "license": "MIT",
   "scripts": {
+    "restart-supabase": "supabase stop && supabase start",
     "start": "supabase start",
     "stop": "supabase stop",
     "status": "supabase status"

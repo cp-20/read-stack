@@ -46,6 +46,8 @@
         ".env"
       ]
     },
-    "stop": {}
+    "stop": {},
+    "migration": {},
+    "restart-supabase": {}
   }
 }
