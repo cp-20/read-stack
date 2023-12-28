@@ -50,6 +50,15 @@
     "migration": {},
     "restart-supabase": {
       "cache": false
+    },
+    "start-supabase": {
+      "cache": false
+    },
+    "stop-supabase": {
+      "cache": false
+    },
+    "status-supabase": {
+      "cache": false
     }
   }
 }

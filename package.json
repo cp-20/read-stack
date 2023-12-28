@@ -20,6 +20,9 @@
     "stop": "dotenv -- turbo stop",
     "migration": "dotenv -- turbo migration",
     "restart-supabase": "dotenv -- turbo restart-supabase",
+    "start-supabase": "dotenv -- turbo restart-supabase",
+    "stop-supabase": "dotenv -- turbo restart-supabase",
+    "status-supabase": "dotenv -- turbo restart-supabase",
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install"
   },

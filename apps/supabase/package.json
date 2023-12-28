@@ -6,9 +6,9 @@
   "license": "MIT",
   "scripts": {
     "restart-supabase": "supabase stop && supabase start",
-    "start": "supabase start",
-    "stop": "supabase stop",
-    "status": "supabase status"
+    "start-supabase": "supabase start",
+    "stop-supabase": "supabase stop",
+    "status-supabase": "supabase status"
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0",
