@@ -116,7 +116,7 @@ export const articlesRelations = relations(articles, ({ many }) => ({
 }));
 
 export const articleRefs = pgTable(
-  'articleRefs',
+  'article_refs',
   {
     referFrom: integer('refer_from')
       .notNull()
