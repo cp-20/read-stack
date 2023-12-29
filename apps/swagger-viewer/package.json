@@ -10,12 +10,10 @@
     "build": "vite build",
     "start": "vite preview"
   },
-  "devDependencies": {
-    "vite": "^3.1.8"
-  },
   "dependencies": {
-    "swagger-ui": "^4.14.3",
-    "swagger-ui-dist": "^4.14.3",
+    "vite": "^5.0.10",
+    "swagger-ui": "^4.19.1",
+    "swagger-ui-dist": "^5.10.5",
     "swagger-ui-plugin-enum-names": "^4.1.2"
   }
 }

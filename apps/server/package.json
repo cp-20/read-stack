@@ -18,12 +18,12 @@
     "@read-stack/openapi": "workspace:*",
     "@read-stack/tsconfig": "workspace:*",
     "@supabase/ssr": "^0.0.10",
-    "hono": "^3.11.8",
+    "hono": "^3.11.11",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@read-stack/eslint-config": "workspace:*",
     "@supabase/supabase-js": "^2.39.1",
-    "bun-types": "^1.0.17"
+    "bun-types": "^1.0.20"
   }
 }

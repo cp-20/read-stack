@@ -14,10 +14,10 @@
     "format": "biome format --write ."
   },
   "dependencies": {
-    "@asteasolutions/zod-to-openapi": "^6.2.0",
-    "@hono/zod-openapi": "^0.8.3",
+    "@asteasolutions/zod-to-openapi": "^6.3.0",
+    "@hono/zod-openapi": "^0.9.5",
     "@read-stack/tsconfig": "workspace:*",
-    "openapi3-ts": "^4.1.2",
+    "openapi3-ts": "^4.2.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {

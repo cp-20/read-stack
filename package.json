@@ -26,12 +26,12 @@
   },
   "dependencies": {
     "turbo": "^1.11.2",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "dotenv-cli": "^7.3.0",
+    "tsup": "^8.0.1"
   },
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
-    "dotenv-cli": "^7.3.0",
-    "eslint": "^8.56.0",
-    "tsup": "^8.0.1"
+    "eslint": "^8.56.0"
   }
 }

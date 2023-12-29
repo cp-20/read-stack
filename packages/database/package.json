@@ -21,12 +21,11 @@
     "@read-stack/tsconfig": "workspace:*",
     "@vercel/postgres": "^0.5.1",
     "dotenv": "^16.3.1",
-    "drizzle-orm": "^0.29.1",
+    "drizzle-orm": "^0.29.2",
     "postgres": "^3.4.3"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.20.6",
-    "@read-stack/eslint-config": "workspace:*",
-    "ts-node": "^10.9.1"
+    "drizzle-kit": "^0.20.9",
+    "@read-stack/eslint-config": "workspace:*"
   }
 }
