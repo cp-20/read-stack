@@ -28,6 +28,7 @@ export const staticPath = {
   _gitkeep: '/.gitkeep',
   apple_touch_icon_png: '/apple-touch-icon.png',
   assets: {
+    google_icon_png: '/assets/google-icon.png',
     no_content_png: '/assets/no-content.png'
   },
   favicon_ico: '/favicon.ico',

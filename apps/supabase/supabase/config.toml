@@ -69,7 +69,10 @@ enabled = true
 # in emails.
 site_url = "http://localhost:3000"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["env(SUPABASE_APP_URL)", "env(SUPABASE_APP_URL)/api/v1/auth-callback"]
+additional_redirect_urls = [
+  "env(SUPABASE_APP_URL)",
+  "env(SUPABASE_APP_URL)/api/v1/auth-callback",
+]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # If disabled, the refresh token will never expire.
@@ -125,6 +128,12 @@ redirect_uri = ""
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
 # or any other third-party OIDC providers.
 url = ""
+
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_GOOGLE_CLIENT_SECRET)"
+redirect_uri = "env(SUPABASE_REDIRECT_URI)"
 
 [auth.external.github]
 enabled = true

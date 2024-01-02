@@ -6,9 +6,15 @@ export const useSupabase = () => {
   const loginWithGitHub = async () => {
     const { error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'github',
-      options: {
-        redirectTo: `${location.origin}/api/v1/auth-callback`,
-      },
+      options: { redirectTo: `${location.origin}/api/v1/auth-callback` },
+    });
+    if (error) throw error;
+  };
+
+  const loginWithGoogle = async () => {
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${location.origin}/api/v1/auth-callback` },
     });
     if (error) throw error;
   };
@@ -20,6 +26,7 @@ export const useSupabase = () => {
   return {
     supabaseClient,
     loginWithGitHub,
+    loginWithGoogle,
     logout,
   };
 };
