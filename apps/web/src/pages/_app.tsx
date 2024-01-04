@@ -6,14 +6,13 @@ import { createPagesBrowserClient } from "@supabase/auth-helpers-nextjs";
 import type { Session } from "@supabase/auth-helpers-react";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import type { AppProps } from "next/app";
-import { Noto_Sans_JP as fontNotoSansJP } from "next/font/google";
+import localFont from "next/font/local";
 import { useMemo } from "react";
 import "ress";
 import { SWRConfig } from "swr";
 
-const font = fontNotoSansJP({
-	weight: ["400", "600"],
-	subsets: ["latin", "latin-ext", "cyrillic"],
+const font = localFont({
+	src: "./NotoSansJP-VariableFont_wght.ttf",
 	preload: true,
 });
 
