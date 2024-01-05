@@ -30,8 +30,8 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - name: Lint
-        run: pnpm run lint
+      - name: Build
+        run: pnpm run build
         env:
           SUPABASE_APP_URL: http://localhost:3000
           API_ENDPOINT: http://localhost:8000/api
@@ -42,8 +42,8 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: REPLACE_ME_WITH_YOUR_ANON_KEY
           DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
 
-      - name: Build
-        run: pnpm run build
+      - name: Lint
+        run: pnpm run lint
         env:
           SUPABASE_APP_URL: http://localhost:3000
           API_ENDPOINT: http://localhost:8000/api
