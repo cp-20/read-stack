@@ -1,0 +1,29 @@
+{
+  "name": "read-stack-server",
+  "version": "0.0.0",
+  "private": true,
+  "author": "cp20",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "eslint --ext .ts src",
+    "start": "bun run src/main.ts",
+    "dev": "bun run --hot src/main.ts"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.9.5",
+    "@read-stack/database": "workspace:*",
+    "@read-stack/lib": "workspace:*",
+    "@read-stack/openapi": "workspace:*",
+    "@read-stack/tsconfig": "workspace:*",
+    "@supabase/ssr": "^0.0.10",
+    "hono": "^3.11.11",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@read-stack/eslint-config": "workspace:*",
+    "@supabase/supabase-js": "^2.39.1",
+    "bun-types": "^1.0.20"
+  }
+}

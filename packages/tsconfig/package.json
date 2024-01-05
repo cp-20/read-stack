@@ -1,0 +1,7 @@
+{
+  "name": "@read-stack/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "author": "cp20",
+  "license": "MIT"
+}

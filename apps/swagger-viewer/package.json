@@ -1,0 +1,19 @@
+{
+  "name": "read-stack-swagger-viewer",
+  "version": "0.0.0",
+  "private": true,
+  "author": "cp20",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite preview"
+  },
+  "dependencies": {
+    "vite": "^5.0.10",
+    "swagger-ui": "^4.19.1",
+    "swagger-ui-dist": "^5.10.5",
+    "swagger-ui-plugin-enum-names": "^4.1.2"
+  }
+}

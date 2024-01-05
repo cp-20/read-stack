@@ -1,18 +1,38 @@
 {
   "name": "read-stack",
-  "description": "",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "private": true,
   "author": "cp20",
   "license": "MIT",
   "scripts": {
-    "web": "pnpm -F \"read-stack-web\"",
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "deploy": "turbo deploy",
-    "test": "turbo test",
-    "lint": "turbo lint"
+    "filter:web": "pnpm -F \"read-stack-web\"",
+    "filter:server": "pnpm -F \"read-stack-server\"",
+    "filter:supabase": "pnpm -F \"read-stack-supabase\"",
+    "filter:swagger-viewer": "pnpm -F \"read-stack-swagger-viewer\"",
+    "filter:openapi": "pnpm -F \"@read-stack/openapi\"",
+    "filter:database": "pnpm -F \"@read-stack/database\"",
+    "filter:lib": "pnpm -F \"@read-stack/lib\"",
+    "dev": "dotenv -- turbo dev",
+    "build": "dotenv -- turbo build",
+    "start": "dotenv -- turbo start",
+    "deploy": "dotenv -- turbo deploy",
+    "test": "dotenv -- turbo test",
+    "lint": "dotenv -- turbo lint",
+    "format": "dotenv -- turbo format",
+    "stop": "dotenv -- turbo stop",
+    "migration": "dotenv -- pnpm filter:database migration",
+    "supabase": "dotenv -- pnpm filter:supabase",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "turbo": "^1.10.13"
-  }
+    "turbo": "^1.11.2",
+    "typescript": "5.3.3",
+    "dotenv-cli": "^7.3.0",
+    "tsup": "^8.0.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.4.1",
+    "eslint": "^8.56.0"
+  },
+  "packageManager": "pnpm@8.14.0+sha256.9cebf61abd83f68177b29484da72da9751390eaad46dfc3072d266bfbb1ba7bf"
 }

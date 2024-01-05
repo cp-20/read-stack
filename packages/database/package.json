@@ -1,0 +1,31 @@
+{
+  "name": "@read-stack/database",
+  "version": "0.0.0",
+  "private": true,
+  "author": "cp20",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "scripts": {
+    "migration:generate": "drizzle-kit generate:pg",
+    "migration:run": "bun run ./src/database/migrate.ts",
+    "migration": "pnpm run migration:generate && pnpm run migration:run",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "pnpm run build --watch",
+    "lint": "eslint --ext .ts src",
+    "format": "biome format --write ."
+  },
+  "dependencies": {
+    "@read-stack/lib": "workspace:*",
+    "@read-stack/tsconfig": "workspace:*",
+    "@vercel/postgres": "^0.5.1",
+    "dotenv": "^16.3.1",
+    "drizzle-orm": "^0.29.2",
+    "postgres": "^3.4.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.20.9",
+    "@read-stack/eslint-config": "workspace:*"
+  }
+}

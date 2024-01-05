@@ -1,0 +1,86 @@
+{
+  "folders": [
+    {
+      "name": "web",
+      "path": "apps/web"
+    },
+    {
+      "name": "server",
+      "path": "apps/server"
+    },
+    {
+      "name": "swagger-viewer",
+      "path": "apps/swagger-viewer"
+    },
+    {
+      "name": "supabase",
+      "path": "apps/supabase"
+    },
+    {
+      "name": "supabase-functions",
+      "path": "apps/supabase/supabase/functions"
+    },
+    {
+      "name": "database",
+      "path": "packages/database"
+    },
+    {
+      "name": "lib",
+      "path": "packages/lib"
+    },
+    {
+      "name": "openapi",
+      "path": "packages/openapi"
+    },
+    {
+      "name": "tsconfig",
+      "path": "packages/tsconfig"
+    },
+    {
+      "name": "eslint-config",
+      "path": "packages/eslint-config"
+    },
+    {
+      "name": "root",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.associations": { "turbo.json": "jsonc" },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.fixAll.tslint": "explicit",
+      "source.fixAll.stylelint": "explicit",
+      "source.fixAll": "explicit",
+      "quickfix.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    },
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    ],
+    "typescript.tsdk": "root/node_modules/typescript/lib",
+    "files.insertFinalNewline": true,
+
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+
+    "files.exclude": {
+      "supabase/functions/": true
+    }
+  }
+}

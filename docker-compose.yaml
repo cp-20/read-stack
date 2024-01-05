@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+      args:
+        API_ENDPOINT: http://server:8000/api
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL-http://localhost:54321}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY?NEXT_PUBLIC_SUPABASE_ANON_KEY is required}
+        NEXT_PUBLIC_SUPABASE_AUTH_COOKIE_NAME: ${NEXT_PUBLIC_SUPABASE_AUTH_COOKIE_NAME}
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      API_ENDPOINT: http://server/api
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+  server:
+    container_name: server
+    build:
+      context: .
+      dockerfile: ./apps/server/Dockerfile
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL-http://host.docker.internal:54321}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY?SUPABASE_ANON_KEY is required}
+      DATABASE_URL: ${DATABASE_URL-postgresql://postgres:postgres@host.docker.internal:54322/postgres}
+      NEXT_PUBLIC_SUPABASE_AUTH_COOKIE_NAME: ${NEXT_PUBLIC_SUPABASE_AUTH_COOKIE_NAME}
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+  swagger-viewer:
+    container_name: swagger-viewer
+    build:
+      context: .
+      dockerfile: ./apps/swagger-viewer/Dockerfile
+    restart: always
+    ports:
+      - 4173:4173
+    environment:
+      VITE_API_ENDPOINT: http://server/api

@@ -1,0 +1,5 @@
+{
+  "stylelint.configFile": "./.stylelintrc.js",
+  "stylelint.validate": ["css", "scss", "typescript", "typescriptreact"],
+  "stylelint.packageManager": "pnpm"
+}
