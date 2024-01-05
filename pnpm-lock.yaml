@@ -110,8 +110,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/openapi
       '@supabase/auth-helpers-nextjs':
-        specifier: ^0.8.7
-        version: 0.8.7(@supabase/supabase-js@2.39.1)
+        specifier: 0.8.6
+        version: 0.8.6(@supabase/supabase-js@2.39.1)
       '@supabase/auth-helpers-react':
         specifier: ^0.4.2
         version: 0.4.2(@supabase/supabase-js@2.39.1)
@@ -885,7 +885,7 @@ packages:
     dependencies:
       '@babel/compat-data': 7.23.5
       '@babel/core': 7.23.5
-      '@babel/helper-compilation-targets': 7.22.15
+      '@babel/helper-compilation-targets': 7.23.6
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/plugin-syntax-object-rest-spread': 7.8.3(@babel/core@7.23.5)
       '@babel/plugin-transform-parameters': 7.23.3(@babel/core@7.23.5)
@@ -3775,12 +3775,12 @@ packages:
       - supports-color
     dev: true
 
-  /@supabase/auth-helpers-nextjs@0.8.7(@supabase/supabase-js@2.39.1):
-    resolution: {integrity: sha512-iYdOjFo0GkRvha340l8JdCiBiyXQuG9v8jnq7qMJ/2fakrskRgHTCOt7ryWbip1T6BExcWKC8SoJrhCzPOxhhg==}
+  /@supabase/auth-helpers-nextjs@0.8.6(@supabase/supabase-js@2.39.1):
+    resolution: {integrity: sha512-tmXEtENOSQEWn7TpAydEHV9Qs7AhvIKgegscSkewN/iLFGTAQo6plrAa6Bq/992kKa16Y3YQrMez6b9n5a7AXQ==}
     peerDependencies:
       '@supabase/supabase-js': ^2.19.0
     dependencies:
-      '@supabase/auth-helpers-shared': 0.6.3(@supabase/supabase-js@2.39.1)
+      '@supabase/auth-helpers-shared': 0.6.2(@supabase/supabase-js@2.39.1)
       '@supabase/supabase-js': 2.39.1
       set-cookie-parser: 2.6.0
     dev: false
@@ -3793,8 +3793,8 @@ packages:
       '@supabase/supabase-js': 2.39.1
     dev: false
 
-  /@supabase/auth-helpers-shared@0.6.3(@supabase/supabase-js@2.39.1):
-    resolution: {integrity: sha512-xYQRLFeFkL4ZfwC7p9VKcarshj3FB2QJMgJPydvOY7J5czJe6xSG5/wM1z63RmAzGbCkKg+dzpq61oeSyWiGBQ==}
+  /@supabase/auth-helpers-shared@0.6.2(@supabase/supabase-js@2.39.1):
+    resolution: {integrity: sha512-/91jzqqQ0NkKNtFqOmlPsyVi8o97vryF1/BF+O2ZV/VSokx2QegTFNvTPfy/pKL3xWNcbdi4yjylnKfLvh1NdA==}
     peerDependencies:
       '@supabase/supabase-js': ^2.19.0
     dependencies:
