@@ -31,7 +31,15 @@ jobs:
         run: pnpm i --frozen-lockfile
 
       - name: Lint
-        run: pnpm run lint
+        run: SUPABASE_APP_URL="http://localhost:3000" \
+          API_ENDPOINT="http://localhost:8000/api" \
+          VITE_API_ENDPOINT="http://localhost:8000/api" \
+          SUPABASE_URL="http://127.0.0.1:54321" \
+          NEXT_PUBLIC_SUPABASE_URL="http://127.0.0.1:54321" \
+          SUPABASE_ANON_KEY="REPLACE_ME_WITH_YOUR_ANON_KEY" \
+          NEXT_PUBLIC_SUPABASE_ANON_KEY="REPLACE_ME_WITH_YOUR_ANON_KEY" \
+          DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:54322/postgres" \
+          pnpm run lint
 
       - name: Build
         run: SUPABASE_APP_URL="http://localhost:3000" \
