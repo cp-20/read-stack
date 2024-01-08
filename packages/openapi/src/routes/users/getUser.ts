@@ -28,7 +28,7 @@ const getUserRouteBase: RouteConfig = {
           email: 'me@example.com',
           name: 'Me',
           displayName: 'Me',
-          avatar: 'https://example.com/me.jpg',
+          avatarUrl: 'https://example.com/me.jpg',
           createdAt: '2023-11-15T09:05:15.452Z',
           updatedAt: '2023-11-15T09:05:15.452Z',
         },
