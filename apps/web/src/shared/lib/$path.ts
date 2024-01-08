@@ -16,6 +16,9 @@ export const pagesPath = {
   "login": {
     $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/login' as const, hash: url?.hash })
   },
+  "privacy": {
+    $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/privacy' as const, hash: url?.hash })
+  },
   "signup": {
     $url: (url?: { hash?: string | undefined } | undefined) => ({ pathname: '/signup' as const, hash: url?.hash })
   },
