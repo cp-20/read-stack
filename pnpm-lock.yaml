@@ -52,7 +52,7 @@ importers:
         version: link:../../packages/tsconfig
       '@supabase/ssr':
         specifier: ^0.0.10
-        version: 0.0.10(@supabase/supabase-js@2.39.1)
+        version: 0.0.10(patch_hash=wq766tmfa3cq7gixck5awuirl4)(@supabase/supabase-js@2.39.1)
       hono:
         specifier: ^3.11.11
         version: 3.11.11
