@@ -25,14 +25,19 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "turbo": "^1.11.2",
-    "typescript": "5.3.3",
     "dotenv-cli": "^7.3.0",
-    "tsup": "^8.0.1"
+    "tsup": "^8.0.1",
+    "turbo": "^1.11.2",
+    "typescript": "5.3.3"
   },
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
     "eslint": "^8.56.0"
   },
-  "packageManager": "pnpm@8.14.0+sha256.9cebf61abd83f68177b29484da72da9751390eaad46dfc3072d266bfbb1ba7bf"
+  "packageManager": "pnpm@8.14.0+sha256.9cebf61abd83f68177b29484da72da9751390eaad46dfc3072d266bfbb1ba7bf",
+  "pnpm": {
+    "patchedDependencies": {
+      "@supabase/ssr@0.0.10": "patches/@supabase__ssr@0.0.10.patch"
+    }
+  }
 }

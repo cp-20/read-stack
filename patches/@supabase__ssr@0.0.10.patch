@@ -1,0 +1,13 @@
+diff --git a/dist/index.js b/dist/index.js
+index 7fe1e2f3c074cde223461ef50daa64a61c461459..3b0a7f4adaff2d7b7f44f6728aaa1580a7a64b44 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -54,7 +54,7 @@ var DEFAULT_COOKIE_OPTIONS = {
+ function createChunkRegExp(chunkSize) {
+   return new RegExp(".{1," + chunkSize + "}", "g");
+ }
+-var MAX_CHUNK_SIZE = 3180;
++var MAX_CHUNK_SIZE = 2800;
+ var MAX_CHUNK_REGEXP = createChunkRegExp(MAX_CHUNK_SIZE);
+ function createChunks(key, value, chunkSize) {
+   const re = chunkSize !== void 0 ? createChunkRegExp(chunkSize) : MAX_CHUNK_REGEXP;

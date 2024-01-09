@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@supabase/ssr@0.0.10':
+    hash: wq766tmfa3cq7gixck5awuirl4
+    path: patches/@supabase__ssr@0.0.10.patch
+
 importers:
 
   .:
@@ -3833,7 +3838,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@supabase/ssr@0.0.10(@supabase/supabase-js@2.39.1):
+  /@supabase/ssr@0.0.10(patch_hash=wq766tmfa3cq7gixck5awuirl4)(@supabase/supabase-js@2.39.1):
     resolution: {integrity: sha512-eVs7+bNlff8Fd79x8K3Jbfpmf8P8QRA1Z6rUDN+fi4ReWvRBZyWOFfR6eqlsX6vTjvGgTiEqujFSkv2PYW5kbQ==}
     peerDependencies:
       '@supabase/supabase-js': ^2.33.1
@@ -3842,6 +3847,7 @@ packages:
       cookie: 0.5.0
       ramda: 0.29.1
     dev: false
+    patched: true
 
   /@supabase/storage-js@2.5.5:
     resolution: {integrity: sha512-OpLoDRjFwClwc2cjTJZG8XviTiQH4Ik8sCiMK5v7et0MDu2QlXjCAW3ljxJB5+z/KazdMOTnySi+hysxWUPu3w==}
