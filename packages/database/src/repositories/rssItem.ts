@@ -12,17 +12,15 @@ const convert = convertSearchQuery(rssItems.updatedAt);
 export const getRssUrlAndUserIds = async (query: SearchQuery) => {
   const { params, condition } = convert(query);
   const rss = await db
-    .select({
+    .selectDistinctOn([rssItems.url], {
       url: rssItems.url,
-      userIds: sql<string>`STRING_AGG(${rssItems.userId}::text, ',')`,
-      updatedAt: rssItems.updatedAt,
+      userIds: sql<string>`STRING_AGG(${rssItems.userId}::text, ',') OVER (PARTITION BY ${rssItems.url})`,
+      updatedAt: sql<Date>`FIRST_VALUE(${rssItems.updatedAt}) OVER (PARTITION BY ${rssItems.url} ORDER BY ${rssItems.updatedAt} DESC)`,
     })
     .from(rssItems)
-    .groupBy(rssItems.url)
     .where(condition)
     .limit(params.limit)
-    .offset(params.offset)
-    .orderBy(params.orderBy);
+    .offset(params.offset);
 
   return rss;
 };

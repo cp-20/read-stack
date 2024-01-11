@@ -64,9 +64,7 @@ export const rssContents = pgTable(
   {
     id: serial('id').primaryKey(),
     rssUrl: text('rss_url').notNull(),
-    articleUrl: text('article_url')
-      .notNull()
-      .references(() => articles.url),
+    articleUrl: text('article_url').notNull(),
     createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { mode: 'date' }).notNull(),
   },

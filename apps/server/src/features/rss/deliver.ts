@@ -44,7 +44,9 @@ export const deliverRss = async () => {
         })),
       );
 
-      await createInboxItems(inboxItems);
+      if (inboxItems.length > 0) {
+        await createInboxItems(inboxItems);
+      }
     }
 
     lastUpdatedAt = rssItems.at(-1)?.updatedAt;
