@@ -20,10 +20,6 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at', { mode: 'date' }).notNull(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
-  apiKeys: many(apiKeys),
-}));
-
 export const apiKeys = pgTable(
   'api_keys',
   {
@@ -45,6 +41,42 @@ export const apiKeysRelations = relations(apiKeys, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+export const rssItems = pgTable(
+  'rss_items',
+  {
+    id: serial('id').primaryKey(),
+    url: text('url').notNull(),
+    userId: varchar('user_id')
+      .notNull()
+      .references(() => users.id),
+    name: text('name'),
+    createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { mode: 'date' }).notNull(),
+  },
+  (t) => ({
+    unique: unique('user_id_and_url_in_rss_items').on(t.userId, t.url),
+  })
+);
+
+export const rssContents = pgTable(
+  'rss_contents',
+  {
+    id: serial('id').primaryKey(),
+    rssUrl: text('rss_url').notNull(),
+    articleUrl: text('article_url')
+      .notNull()
+      .references(() => articles.url),
+    createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { mode: 'date' }).notNull(),
+  },
+  (t) => ({
+    unique: unique('article_and_rss_url_in_rss_contents').on(
+      t.rssUrl,
+      t.articleUrl
+    ),
+  })
+);
 
 export const clips = pgTable(
   'clips',

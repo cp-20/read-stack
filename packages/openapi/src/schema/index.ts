@@ -45,3 +45,23 @@ export const ClipWithArticleSchema = ClipSchema.merge(
 );
 
 export type ClipWithArticle = z.infer<typeof ClipWithArticleSchema>;
+
+export const RssItemSchema = z.object({
+  url: z.string().url(),
+  userId: z.string(),
+  name: z.string().nullable(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+});
+
+export type RssItem = z.infer<typeof RssItemSchema>;
+
+export const InboxItemSchema = z.object({
+  id: z.number().int(),
+  userId: z.string(),
+  articleId: z.number().int(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+});
+
+export type InboxItem = z.infer<typeof InboxItemSchema>;

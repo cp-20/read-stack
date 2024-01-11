@@ -19,6 +19,7 @@
     "@read-stack/tsconfig": "workspace:*",
     "@supabase/ssr": "^0.0.10",
     "hono": "^3.11.11",
+    "rss-parser": "^3.13.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

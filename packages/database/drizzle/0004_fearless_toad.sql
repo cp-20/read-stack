@@ -1,0 +1,1 @@
+ALTER TABLE "rss" DROP CONSTRAINT "rss_url_unique";
