@@ -22,15 +22,12 @@ export const postRssResponseSchema = z.object({
 const postRssRouteBase: RouteConfig = {
   method: 'post',
   path: '/users/me/rss',
+  description: 'RSSを登録します',
   request: {
     body: {
       content: {
         'application/json': {
           schema: postRssRequestBodySchema,
-          example: {
-            url: 'https://example.com/rss',
-            name: 'Example RSS',
-          },
         },
       },
     },
@@ -38,15 +35,6 @@ const postRssRouteBase: RouteConfig = {
   responses: {
     ...okJsonResponse({
       schema: postRssResponseSchema,
-      example: {
-        rss: {
-          id: 1,
-          url: 'https://example.com/rss',
-          name: 'Example RSS',
-          createdAt: '2021-01-01T00:00:00Z',
-          updatedAt: '2021-01-01T00:00:00Z',
-        },
-      },
     }),
     ...badRequestResponse(),
     ...unauthorizedResponse(),

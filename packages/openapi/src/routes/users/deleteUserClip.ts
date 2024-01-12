@@ -13,7 +13,15 @@ import { userIdPathRouteHelper } from '@/routes/users/common';
 import { ClipSchema } from '@/schema';
 
 export const deleteClipRequestParamsSchema = z.object({
-  clipId: z.string(),
+  clipId: z.string().openapi({
+    param: {
+      name: 'clipId',
+      in: 'path',
+      required: true,
+      description: 'クリップのID',
+    },
+    example: '1',
+  }),
 });
 
 export const deleteClipResponseSchema = z.object({
@@ -23,24 +31,13 @@ export const deleteClipResponseSchema = z.object({
 const deleteUserClipRouteBase: RouteConfig = {
   method: 'delete',
   path: '/users/me/clips/:clipId',
+  description: 'クリップを削除します',
   request: {
     params: deleteClipRequestParamsSchema,
   },
   responses: {
     ...okJsonResponse({
       schema: deleteClipResponseSchema,
-      example: {
-        clip: {
-          id: 1,
-          status: 0,
-          progress: 0,
-          comment: 'This is a comment',
-          articleId: 1,
-          userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
-          createdAt: '2023-11-15T09:05:15.452Z',
-          updatedAt: '2023-11-15T09:05:15.452Z',
-        },
-      },
     }),
     ...badRequestResponse(),
     ...unauthorizedResponse(),

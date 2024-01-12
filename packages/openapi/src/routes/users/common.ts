@@ -4,7 +4,15 @@ import { z } from 'zod';
 import { forbiddenResponse } from '@/routes/helpers/response';
 
 export const userIdRequestParamsSchema = z.object({
-  userId: z.string(),
+  userId: z.string().openapi({
+    param: {
+      name: 'userId',
+      in: 'path',
+      required: true,
+      description: 'ユーザーのID',
+    },
+    example: '00000000-0000-0000-0000-000000000000',
+  }),
 });
 
 // const mergeUserIdRequestParamsSchema = <T extends AnyZodObject>(schema: T) =>

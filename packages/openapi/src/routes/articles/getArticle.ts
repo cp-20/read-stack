@@ -10,7 +10,15 @@ import {
 import { ArticleSchema } from '@/schema';
 
 export const getArticleRequestParamsSchema = z.object({
-  articleId: z.string(),
+  articleId: z.string().openapi({
+    param: {
+      name: 'articleId',
+      in: 'path',
+      required: true,
+      description: '記事のID',
+    },
+    example: '1',
+  }),
 });
 
 export const getArticleResponseSchema = z.object({
@@ -20,21 +28,13 @@ export const getArticleResponseSchema = z.object({
 export const getArticleRoute = createRoute({
   method: 'get',
   path: '/articles/:articleId',
+  description: '記事のIDから記事を取得します',
   request: {
     params: getArticleRequestParamsSchema,
   },
   responses: {
     ...okJsonResponse({
       schema: getArticleResponseSchema,
-      example: {
-        article: {
-          id: 1,
-          title: 'title',
-          url: 'https://example.com/slug',
-          createdAt: '2023-11-15T09:05:15.452Z',
-          updatedAt: '2023-11-15T09:05:15.452Z',
-        },
-      },
     }),
     ...badRequestResponse(),
     ...notFoundResponse(),

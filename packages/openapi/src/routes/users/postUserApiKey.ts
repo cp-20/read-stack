@@ -12,20 +12,21 @@ import {
 import { userIdPathRouteHelper } from '@/routes/users/common';
 
 export const postUserApiKeyRequestBodySchema = z.object({
-  apiKey: z.string(),
+  apiKey: z.string().openapi({
+    description: 'APIキー',
+    example: 'mskeuv73bn2vbc6396ngnbv7',
+  }),
 });
 
 const postUserApiKeyRouteBase: RouteConfig = {
   method: 'post',
   path: '/users/me/api-keys',
+  description: 'APIキーを登録します',
   request: {
     body: {
       content: {
         'application/json': {
           schema: postUserApiKeyRequestBodySchema,
-          example: {
-            apiKey: '1234567890',
-          },
         },
       },
     },

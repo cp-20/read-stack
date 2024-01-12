@@ -12,6 +12,7 @@ import { userIdPathRouteHelper } from '@/routes/users/common';
 const deleteUserApiKeyRouteBase: RouteConfig = {
   method: 'delete',
   path: '/users/me/api-keys',
+  description: 'APIキーを削除します',
   responses: {
     ...okResponse(),
     ...unauthorizedResponse(),

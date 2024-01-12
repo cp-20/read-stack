@@ -17,26 +17,10 @@ export const getRssResponseSchema = z.object({
 const getRssRouteBase: RouteConfig = {
   method: 'get',
   path: '/users/me/rss',
+  description: '登録されているRSSの一覧を取得します',
   responses: {
     ...okJsonResponse({
       schema: getRssResponseSchema,
-      example: {
-        rss: [
-          {
-            id: 1,
-            url: 'https://example.com/rss',
-            name: 'Example RSS',
-            createdAt: '2021-01-01T00:00:00Z',
-            updatedAt: '2021-01-01T00:00:00Z',
-          },
-          {
-            id: 2,
-            url: 'https://example.co.jp/rss',
-            createdAt: '2021-01-01T00:00:00Z',
-            updatedAt: '2021-01-01T00:00:00Z',
-          },
-        ],
-      },
     }),
     ...unauthorizedResponse(),
     ...internalServerErrorResponse(),

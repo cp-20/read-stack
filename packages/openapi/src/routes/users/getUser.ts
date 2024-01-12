@@ -19,20 +19,10 @@ export const getUserResponseSchema = z.object({
 const getUserRouteBase: RouteConfig = {
   method: 'get',
   path: '/users/me',
+  description: '自分の情報を取得します',
   responses: {
     ...okJsonResponse({
       schema: UserSchema,
-      example: {
-        user: {
-          id: '1',
-          email: 'me@example.com',
-          name: 'Me',
-          displayName: 'Me',
-          avatarUrl: 'https://example.com/me.jpg',
-          createdAt: '2023-11-15T09:05:15.452Z',
-          updatedAt: '2023-11-15T09:05:15.452Z',
-        },
-      },
     }),
     ...badRequestResponse(),
     ...unauthorizedResponse(),

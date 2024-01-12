@@ -29,6 +29,7 @@ export const postClipResponseSchema = z.object({
 const postUserClipRouteBase: RouteConfig = {
   method: 'post',
   path: '/users/me/clips',
+  description: 'クリップを作成します',
   request: {
     body: {
       content: {
@@ -54,27 +55,6 @@ const postUserClipRouteBase: RouteConfig = {
   responses: {
     ...okJsonResponse({
       schema: postClipResponseSchema,
-      example: {
-        clip: {
-          id: 1,
-          status: 0,
-          progress: 0,
-          comment: 'This is a comment',
-          articleId: 1,
-          userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
-          createdAt: '2023-11-15T09:05:15.452Z',
-          updatedAt: '2023-11-15T09:05:15.452Z',
-          article: {
-            id: 1,
-            title: 'Article title',
-            slug: 'article-title',
-            url: 'https://zenn.dev/author-id/articles/slug',
-            userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
-            createdAt: '2023-11-15T09:05:15.452Z',
-            updatedAt: '2023-11-15T09:05:15.452Z',
-          },
-        },
-      },
     }),
     ...badRequestResponse(),
     ...unauthorizedResponse(),
