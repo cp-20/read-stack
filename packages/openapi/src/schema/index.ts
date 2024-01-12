@@ -92,3 +92,11 @@ export const InboxItemSchema = z
   .openapi('InboxItem');
 
 export type InboxItem = z.infer<typeof InboxItemSchema>;
+
+export const InboxItemWithArticleSchema = InboxItemSchema.merge(
+  z.object({
+    article: ArticleSchema,
+  }),
+);
+
+export type InboxItemWithArticle = z.infer<typeof InboxItemWithArticleSchema>;
