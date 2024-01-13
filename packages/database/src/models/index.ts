@@ -32,7 +32,7 @@ export const apiKeys = pgTable(
   },
   (t) => ({
     unique: unique('user_id_in_api_keys').on(t.userId),
-  })
+  }),
 );
 
 export const apiKeysRelations = relations(apiKeys, ({ one }) => ({
@@ -56,7 +56,7 @@ export const rssItems = pgTable(
   },
   (t) => ({
     unique: unique('user_id_and_url_in_rss_items').on(t.userId, t.url),
-  })
+  }),
 );
 
 export const rssContents = pgTable(
@@ -71,9 +71,9 @@ export const rssContents = pgTable(
   (t) => ({
     unique: unique('article_and_rss_url_in_rss_contents').on(
       t.rssUrl,
-      t.articleUrl
+      t.articleUrl,
     ),
-  })
+  }),
 );
 
 export const clips = pgTable(
@@ -94,7 +94,7 @@ export const clips = pgTable(
   },
   (t) => ({
     unique: unique('article_and_user_in_clip').on(t.articleId, t.userId),
-  })
+  }),
 );
 
 export const clipRelations = relations(clips, ({ one }) => ({
@@ -119,7 +119,7 @@ export const inboxes = pgTable(
   },
   (t) => ({
     unique: unique('article_and_user_in_inbox').on(t.articleId, t.userId),
-  })
+  }),
 );
 
 export const inboxRelations = relations(inboxes, ({ one }) => ({
@@ -159,7 +159,7 @@ export const articleRefs = pgTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.referFrom, t.referTo] }),
-  })
+  }),
 );
 
 export const articleTags = pgTable('article_tags', {
@@ -185,7 +185,7 @@ export const articleTagsOnArticles = pgTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.articleId, t.tagId] }),
-  })
+  }),
 );
 
 export const articleTagsOnArticlesRelations = relations(
@@ -199,5 +199,5 @@ export const articleTagsOnArticlesRelations = relations(
       fields: [articleTagsOnArticles.tagId],
       references: [articleTags.id],
     }),
-  })
+  }),
 );

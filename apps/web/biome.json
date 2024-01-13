@@ -1,13 +1,36 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.4.0/schema.json",
-  "extends": ["../../biome.json"],
   "files": {
     "ignore": ["./lib.dom.d.ts", "./src/shared/lib/$path.ts"]
+  },
+  "organizeImports": {
+    "enabled": false
   },
   "linter": {
     "enabled": false
   },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double",
+      "semicolons": "always",
+      "trailingComma": "all"
+    }
+  },
+  "json": {
+    "parser": { "allowComments": true, "allowTrailingCommas": true }
+  },
   "vcs": {
-    "root": "../../"
+    "clientKind": "git",
+    "enabled": true,
+    "root": "../../",
+    "useIgnoreFile": true
   }
 }

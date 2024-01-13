@@ -34,7 +34,7 @@ export const createInboxItems = async (inboxItems: InboxItem[]) => {
         ...inboxItem,
         createdAt: new Date(),
         updatedAt: new Date(),
-      }))
+      })),
     )
     .returning()
     .execute();
@@ -50,7 +50,7 @@ export const saveInboxItems = async (inboxItems: InboxItem[]) => {
         ...inboxItem,
         createdAt: new Date(),
         updatedAt: new Date(),
-      }))
+      })),
     )
     .onConflictDoNothing()
     .returning()
@@ -63,7 +63,7 @@ const converter = convertSearchQuery(inboxes.createdAt, 20);
 
 export const findInboxItemsByUserId = async (
   userId: string,
-  query: SearchQuery
+  query: SearchQuery,
 ) => {
   const { condition, params } = converter(query);
   const items = await db.query.inboxes.findMany({
@@ -99,7 +99,7 @@ export const saveInboxItem = async (inboxItem: InboxItem) => {
 
 export const deleteInboxItemByIdAndUserId = async (
   id: number,
-  userId: string
+  userId: string,
 ) => {
   const item = await db
     .delete(inboxes)

@@ -17,7 +17,7 @@ export const findClipById = async (id: number) => {
 
 export const findClipByArticleIdAndUserId = async (
   articleId: number,
-  userId: string
+  userId: string,
 ) => {
   const clip = await db.query.clips.findFirst({
     where: (fields) =>
@@ -51,7 +51,7 @@ export const createClip = async (clip: Clip) => {
 export const saveClip = async (
   articleId: number,
   userId: string,
-  getClip: () => Clip | Promise<Clip>
+  getClip: () => Clip | Promise<Clip>,
 ) => {
   const clip = await findClipByArticleIdAndUserId(articleId, userId);
 
@@ -83,7 +83,7 @@ export const findClipsByUserIdOrderByUpdatedAt = async (
   userId: string,
   limit: number,
   unreadOnly = true,
-  cursor?: number
+  cursor?: number,
 ) => {
   const cursorTimestamp = await findCursorTimestamp(userId, cursor);
 
@@ -117,7 +117,7 @@ export interface ClipInfo {
 export const updateClipByIdAndUserId = async (
   id: number,
   userId: string,
-  clip: Partial<ClipInfo>
+  clip: Partial<ClipInfo>,
 ) => {
   const updatedClip = await db
     .update(clips)

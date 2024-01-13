@@ -47,7 +47,7 @@ export const getUserFromRssUrl = async (url: string) => {
 export const createUserRss = async (
   userId: string,
   url: string,
-  name?: string | null
+  name?: string | null,
 ) => {
   const rssList = await db
     .insert(rssItems)

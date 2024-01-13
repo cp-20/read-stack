@@ -1,10 +1,10 @@
-import { Center, Loader } from '@mantine/core';
-import { useIntersection } from '@mantine/hooks';
-import type { ReactNode, FC } from 'react';
-import { useEffect } from 'react';
 import { NoContent } from '@/client/Home/_components/UnreadClips/NoContent';
 import { UnreadClipPanels } from '@/client/Home/_components/UnreadClips/UnreadClipPanels';
 import { useUserClips } from '@/client/_components/hooks/useUserClips';
+import { Center, Loader } from '@mantine/core';
+import { useIntersection } from '@mantine/hooks';
+import type { FC, ReactNode } from 'react';
+import { useEffect } from 'react';
 import { UnreadClipList } from './UnreadClipList';
 
 export type UnreadClipViewType = 'panel' | 'list';
@@ -24,10 +24,8 @@ export const UnreadClips: FC<UnreadClipsProps> = ({ type, includeRead }) => {
   });
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- nullのときがある
-    if (entry === null) return;
-
-    if (entry.isIntersecting) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- entryがnullのときがある
+    if (entry?.isIntersecting) {
       void loadNext();
     }
   }, [entry, loadNext]);
