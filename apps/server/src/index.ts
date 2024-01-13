@@ -1,17 +1,17 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
-import { logger } from 'hono/logger';
 import { handle } from 'hono/vercel';
 
 import { registerArticlesHandlers } from '@/handlers/articles';
 import { registerAuthHandlers } from '@/handlers/auth';
 import { registerDocsHandler } from '@/handlers/docs';
 import { registerUsersHandlers } from '@/handlers/users';
+import { loggerMiddleware } from '@/middleware/logger';
 import type { SupabaseMiddlewareVariable } from '@/middleware/supabase';
 import { supabaseMiddleware } from '@/middleware/supabase';
 
 export const app = new OpenAPIHono().basePath('/api');
 
-app.use('*', logger());
+app.use('*', loggerMiddleware);
 
 app.use('*', async (c, next) => {
   c.header('Access-Control-Allow-Origin', '*');
