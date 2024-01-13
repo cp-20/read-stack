@@ -23,7 +23,7 @@ export const createInboxItem = async (inboxItem: InboxItem) => {
     .returning()
     .execute();
 
-  return inboxList[0];
+  return inboxList.at(0);
 };
 
 export const createInboxItems = async (inboxItems: InboxItem[]) => {

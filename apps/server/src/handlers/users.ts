@@ -8,7 +8,7 @@ import {
   findArticleById,
   findArticleByUrl,
   findClipById,
-  findClipsByUserIdOrderByUpdatedAt,
+  findClipsByUserIdOrderByCreatedAt,
   findInboxItemById,
   findInboxItemsByUserId,
   findUserAndCreateIfNotExists,
@@ -83,7 +83,7 @@ export const registerUsersHandlers = (
     const cursorStr = c.req.query('cursor');
     const cursor = parseIntWithDefaultValue(cursorStr, undefined);
 
-    const { clips, finished } = await findClipsByUserIdOrderByUpdatedAt(
+    const { clips, finished } = await findClipsByUserIdOrderByCreatedAt(
       user.id,
       limit,
       unreadOnly,
@@ -343,6 +343,7 @@ export const registerUsersHandlers = (
       return c.json({ item: { ...item, article } }, 200);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- あえて
     if (body.type === 'url') {
       const { articleUrl } = body;
 

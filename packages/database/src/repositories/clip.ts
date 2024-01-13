@@ -71,15 +71,15 @@ const findCursorTimestamp = async (userId: string, cursor?: number) => {
 
   const clip = await db.query.clips.findFirst({
     columns: {
-      updatedAt: true,
+      createdAt: true,
     },
     where: (fields) => and(eq(fields.id, cursor), eq(fields.userId, userId)),
   });
 
-  return clip?.updatedAt;
+  return clip?.createdAt;
 };
 
-export const findClipsByUserIdOrderByUpdatedAt = async (
+export const findClipsByUserIdOrderByCreatedAt = async (
   userId: string,
   limit: number,
   unreadOnly = true,
@@ -91,11 +91,11 @@ export const findClipsByUserIdOrderByUpdatedAt = async (
     where: (fields) => {
       const filters = excludeFalsy([
         unreadOnly && inArray(fields.status, [0, 1]),
-        cursorTimestamp !== undefined && lt(fields.updatedAt, cursorTimestamp),
+        cursorTimestamp !== undefined && lt(fields.createdAt, cursorTimestamp),
       ]);
       return and(eq(fields.userId, userId), ...filters);
     },
-    orderBy: (fields, { desc }) => desc(fields.updatedAt),
+    orderBy: (fields, { desc }) => desc(fields.createdAt),
     limit: Math.min(100, limit) + 1,
     with: {
       article: true,
