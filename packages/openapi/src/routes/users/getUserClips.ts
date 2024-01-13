@@ -13,21 +13,6 @@ import { userIdPathRouteHelper } from '@/routes/users/common';
 import { ClipWithArticleSchema } from '@/schema';
 
 export const getClipsRequestQuerySchema = z.object({
-  // limit: z.number().int().min(1).max(100).default(20),
-  // unreadOnly: z.boolean().default(true),
-  // cursor: z.number().int().optional(),
-  limit: z
-    .string()
-    .default('20')
-    .openapi({
-      param: {
-        name: 'limit',
-        in: 'query',
-        required: false,
-        description: '取得するクリップの数',
-      },
-      example: '20',
-    }),
   unreadOnly: z
     .string()
     .default('true')
@@ -40,18 +25,45 @@ export const getClipsRequestQuerySchema = z.object({
       },
       example: 'true',
     }),
-  cursor: z
+  limit: z
     .string()
-    .optional()
+    .default('20')
     .openapi({
       param: {
-        name: 'cursor',
+        name: 'limit',
         in: 'query',
         required: false,
-        description: '取得するクリップのカーソル (取得を開始するクリップのID)',
+        description: '取得するクリップの数',
       },
-      example: '1',
+      example: '20',
     }),
+  offset: z.string().openapi({
+    param: {
+      name: 'offset',
+      in: 'query',
+      required: false,
+      description: '取得するクリップのオフセット',
+    },
+    example: '0',
+  }),
+  before: z.string().openapi({
+    param: {
+      name: 'before',
+      in: 'query',
+      required: false,
+      description: '取得するクリップの作成日時の上限',
+    },
+    example: '2021-01-01T00:00:00.000Z',
+  }),
+  after: z.string().openapi({
+    param: {
+      name: 'after',
+      in: 'query',
+      required: false,
+      description: '取得するクリップの作成日時の下限',
+    },
+    example: '2021-01-01T00:00:00.000Z',
+  }),
 });
 
 export const getClipsResponseSchema = z.object({

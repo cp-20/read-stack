@@ -8,7 +8,7 @@ import {
   findArticleById,
   findArticleByUrl,
   findClipById,
-  findClipsByUserIdOrderByCreatedAt,
+  findClipsByUserId,
   findInboxItemById,
   findInboxItemsByUserId,
   findUserAndCreateIfNotExists,
@@ -47,6 +47,7 @@ import { extractUserInfoFromSupabase } from '@/handlers/helpers/extractUserInfoF
 import { getUser } from '@/handlers/helpers/getUser';
 import { parseBody } from '@/handlers/helpers/parseBody';
 import type { SupabaseMiddlewareVariable } from '@/middleware/supabase';
+import { parseSearchQuery } from '@/handlers/helpers/parseSearchQuery';
 
 export const registerUsersHandlers = (
   app: OpenAPIHono<{ Variables: SupabaseMiddlewareVariable }>,
@@ -75,22 +76,33 @@ export const registerUsersHandlers = (
     const user = await getUser(c);
     if (user === null) return c.json({ user: null }, 401);
 
-    const limitStr = c.req.query('limit');
-    const limit = parseIntWithDefaultValue(limitStr, 20);
     const unreadOnlyStr = c.req.query('unreadOnly');
     const unreadOnly =
       unreadOnlyStr === undefined ? true : unreadOnlyStr !== 'false';
-    const cursorStr = c.req.query('cursor');
-    const cursor = parseIntWithDefaultValue(cursorStr, undefined);
+    const { query, success, message } = parseSearchQuery({
+      limit: c.req.query('limit'),
+      offset: c.req.query('offset'),
+      before: c.req.query('before'),
+      after: c.req.query('after'),
+    });
 
-    const { clips, finished } = await findClipsByUserIdOrderByCreatedAt(
+    if (!success) {
+      return c.json({ error: message }, 400);
+    }
+
+    const clips = await findClipsByUserId(
       user.id,
-      limit,
+      { ...query, limit: query.limit + 1 },
       unreadOnly,
-      cursor,
     );
 
-    return c.json({ clips, finished }, 200);
+    return c.json(
+      {
+        clips: clips.slice(0, query.limit),
+        finished: clips.length <= query.limit,
+      },
+      200,
+    );
   });
 
   app.openapi(postMyClipRoute, async (c) => {
@@ -262,45 +274,26 @@ export const registerUsersHandlers = (
     const user = await getUser(c);
     if (user === null) return c.json({ user: null }, 401);
 
-    const limitStr = c.req.query('limit');
-    const limit = parseIntWithDefaultValue(limitStr, 20);
-    const offsetStr = c.req.query('offset');
-    const offset = parseIntWithDefaultValue(offsetStr, undefined);
-    const beforeStr = c.req.query('before');
-    const before = beforeStr !== undefined ? new Date(beforeStr) : undefined;
-    const afterStr = c.req.query('after');
-    const after = afterStr !== undefined ? new Date(afterStr) : undefined;
+    const { query, success, message } = parseSearchQuery({
+      limit: c.req.query('limit'),
+      offset: c.req.query('offset'),
+      before: c.req.query('before'),
+      after: c.req.query('after'),
+    });
 
-    if (limit > 100) {
-      return c.json({ error: 'limit must be equal or less than 100' }, 400);
-    }
-
-    if (limit < 0) {
-      return c.json({ error: 'limit must be equal or greater than 0' }, 400);
-    }
-
-    if (offset !== undefined && offset < 0) {
-      return c.json({ error: 'offset must be equal or greater than 0' }, 400);
-    }
-
-    if (before !== undefined && after !== undefined && before < after) {
-      return c.json(
-        { error: 'before must be equal or greater than after' },
-        400,
-      );
+    if (!success) {
+      return c.json({ error: message }, 400);
     }
 
     const inboxItems = await findInboxItemsByUserId(user.id, {
-      limit: limit + 1,
-      offset,
-      before,
-      after,
+      ...query,
+      limit: query.limit + 1,
     });
 
     return c.json(
       {
-        items: inboxItems.slice(0, limit),
-        finished: limit <= inboxItems.length,
+        items: inboxItems.slice(0, query.limit),
+        finished: query.limit <= inboxItems.length,
       },
       200,
     );

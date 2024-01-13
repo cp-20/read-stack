@@ -1,8 +1,12 @@
 import { excludeFalsy } from '@read-stack/lib';
-import { and, eq, inArray, lt } from 'drizzle-orm';
+import { and, desc, eq, inArray } from 'drizzle-orm';
 
 import { db } from '@/database/drizzleClient';
 import { clips } from '@/models';
+import {
+  convertSearchQuery,
+  type SearchQuery,
+} from '@/repositories/utils/searchQuery';
 
 export const findClipById = async (id: number) => {
   const clip = await db.query.clips.findFirst({
@@ -66,46 +70,30 @@ export const saveClip = async (
   return { exist: false, clip: newClip };
 };
 
-const findCursorTimestamp = async (userId: string, cursor?: number) => {
-  if (cursor === undefined) return undefined;
+const converter = convertSearchQuery(clips.updatedAt);
 
-  const clip = await db.query.clips.findFirst({
-    columns: {
-      createdAt: true,
-    },
-    where: (fields) => and(eq(fields.id, cursor), eq(fields.userId, userId)),
-  });
-
-  return clip?.createdAt;
-};
-
-export const findClipsByUserIdOrderByCreatedAt = async (
+export const findClipsByUserId = async (
   userId: string,
-  limit: number,
+  query: SearchQuery,
   unreadOnly = true,
-  cursor?: number,
 ) => {
-  const cursorTimestamp = await findCursorTimestamp(userId, cursor);
-
+  const { params, condition } = converter(query);
   const selectedClips = await db.query.clips.findMany({
-    where: (fields) => {
-      const filters = excludeFalsy([
-        unreadOnly && inArray(fields.status, [0, 1]),
-        cursorTimestamp !== undefined && lt(fields.createdAt, cursorTimestamp),
-      ]);
-      return and(eq(fields.userId, userId), ...filters);
-    },
-    orderBy: (fields, { desc }) => desc(fields.createdAt),
-    limit: Math.min(100, limit) + 1,
+    where: and(
+      ...excludeFalsy([
+        eq(clips.userId, userId),
+        condition,
+        unreadOnly && inArray(clips.status, [0, 1]),
+      ]),
+    ),
+    ...params,
+    orderBy: desc(params.orderBy),
     with: {
       article: true,
     },
   });
 
-  const finished = selectedClips.length < Math.min(100, limit) + 1;
-  const clipData = selectedClips.slice(0, Math.min(100, limit));
-
-  return { clips: clipData, finished };
+  return selectedClips;
 };
 
 export interface ClipInfo {

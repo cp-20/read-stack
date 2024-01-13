@@ -107,5 +107,5 @@ export const deleteInboxItemByIdAndUserId = async (
     .returning()
     .execute();
 
-  return item[0];
+  return item.at(0);
 };
