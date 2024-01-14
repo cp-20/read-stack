@@ -15,7 +15,7 @@ export const getRssUrlAndUserIds = async (query: SearchQuery) => {
     .selectDistinctOn([rssItems.url], {
       url: rssItems.url,
       userIds: sql<string>`STRING_AGG(${rssItems.userId}::text, ',') OVER (PARTITION BY ${rssItems.url})`,
-      updatedAt: sql<Date>`FIRST_VALUE(${rssItems.updatedAt}) OVER (PARTITION BY ${rssItems.url} ORDER BY ${rssItems.updatedAt} DESC)`,
+      updatedAt: sql<Date>`FIRST_VALUE(${rssItems.updatedAt}) OVER (PARTITION BY ${rssItems.url} ORDER BY ${params.orderBy} DESC)`,
     })
     .from(rssItems)
     .where(condition)
