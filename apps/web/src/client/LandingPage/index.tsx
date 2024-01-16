@@ -43,7 +43,6 @@ export const LandingPage: NextPage = () => {
           `}
         >
           <div>
-            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- SVG画像の型がanyだけど、まぁうまく行く */}
             <Image alt="" height={128} src={ogImage} width={128} />
           </div>
           <div>
