@@ -16,12 +16,15 @@ const UnmemorizedAnimatedListItem: FC<AnimatedListItemProps> = ({
       css={css`
         min-height: 0;
         max-height: ${isRemoved ? '0' : '300px'};
-        animation: ${
-          isRemoved ? 'disappear 0.2s forwards' : 'appear 0.2s forwards'
-        };
+        animation: ${isRemoved
+          ? 'disappear 0.2s forwards'
+          : 'appear 0.2s forwards'};
         opacity: ${isRemoved ? 0 : 1};
         transform: ${isRemoved ? 'scale(0.9)' : 'none'};
-        transition: opacity 0.2s, transform 0.2s, max-height 0.2s 0.2s;
+        transition:
+          opacity 0.2s,
+          transform 0.2s,
+          max-height 0.2s 0.2s;
 
         @keyframes appear {
           0% {
@@ -60,7 +63,7 @@ const UnmemorizedAnimatedListItem: FC<AnimatedListItemProps> = ({
             opacity: 0;
             transform: scale(0.9);
           }
-          
+
           100% {
             max-height: 0;
             margin-bottom: -0.5rem;

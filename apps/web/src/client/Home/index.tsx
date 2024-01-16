@@ -14,22 +14,22 @@ export const Home: NextPage = () => {
     <>
       <div
         css={css`
-        width: 100vw;
-        height: 100vh;
-        padding: 0 1rem;
-      `}
+          width: 100vw;
+          height: 100vh;
+          padding: 0 1rem;
+        `}
       >
         <div
           css={css`
-          display: grid;
-          width: 100%;
-          gap: 1rem;
-          grid-template-columns: repeat(3, 1fr);
+            display: grid;
+            width: 100%;
+            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
 
-          & > div {
-            min-width: 0;
-          }
-       `}
+            & > div {
+              min-width: 0;
+            }
+          `}
         >
           <InboxItemList />
           <UnreadClipList />

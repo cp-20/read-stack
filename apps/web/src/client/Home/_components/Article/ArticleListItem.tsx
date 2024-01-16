@@ -15,25 +15,25 @@ export const ArticleListItem: FC<ArticleListItemProps & ComponentProps<'div'>> =
       <div {...props}>
         <div
           css={css`
-            padding: 1rem;
-            border: 1px solid ${theme.colors.gray[2]};
-            border-radius: ${theme.radius.md};
-          `}
+          padding: 1rem;
+          border: 1px solid ${theme.colors.gray[2]};
+          border-radius: ${theme.radius.md};
+        `}
         >
           <div
             css={css`
-              display: grid;
-              gap: 1rem;
-              grid-template-columns: 1fr max(30%, 100px);
-            `}
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr max(30%, 100px);
+          `}
           >
             <div
               css={css`
-                display: flex;
-                min-width: 0;
-                flex-direction: column;
-                gap: 0.5rem;
-              `}
+              display: flex;
+              min-width: 0;
+              flex-direction: column;
+              gap: 0.5rem;
+            `}
             >
               <Text fw="bold" lineClamp={2}>
                 <a
@@ -58,9 +58,9 @@ export const ArticleListItem: FC<ArticleListItemProps & ComponentProps<'div'>> =
               <Text
                 color="dimmed"
                 css={css`
-                  display: flex;
-                  gap: 0.5rem;
-                `}
+                display: flex;
+                gap: 0.5rem;
+              `}
                 fz="sm"
               >
                 <span>{new URL(article.url).host}</span>
@@ -73,9 +73,9 @@ export const ArticleListItem: FC<ArticleListItemProps & ComponentProps<'div'>> =
                 <img
                   alt=""
                   css={css`
-                    max-height: 120px;
-                    object-fit: cover;
-                  `}
+                  max-height: 120px;
+                  object-fit: cover;
+                `}
                   src={article.ogImageUrl}
                   width="100%"
                 />
@@ -84,8 +84,8 @@ export const ArticleListItem: FC<ArticleListItemProps & ComponentProps<'div'>> =
           </div>
           <div
             css={css`
-              margin-top: 1rem;
-            `}
+            margin-top: 1rem;
+          `}
           >
             {renderActions ? renderActions(article) : null}
           </div>

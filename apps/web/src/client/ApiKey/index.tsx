@@ -53,20 +53,20 @@ export const ApiKey: NextPage = () => {
   return (
     <div
       css={css`
-      display: flex;
-      height: 100vh;
-      flex-direction: column;
-			`}
+        display: flex;
+        height: 100vh;
+        flex-direction: column;
+      `}
     >
       <ToastContainer />
       <div
         css={css`
-        display: flex;
-        flex: 1;
-				align-items: center;
-				justify-content: center;
-        gap: 1rem;
-      `}
+          display: flex;
+          flex: 1;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        `}
       >
         <Button onClick={createApiKey}>APIキー生成</Button>
         <Button color="red" onClick={deleteApiKey}>
@@ -81,23 +81,23 @@ export const ApiKey: NextPage = () => {
         >
           <p
             css={css`
-						padding: 0.5rem;
-						background-color: #eee;
-					`}
+              padding: 0.5rem;
+              background-color: #eee;
+            `}
           >
             <code
               css={css`
-							font-size: 0.8rem;
-							word-break: break-all;
-						`}
+                font-size: 0.8rem;
+                word-break: break-all;
+              `}
             >
               {apiKey}
             </code>
           </p>
           <p
             css={css`
-						color: #ff6b6b;
-					`}
+              color: #ff6b6b;
+            `}
           >
             サーバーには保存されません！必ず保存してください！
           </p>

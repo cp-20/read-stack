@@ -7,7 +7,7 @@ if (connectionString === undefined) {
 }
 
 // eslint-disable-next-line import/no-default-export -- for drizzle
-export default ({
+export default {
   schema: './src/models/index.ts',
   out: './drizzle',
   driver: 'pg',
@@ -16,4 +16,4 @@ export default ({
   },
   verbose: true,
   strict: true,
-} satisfies Config);
+} satisfies Config;

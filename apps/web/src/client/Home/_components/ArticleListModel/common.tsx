@@ -32,9 +32,9 @@ export const ArticleListLayout: FC<ArticleListLayoutProps> = ({
 }) => (
   <Flex
     css={css`
-          max-height: 100vh;
-          padding: 1rem 0;
-        `}
+      max-height: 100vh;
+      padding: 1rem 0;
+    `}
     direction="column"
   >
     <h2

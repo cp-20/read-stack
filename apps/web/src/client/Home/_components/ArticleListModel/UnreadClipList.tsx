@@ -61,10 +61,10 @@ const PresentationActionSection: FC<PresentationActionSectionProps> = ({
 }) => (
   <div
     css={css`
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(2, 1fr);
-      `}
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, 1fr);
+    `}
   >
     <Button
       leftIcon={<IconChevronLeft />}
