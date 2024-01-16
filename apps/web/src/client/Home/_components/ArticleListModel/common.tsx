@@ -24,11 +24,13 @@ export const keyConstructorGenerator = <T,>(base: string) => {
 export interface ArticleListLayoutProps {
   label: ReactNode;
   children: ReactNode;
+  actionComponent?: ReactNode;
 }
 
 export const ArticleListLayout: FC<ArticleListLayoutProps> = ({
   label,
   children,
+  actionComponent,
 }) => (
   <Flex
     css={css`
@@ -46,7 +48,8 @@ export const ArticleListLayout: FC<ArticleListLayoutProps> = ({
         margin-bottom: 1rem;
       `}
     >
-      {label}
+      <span>{label}</span>
+      <div>{actionComponent}</div>
     </h2>
     <div
       css={css`
