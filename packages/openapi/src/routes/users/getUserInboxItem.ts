@@ -28,9 +28,9 @@ export const getInboxItemResponseSchema = z.object({
   item: InboxItemSchema,
 });
 
-export const getInboxItemRouteBase: RouteConfig = {
+export const getInboxItemRouteBase = {
   method: 'get',
-  path: '/users/me/inboxes/:itemId',
+  path: '/users/me/inboxes/:itemId' as const,
   description: '受信箱のアイテムを取得します',
   request: {
     params: getInboxItemRequestParamsSchema,
@@ -44,7 +44,7 @@ export const getInboxItemRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const getMyInboxItemRoute = createRoute(getInboxItemRouteBase);
 

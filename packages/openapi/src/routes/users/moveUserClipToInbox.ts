@@ -10,7 +10,7 @@ import {
   unauthorizedResponse,
 } from '@/routes/helpers/response';
 import { userIdPathRouteHelper } from '@/routes/users/common';
-import { ClipSchema } from '@/schema';
+import { InboxItemSchema } from '@/schema';
 
 export const moveClipToInboxRequestParamsSchema = z.object({
   clipId: z.string().openapi({
@@ -25,12 +25,12 @@ export const moveClipToInboxRequestParamsSchema = z.object({
 });
 
 export const moveUserClipToInboxResponseSchema = z.object({
-  clip: ClipSchema,
+  item: InboxItemSchema,
 });
 
-const moveClipToInboxRouteBase: RouteConfig = {
+const moveClipToInboxRouteBase = {
   method: 'post',
-  path: '/users/me/clips/:clipId',
+  path: '/users/me/clips/:clipId/move-to-inbox' as const,
   description: 'クリップを受信箱に移動します',
   request: {
     params: moveClipToInboxRequestParamsSchema,
@@ -44,7 +44,7 @@ const moveClipToInboxRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const moveMyClipToInboxRoute = createRoute(moveClipToInboxRouteBase);
 

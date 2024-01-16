@@ -1,4 +1,4 @@
-import { and, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 
 import { db } from '@/database/drizzleClient';
 import { inboxes } from '@/models';
@@ -69,6 +69,10 @@ export const findInboxItemsByUserId = async (
   const items = await db.query.inboxes.findMany({
     where: and(eq(inboxes.userId, userId), condition),
     ...params,
+    orderBy: desc(params.orderBy),
+    with: {
+      article: true,
+    },
   });
 
   return items;

@@ -20,7 +20,7 @@ export const postUserApiKeyRequestBodySchema = z.object({
 
 const postUserApiKeyRouteBase: RouteConfig = {
   method: 'post',
-  path: '/users/me/api-keys',
+  path: '/users/me/api-keys' as const,
   description: 'APIキーを登録します',
   request: {
     body: {
@@ -38,7 +38,7 @@ const postUserApiKeyRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const postMyApiKeyRoute = createRoute(postUserApiKeyRouteBase);
 

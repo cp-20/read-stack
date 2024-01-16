@@ -16,9 +16,9 @@ export const getUserResponseSchema = z.object({
   user: UserSchema,
 });
 
-const getUserRouteBase: RouteConfig = {
+const getUserRouteBase = {
   method: 'get',
-  path: '/users/me',
+  path: '/users/me' as const,
   description: '自分の情報を取得します',
   responses: {
     ...okJsonResponse({
@@ -29,7 +29,7 @@ const getUserRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const getMeRoute = createRoute(getUserRouteBase);
 

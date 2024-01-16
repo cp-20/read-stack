@@ -8,7 +8,7 @@ import {
   findArticleById,
   findArticleByUrl,
   findClipById,
-  findClipsByUserId,
+  findClipsByUserIdAndReadStatus,
   findInboxItemById,
   findInboxItemsByUserId,
   findUserAndCreateIfNotExists,
@@ -23,6 +23,7 @@ import {
   deleteMyApiKeyRoute,
   deleteMyClipRoute,
   deleteMyInboxItemRoute,
+  getClipsRequestQuerySchema,
   getMeRoute,
   getMyClipRoute,
   getMyClipsRoute,
@@ -74,11 +75,12 @@ export const registerUsersHandlers = (
 
   app.openapi(getMyClipsRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
-    const unreadOnlyStr = c.req.query('unreadOnly');
-    const unreadOnly =
-      unreadOnlyStr === undefined ? true : unreadOnlyStr !== 'false';
+    const readStatusStr = c.req.query('readStatus');
+    const readStatus =
+      getClipsRequestQuerySchema.shape.readStatus.parse(readStatusStr);
+
     const { query, success, message } = parseSearchQuery({
       limit: c.req.query('limit'),
       offset: c.req.query('offset'),
@@ -90,10 +92,10 @@ export const registerUsersHandlers = (
       return c.json({ error: message }, 400);
     }
 
-    const clips = await findClipsByUserId(
+    const clips = await findClipsByUserIdAndReadStatus(
       user.id,
       { ...query, limit: query.limit + 1 },
-      unreadOnly,
+      readStatus,
     );
 
     return c.json(
@@ -107,7 +109,7 @@ export const registerUsersHandlers = (
 
   app.openapi(postMyClipRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
     const body = await parseBody(c, postClipRequestBodySchema);
     if (body === null) return c.json({ error: 'invalid body' }, 400);
@@ -166,9 +168,9 @@ export const registerUsersHandlers = (
 
   app.openapi(getMyClipRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
-    const clipIdStr = c.req.query('clipId');
+    const clipIdStr = c.req.param('clipId');
     const clipId = parseIntWithDefaultValue(clipIdStr, null);
     if (clipId === null) {
       return c.json({ error: 'clipId is required' }, 400);
@@ -184,9 +186,9 @@ export const registerUsersHandlers = (
 
   app.openapi(patchMyClipRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
-    const clipIdStr = c.req.query('clipId');
+    const clipIdStr = c.req.param('clipId');
     const clipId = parseIntWithDefaultValue(clipIdStr, null);
     if (clipId === null) {
       return c.json({ error: 'clipId is required' }, 400);
@@ -207,9 +209,9 @@ export const registerUsersHandlers = (
 
   app.openapi(deleteMyClipRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
-    const clipIdStr = c.req.query('clipId');
+    const clipIdStr = c.req.param('clipId');
     const clipId = parseIntWithDefaultValue(clipIdStr, null);
     if (clipId === null) {
       return c.json({ error: 'clipId is not configured and valid' }, 400);
@@ -226,7 +228,7 @@ export const registerUsersHandlers = (
 
   app.openapi(postMyApiKeyRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
     const body = await parseBody(c, postUserApiKeyRequestBodySchema);
     if (body === null) return c.json({ error: 'invalid body' }, 400);
@@ -242,7 +244,7 @@ export const registerUsersHandlers = (
 
   app.openapi(deleteMyApiKeyRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
     await deleteApiKey(user.id);
 
@@ -251,7 +253,7 @@ export const registerUsersHandlers = (
 
   app.openapi(getMyRssRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
     const rssList = await getUserRssItems(user.id);
 
@@ -260,7 +262,7 @@ export const registerUsersHandlers = (
 
   app.openapi(postMyRssRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
     const body = await parseBody(c, postRssRequestBodySchema);
     if (body === null) return c.json({ error: 'invalid body' }, 400);
@@ -272,7 +274,7 @@ export const registerUsersHandlers = (
 
   app.openapi(getMyInboxItemsRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
     const { query, success, message } = parseSearchQuery({
       limit: c.req.query('limit'),
@@ -293,7 +295,7 @@ export const registerUsersHandlers = (
     return c.json(
       {
         items: inboxItems.slice(0, query.limit),
-        finished: query.limit <= inboxItems.length,
+        finished: inboxItems.length <= query.limit,
       },
       200,
     );
@@ -301,9 +303,9 @@ export const registerUsersHandlers = (
 
   app.openapi(getMyInboxItemRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
-    const itemIdStr = c.req.query('itemId');
+    const itemIdStr = c.req.param('itemId');
     const itemId = parseIntWithDefaultValue(itemIdStr, null);
     if (itemId === null) {
       return c.json({ error: 'itemId is required' }, 400);
@@ -319,7 +321,7 @@ export const registerUsersHandlers = (
 
   app.openapi(postMyInboxItemRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
     const body = await parseBody(c, postInboxItemRequestBodySchema);
     if (body === null) return c.json({ error: 'invalid body' }, 400);
@@ -372,9 +374,9 @@ export const registerUsersHandlers = (
 
   app.openapi(deleteMyInboxItemRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
-    const itemIdStr = c.req.query('itemId');
+    const itemIdStr = c.req.param('itemId');
     const itemId = parseIntWithDefaultValue(itemIdStr, null);
 
     if (itemId === null) {
@@ -392,9 +394,9 @@ export const registerUsersHandlers = (
 
   app.openapi(moveMyInboxItemToClipRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
-    const itemIdStr = c.req.query('itemId');
+    const itemIdStr = c.req.param('itemId');
     const itemId = parseIntWithDefaultValue(itemIdStr, null);
 
     if (itemId === null) {
@@ -406,7 +408,7 @@ export const registerUsersHandlers = (
       return c.json({ error: 'item not found' }, 404);
     }
 
-    const clip = await saveClip(item.articleId, user.id, () => ({
+    const { clip } = await saveClip(item.articleId, user.id, () => ({
       articleId: item.articleId,
       userId: user.id,
       progress: 0,
@@ -420,9 +422,9 @@ export const registerUsersHandlers = (
 
   app.openapi(moveMyClipToInboxRoute, async (c) => {
     const user = await getUser(c);
-    if (user === null) return c.json({ user: null }, 401);
+    if (user === null) return c.json({}, 401);
 
-    const clipIdStr = c.req.query('clipId');
+    const clipIdStr = c.req.param('clipId');
     const clipId = parseIntWithDefaultValue(clipIdStr, null);
 
     if (clipId === null) {

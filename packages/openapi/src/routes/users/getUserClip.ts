@@ -28,9 +28,9 @@ export const getUserClipResponseSchema = z.object({
   clip: ClipWithArticleSchema,
 });
 
-export const getUserClipRouteBase: RouteConfig = {
+export const getUserClipRouteBase = {
   method: 'get',
-  path: '/users/me/clips/:clipId',
+  path: '/users/me/clips/:clipId' as const,
   description: 'クリップを取得します',
   request: {
     params: getUserClipRequestParamsSchema,
@@ -44,7 +44,7 @@ export const getUserClipRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const getMyClipRoute = createRoute(getUserClipRouteBase);
 

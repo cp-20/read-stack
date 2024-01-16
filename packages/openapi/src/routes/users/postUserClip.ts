@@ -28,7 +28,7 @@ export const postClipResponseSchema = z.object({
 
 const postUserClipRouteBase: RouteConfig = {
   method: 'post',
-  path: '/users/me/clips',
+  path: '/users/me/clips' as const,
   description: 'クリップを作成します',
   request: {
     body: {
@@ -60,6 +60,6 @@ const postUserClipRouteBase: RouteConfig = {
     ...unauthorizedResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const postMyClipRoute = createRoute(postUserClipRouteBase);

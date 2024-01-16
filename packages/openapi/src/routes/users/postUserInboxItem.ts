@@ -27,7 +27,7 @@ export const postInboxItemResponseSchema = z.object({
 
 const postInboxItemRouteBase: RouteConfig = {
   method: 'post',
-  path: '/users/me/inboxes',
+  path: '/users/me/inboxes' as const,
   description: '受信箱にアイテムを追加します',
   request: {
     body: {
@@ -59,6 +59,6 @@ const postInboxItemRouteBase: RouteConfig = {
     ...unauthorizedResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const postMyInboxItemRoute = createRoute(postInboxItemRouteBase);

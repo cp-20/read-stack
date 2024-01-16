@@ -14,9 +14,9 @@ export const getRssResponseSchema = z.object({
   user: z.array(RssItemSchema),
 });
 
-const getRssRouteBase: RouteConfig = {
+const getRssRouteBase = {
   method: 'get',
-  path: '/users/me/rss',
+  path: '/users/me/rss' as const,
   description: '登録されているRSSの一覧を取得します',
   responses: {
     ...okJsonResponse({
@@ -25,7 +25,7 @@ const getRssRouteBase: RouteConfig = {
     ...unauthorizedResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const getMyRssRoute = createRoute(getRssRouteBase);
 

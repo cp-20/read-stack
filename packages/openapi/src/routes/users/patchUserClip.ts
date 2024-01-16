@@ -55,9 +55,9 @@ export const patchClipResponseSchema = z.object({
   clip: ClipSchema,
 });
 
-const patchUserClipRouteBase: RouteConfig = {
+const patchUserClipRouteBase = {
   method: 'patch',
-  path: '/users/me/clips/:clipId',
+  path: '/users/me/clips/:clipId' as const,
   description: 'クリップを更新します',
   request: {
     params: patchClipRequestParamsSchema,
@@ -78,7 +78,7 @@ const patchUserClipRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const patchMyClipRoute = createRoute(patchUserClipRouteBase);
 

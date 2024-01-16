@@ -21,7 +21,7 @@ export const postRssResponseSchema = z.object({
 
 const postRssRouteBase: RouteConfig = {
   method: 'post',
-  path: '/users/me/rss',
+  path: '/users/me/rss' as const,
   description: 'RSSを登録します',
   request: {
     body: {
@@ -40,7 +40,7 @@ const postRssRouteBase: RouteConfig = {
     ...unauthorizedResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const postMyRssRoute = createRoute(postRssRouteBase);
 

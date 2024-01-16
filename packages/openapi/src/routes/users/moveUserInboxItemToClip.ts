@@ -10,7 +10,7 @@ import {
   unauthorizedResponse,
 } from '@/routes/helpers/response';
 import { userIdPathRouteHelper } from '@/routes/users/common';
-import { InboxItemSchema } from '@/schema';
+import { ClipSchema } from '@/schema';
 
 export const moveInboxItemToClipRequestParamsSchema = z.object({
   itemId: z.string().openapi({
@@ -25,12 +25,12 @@ export const moveInboxItemToClipRequestParamsSchema = z.object({
 });
 
 export const moveInboxItemToClipResponseSchema = z.object({
-  item: InboxItemSchema,
+  clip: ClipSchema,
 });
 
-const moveInboxItemToClipRouteBase: RouteConfig = {
+const moveInboxItemToClipRouteBase = {
   method: 'post',
-  path: '/users/me/inboxes/:itemId',
+  path: '/users/me/inboxes/:itemId/move-to-clip' as const,
   description: '受信箱のアイテムをスタックに移動します',
   request: {
     params: moveInboxItemToClipRequestParamsSchema,
@@ -44,7 +44,7 @@ const moveInboxItemToClipRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const moveMyInboxItemToClipRoute = createRoute(
   moveInboxItemToClipRouteBase,

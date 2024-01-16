@@ -47,8 +47,6 @@ export const createClip = async (clip: Clip) => {
     })
     .returning();
 
-  if (newClip.length === 0) return null;
-
   return newClip[0];
 };
 
@@ -72,10 +70,10 @@ export const saveClip = async (
 
 const converter = convertSearchQuery(clips.updatedAt);
 
-export const findClipsByUserId = async (
+export const findClipsByUserIdAndReadStatus = async (
   userId: string,
   query: SearchQuery,
-  unreadOnly = true,
+  readStatus: 'all' | 'read' | 'unread' = 'all',
 ) => {
   const { params, condition } = converter(query);
   const selectedClips = await db.query.clips.findMany({
@@ -83,7 +81,8 @@ export const findClipsByUserId = async (
       ...excludeFalsy([
         eq(clips.userId, userId),
         condition,
-        unreadOnly && inArray(clips.status, [0, 1]),
+        readStatus === 'unread' && inArray(clips.status, [0, 1]),
+        readStatus === 'read' && eq(clips.status, 2),
       ]),
     ),
     ...params,

@@ -28,9 +28,9 @@ export const deleteClipResponseSchema = z.object({
   clip: ClipSchema,
 });
 
-const deleteUserClipRouteBase: RouteConfig = {
+const deleteUserClipRouteBase = {
   method: 'delete',
-  path: '/users/me/clips/:clipId',
+  path: '/users/me/clips/:clipId' as const,
   description: 'クリップを削除します',
   request: {
     params: deleteClipRequestParamsSchema,
@@ -44,7 +44,7 @@ const deleteUserClipRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const deleteMyClipRoute = createRoute(deleteUserClipRouteBase);
 

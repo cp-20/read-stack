@@ -28,9 +28,9 @@ export const deleteInboxItemResponseSchema = z.object({
   item: InboxItemSchema,
 });
 
-const deleteInboxItemRouteBase: RouteConfig = {
+const deleteInboxItemRouteBase = {
   method: 'delete',
-  path: '/users/me/inboxes/:itemId',
+  path: '/users/me/inboxes/:itemId' as const,
   description: '受信箱のアイテムを削除します',
   request: {
     params: deleteInboxItemRequestParamsSchema,
@@ -44,7 +44,7 @@ const deleteInboxItemRouteBase: RouteConfig = {
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const deleteMyInboxItemRoute = createRoute(deleteInboxItemRouteBase);
 

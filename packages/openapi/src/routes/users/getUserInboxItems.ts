@@ -10,52 +10,54 @@ import {
   unauthorizedResponse,
 } from '@/routes/helpers/response';
 import { userIdPathRouteHelper } from '@/routes/users/common';
-import { InboxItemSchema } from '@/schema';
+import { InboxItemWithArticleSchema } from '@/schema';
 
-export const getInboxItemsRequestQuerySchema = z.object({
-  limit: z
-    .string()
-    .default('20')
-    .openapi({
+export const getInboxItemsRequestQuerySchema = z
+  .object({
+    limit: z
+      .string()
+      .default('20')
+      .openapi({
+        param: {
+          name: 'limit',
+          in: 'query',
+          required: false,
+          description: '取得するアイテムの数',
+        },
+        example: '20',
+      }),
+    offset: z.string().openapi({
       param: {
-        name: 'limit',
+        name: 'offset',
         in: 'query',
         required: false,
-        description: '取得するアイテムの数',
+        description: '取得するアイテムのオフセット',
       },
       example: '20',
     }),
-  offset: z.string().openapi({
-    param: {
-      name: 'offset',
-      in: 'query',
-      required: false,
-      description: '取得するアイテムのオフセット',
-    },
-    example: '20',
-  }),
-  before: z.string().openapi({
-    param: {
-      name: 'before',
-      in: 'query',
-      required: false,
-      description: '取得するアイテムの作成日時の上限',
-    },
-    example: '2021-01-01T00:00:00.000Z',
-  }),
-  after: z.string().openapi({
-    param: {
-      name: 'after',
-      in: 'query',
-      required: false,
-      description: '取得するアイテムの作成日時の下限',
-    },
-    example: '2021-01-01T00:00:00.000Z',
-  }),
-});
+    before: z.string().openapi({
+      param: {
+        name: 'before',
+        in: 'query',
+        required: false,
+        description: '取得するアイテムの作成日時の上限',
+      },
+      example: '2021-01-01T00:00:00.000Z',
+    }),
+    after: z.string().openapi({
+      param: {
+        name: 'after',
+        in: 'query',
+        required: false,
+        description: '取得するアイテムの作成日時の下限',
+      },
+      example: '2021-01-01T00:00:00.000Z',
+    }),
+  })
+  .partial();
 
 export const getInboxItemsResponseSchema = z.object({
-  items: z.array(InboxItemSchema),
+  items: z.array(InboxItemWithArticleSchema),
   finished: z.boolean().openapi({
     description: 'これ以上取得できるアイテムがないかどうか',
     example: false,
@@ -64,7 +66,7 @@ export const getInboxItemsResponseSchema = z.object({
 
 const getInboxItemsRouteBase = {
   method: 'get',
-  path: '/users/me/inboxes',
+  path: '/users/me/inboxes' as const,
   description: '受信箱のアイテムの一覧を取得します',
   request: {
     query: getInboxItemsRequestQuerySchema,
