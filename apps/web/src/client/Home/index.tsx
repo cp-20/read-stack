@@ -11,6 +11,8 @@ import { Text, useMantineTheme } from '@mantine/core';
 import { Raleway as fontRaleway } from 'next/font/google';
 import Image from 'next/image';
 import ogImage from '~/public/icon.svg';
+import { pagesPath } from '@/shared/lib/$path';
+import Link from 'next/link';
 
 const font = fontRaleway({
   weight: ['600'],
@@ -40,12 +42,20 @@ export const Home: NextPage = () => {
             border-bottom: 1px solid ${theme.colors.gray[2]};
           `}
         >
-          <div
+          <Link
             css={css`
               display: flex;
               align-items: center;
+              color: inherit;
               gap: 0.5rem;
+              text-decoration: none;
+              transition: opacity 0.1s;
+
+              &:hover {
+                opacity: 0.6;
+              }
             `}
+            href={pagesPath.$url()}
           >
             <Image alt="" height={32} src={ogImage} width={32} />
             <Text
@@ -61,7 +71,7 @@ export const Home: NextPage = () => {
             >
               ReadStack
             </Text>
-          </div>
+          </Link>
           <ArticleSearchBox />
         </header>
         <main

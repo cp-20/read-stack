@@ -1,8 +1,8 @@
 import { excludeFalsy } from '@read-stack/lib';
-import { and, desc, eq, inArray } from 'drizzle-orm';
+import { and, desc, eq, inArray, or, sql } from 'drizzle-orm';
 
 import { db } from '@/database/drizzleClient';
-import { clips } from '@/models';
+import { articles, clips } from '@/models';
 import {
   convertSearchQuery,
   type SearchQuery,
@@ -74,23 +74,44 @@ export const findClipsByUserIdAndReadStatus = async (
   userId: string,
   query: SearchQuery,
   readStatus: 'all' | 'read' | 'unread' = 'all',
+  text = '',
 ) => {
   const { params, condition } = converter(query);
-  const selectedClips = await db.query.clips.findMany({
-    where: and(
-      ...excludeFalsy([
-        eq(clips.userId, userId),
-        condition,
-        readStatus === 'unread' && inArray(clips.status, [0, 1]),
-        readStatus === 'read' && eq(clips.status, 2),
-      ]),
-    ),
-    ...params,
-    orderBy: desc(params.orderBy),
-    with: {
-      article: true,
-    },
-  });
+
+  const selectedClips = await db
+    .select({
+      clips,
+      articles: {
+        id: articles.id,
+        title: articles.title,
+        body: sql`left(${articles.body}, 200)`,
+        ogImageUrl: articles.ogImageUrl,
+        createdAt: articles.createdAt,
+        updatedAt: articles.updatedAt,
+        summary: articles.summary,
+        url: articles.url,
+      },
+    })
+    .from(clips)
+    .where(
+      and(
+        ...excludeFalsy([
+          eq(clips.userId, userId),
+          condition,
+          readStatus === 'unread' && inArray(clips.status, [0, 1]),
+          readStatus === 'read' && eq(clips.status, 2),
+          text !== '' &&
+            or(
+              sql`to_tsvector(${articles.body}) @@ to_tsquery(${text})`,
+              sql`to_tsvector(${articles.title}) @@ to_tsquery(${text})`,
+            ),
+        ]),
+      ),
+    )
+    .orderBy(desc(params.orderBy))
+    .limit(params.limit)
+    .offset(params.offset)
+    .leftJoin(articles, eq(articles.id, clips.articleId));
 
   return selectedClips;
 };

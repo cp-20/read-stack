@@ -7,8 +7,8 @@ import type { FC } from 'react';
 
 export const ArticleSearchBox: FC = () => {
   const theme = useMantineTheme();
-  const [opened, handlers] = useDisclosure(true);
-  
+  const [opened, handlers] = useDisclosure(false);
+
   return (
     <div>
       <UnstyledButton

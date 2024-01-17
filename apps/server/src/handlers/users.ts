@@ -92,11 +92,17 @@ export const registerUsersHandlers = (
       return c.json({ error: message }, 400);
     }
 
-    const clips = await findClipsByUserIdAndReadStatus(
+    const selectedClips = await findClipsByUserIdAndReadStatus(
       user.id,
       { ...query, limit: query.limit + 1 },
       readStatus,
+      c.req.query('text'),
     );
+
+    const clips = selectedClips.map((clip) => ({
+      ...clip.clips,
+      article: clip.articles,
+    }));
 
     return c.json(
       {

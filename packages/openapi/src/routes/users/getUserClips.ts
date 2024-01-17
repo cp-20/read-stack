@@ -65,6 +65,15 @@ export const getClipsRequestQuerySchema = z
       },
       example: '2021-01-01T00:00:00.000Z',
     }),
+    text: z.string().openapi({
+      param: {
+        name: 'text',
+        in: 'query',
+        required: false,
+        description: 'クリップの検索クエリ',
+      },
+      example: 'TypeScript',
+    }),
   })
   .partial();
 

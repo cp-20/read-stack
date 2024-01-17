@@ -56,6 +56,7 @@ export const staticPath = {
     no_inbox_items_png: '/assets/no-inbox-items.png',
     no_read_articles_png: '/assets/no-read-articles.png',
     no_reading_articles_png: '/assets/no-reading-articles.png',
+    no_result_png: '/assets/no-result.png',
   },
   favicon_ico: '/favicon.ico',
   icon_192_png: '/icon-192.png',
