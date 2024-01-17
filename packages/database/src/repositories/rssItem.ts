@@ -1,4 +1,4 @@
-import { eq, sql } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 
 import { db } from '@/database/drizzleClient';
 import { rssItems } from '@/models';
@@ -58,6 +58,18 @@ export const createUserRss = async (
       createdAt: new Date(),
       updatedAt: new Date(),
     })
+    .returning()
+    .execute();
+
+  if (rssList.length === 0) return null;
+
+  return rssList[0];
+};
+
+export const deleteUserRss = async (userId: string, url: string) => {
+  const rssList = await db
+    .delete(rssItems)
+    .where(and(eq(rssItems.userId, userId), eq(rssItems.url, url)))
     .returning()
     .execute();
 

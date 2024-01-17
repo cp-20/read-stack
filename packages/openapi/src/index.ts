@@ -12,6 +12,7 @@ export * from '@/routes/users/postUserApiKey';
 export * from '@/routes/users/deleteUserApiKey';
 export * from '@/routes/users/getUserRss';
 export * from '@/routes/users/postUserRss';
+export * from '@/routes/users/deleteUserRss';
 export * from '@/routes/users/getUserInboxItem';
 export * from '@/routes/users/getUserInboxItems';
 export * from '@/routes/users/postUserInboxItem';

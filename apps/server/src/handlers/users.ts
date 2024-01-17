@@ -5,6 +5,7 @@ import {
   deleteApiKey,
   deleteClipByIdAndUserId,
   deleteInboxItemByIdAndUserId,
+  deleteUserRss,
   findArticleById,
   findArticleByUrl,
   findClipById,
@@ -23,6 +24,8 @@ import {
   deleteMyApiKeyRoute,
   deleteMyClipRoute,
   deleteMyInboxItemRoute,
+  deleteMyRssRoute,
+  deleteUserRssRequestBodySchema,
   getClipsRequestQuerySchema,
   getMeRoute,
   getMyClipRoute,
@@ -276,6 +279,22 @@ export const registerUsersHandlers = (
     const newRss = await createUserRss(user.id, body.url, body.name);
 
     return c.json({ rss: newRss }, 200);
+  });
+
+  app.openapi(deleteMyRssRoute, async (c) => {
+    const user = await getUser(c);
+    if (user === null) return c.json({}, 401);
+
+    const body = await parseBody(c, deleteUserRssRequestBodySchema);
+    if (body === null) return c.json({ error: 'invalid body' }, 400);
+
+    const deletedRss = deleteUserRss(user.id, body.url);
+
+    if (deletedRss === null) {
+      return c.json({ error: 'rss not found' }, 404);
+    }
+
+    return c.json({ rss: deletedRss }, 200);
   });
 
   app.openapi(getMyInboxItemsRoute, async (c) => {
