@@ -17,8 +17,9 @@ export const ArticleSearchBox: FC = () => {
         css={css`
           display: flex;
           width: 240px;
+          height: 2.25rem;
           align-items: center;
-          padding: 0.5rem 1rem;
+          padding: 0 0.5rem;
           border: 1px solid ${theme.colors.gray[4]};
           border-radius: ${theme.radius.md};
           gap: 8px;

@@ -13,6 +13,7 @@ import Image from 'next/image';
 import ogImage from '~/public/icon.svg';
 import { pagesPath } from '@/shared/lib/$path';
 import Link from 'next/link';
+import { SettingsButton } from '@/client/Home/_components/SettingsPanel/SettingsButton';
 
 const font = fontRaleway({
   weight: ['600'],
@@ -72,7 +73,15 @@ export const Home: NextPage = () => {
               ReadStack
             </Text>
           </Link>
-          <ArticleSearchBox />
+          <div
+            css={css`
+          display: flex;
+          gap: 0.5rem;
+          `}
+          >
+            <ArticleSearchBox />
+            <SettingsButton />
+          </div>
         </header>
         <main
           css={css`
