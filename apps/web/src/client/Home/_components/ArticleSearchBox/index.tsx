@@ -1,4 +1,4 @@
-import { TextSearchModal } from '@/client/Home/_components/TextSearchModal';
+import { TextSearchModal } from '@/client/Home/_components/ArticleSearchBox/TextSearchModal';
 import { css } from '@emotion/react';
 import { Code, Text, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';

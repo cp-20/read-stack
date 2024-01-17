@@ -1,5 +1,3 @@
-import type { SearchResultArticle } from '@/client/Home/_components/TextSearchModal/textSearch';
-import { useTextSearch } from '@/client/Home/_components/TextSearchModal/textSearch';
 import { css } from '@emotion/react';
 import {
   Center,
@@ -18,6 +16,8 @@ import Image from 'next/image';
 import resultPlaceholder from '~/public/assets/no-reading-articles.png';
 import noResult from '~/public/assets/no-result.png';
 import { Loader } from '@/client/_components/Loader';
+import type { SearchResultArticle } from './textSearch';
+import { useTextSearch } from './textSearch';
 
 interface TextSearchModalProps {
   opened: boolean;
