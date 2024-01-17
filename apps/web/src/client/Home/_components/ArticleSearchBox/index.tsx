@@ -1,13 +1,15 @@
 import { TextSearchModal } from '@/client/Home/_components/ArticleSearchBox/TextSearchModal';
 import { css } from '@emotion/react';
 import { Code, Text, UnstyledButton, useMantineTheme } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import { IconSearch } from '@tabler/icons-react';
 import type { FC } from 'react';
 
 export const ArticleSearchBox: FC = () => {
   const theme = useMantineTheme();
   const [opened, handlers] = useDisclosure(false);
+
+  useHotkeys([['mod+K', handlers.open]]);
 
   return (
     <div>
