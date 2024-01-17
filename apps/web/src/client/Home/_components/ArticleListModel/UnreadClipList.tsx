@@ -2,15 +2,15 @@ import type { FetchArticleResult } from '@/client/Home/_components/Article/Artic
 import { ArticleList } from '@/client/Home/_components/Article/ArticleList';
 import { ArticleListLayout, keyConstructorGenerator } from './common';
 import { fetcher } from '@/features/swr/fetcher';
-import { Stack, Button, Text, TextInput, useMantineTheme } from '@mantine/core';
+import { Stack, Button, Text } from '@mantine/core';
 import type { ClipWithArticle } from '@read-stack/openapi';
 import {
   getClipsResponseSchema,
   moveUserClipToInboxResponseSchema,
   patchClipResponseSchema,
 } from '@read-stack/openapi';
-import { useCallback, useState } from 'react';
-import type { FormEventHandler, FC } from 'react';
+import { useCallback } from 'react';
+import type { FC } from 'react';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 import NoReadingArticleImage from '~/public/assets/no-reading-articles.png';
@@ -23,6 +23,7 @@ import { inboxFetcher, inboxKeyConstructor } from './InboxItemList';
 import type { ReadClipAdditionalProps } from './ReadClipList';
 // eslint-disable-next-line import/no-cycle -- しゃーなし
 import { readClipsFetcher, readClipsKeyConstructor } from './ReadClipList';
+import { AddNewClipForm } from '@/client/Home/_components/Article/AddNewClipForm';
 
 export interface UnreadClipAdditionalProps {
   clips: ClipWithArticle[];
@@ -216,49 +217,6 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
       markAsRead={markAsRead}
       moveToInbox={moveToInbox}
     />
-  );
-};
-
-const AddNewClipForm: FC = () => {
-  const theme = useMantineTheme();
-  const [value, setValue] = useState('');
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-  };
-  return (
-    <form
-      css={css`
-        padding: 1rem;
-        border: 1px solid ${theme.colors.gray[2]};
-        border-radius: ${theme.radius.md};
-        margin-bottom: 1rem;
-      `}
-      onSubmit={handleSubmit}
-    >
-      <Text
-        css={css`
-          margin-bottom: 0.5rem;
-        `}
-      >
-        URLを入力して記事を追加
-      </Text>
-      <div
-        css={css`
-          display: grid;
-          gap: 0.5rem;
-          grid-template-columns: 1fr auto;
-        `}
-      >
-        <TextInput
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
-          placeholder="https://example.com/article/1"
-          value={value}
-        />
-        <Button type="submit">追加</Button>
-      </div>
-    </form>
   );
 };
 
