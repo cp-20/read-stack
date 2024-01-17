@@ -23,6 +23,7 @@ import { inboxFetcher, inboxKeyConstructor } from './InboxItemList';
 import type { ReadClipAdditionalProps } from './ReadClipList';
 // eslint-disable-next-line import/no-cycle -- しゃーなし
 import { readClipsFetcher, readClipsKeyConstructor } from './ReadClipList';
+// eslint-disable-next-line import/no-cycle -- しゃーなし
 import { AddNewClipForm } from '@/client/Home/_components/Article/AddNewClipForm';
 
 export interface UnreadClipAdditionalProps {
