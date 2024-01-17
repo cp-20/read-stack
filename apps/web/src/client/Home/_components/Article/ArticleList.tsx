@@ -93,6 +93,7 @@ export const ArticleList = <T extends MutatorKey>({
         display: flex;
         min-height: 0;
         max-height: 100%;
+        flex: 1;
         flex-direction: column;
         gap: 1rem;
       `}

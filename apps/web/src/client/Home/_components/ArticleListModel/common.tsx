@@ -34,8 +34,10 @@ export const ArticleListLayout: FC<ArticleListLayoutProps> = ({
 }) => (
   <Flex
     css={css`
-      max-height: 100vh;
-      padding: 1rem 0;
+      display: flex;
+      max-height: 100%;
+      flex-direction: column;
+      padding-top: 1rem;
     `}
     direction="column"
   >
@@ -53,8 +55,14 @@ export const ArticleListLayout: FC<ArticleListLayoutProps> = ({
     </h2>
     <div
       css={css`
+        display: flex;
         min-height: 0;
         flex: 1;
+        flex-direction: column;
+
+        & > div {
+          min-height: 0;
+        }
       `}
     >
       {children}
