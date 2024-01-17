@@ -68,6 +68,7 @@ export const Home: NextPage = () => {
           css={css`
             display: flex;
             width: 100%;
+            min-height: 0;
             padding: 0 1rem;
             gap: 1rem;
 
