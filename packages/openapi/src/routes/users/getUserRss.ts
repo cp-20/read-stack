@@ -11,7 +11,7 @@ import { userIdPathRouteHelper } from '@/routes/users/common';
 import { RssItemSchema } from '@/schema';
 
 export const getRssResponseSchema = z.object({
-  user: z.array(RssItemSchema),
+  rss: z.array(RssItemSchema),
 });
 
 const getRssRouteBase = {
