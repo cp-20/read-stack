@@ -10,7 +10,9 @@ import {
 import { ArticleSchema } from '@/schema';
 
 export const postArticleRequestBodySchema = z.object({
-  url: z.string().url(),
+  url: z.string().url().openapi({
+    example: 'https://example.com/slug',
+  }),
 });
 
 export const postArticleResponseSchema = z.object({
@@ -20,6 +22,7 @@ export const postArticleResponseSchema = z.object({
 export const postArticleRoute = createRoute({
   method: 'post',
   path: '/articles',
+  description: '記事のURLから記事を登録します (内容は自動取得されます)',
   request: {
     body: {
       content: {
@@ -35,15 +38,6 @@ export const postArticleRoute = createRoute({
   responses: {
     ...okJsonResponse({
       schema: postArticleResponseSchema,
-      example: {
-        article: {
-          id: 1,
-          title: 'title',
-          url: 'https://example.com/slug',
-          createdAt: '2023-11-15T09:05:15.452Z',
-          updatedAt: '2023-11-15T09:05:15.452Z',
-        },
-      },
     }),
     ...badRequestResponse(),
     ...notFoundResponse(),

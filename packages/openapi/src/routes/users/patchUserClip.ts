@@ -13,57 +13,58 @@ import { userIdPathRouteHelper } from '@/routes/users/common';
 import { ClipSchema } from '@/schema';
 
 export const patchClipRequestParamsSchema = z.object({
-  clipId: z.string(),
+  clipId: z.string().openapi({
+    param: {
+      name: 'clipId',
+      in: 'path',
+      required: true,
+      description: '更新するクリップのID',
+    },
+    example: '1',
+  }),
 });
 
 export const patchClipRequestBodySchema = z.object({
   clip: z
     .object({
-      status: z.number().int().min(0).max(2),
-      progress: z.number().int().min(0).max(100),
-      comment: z.string(),
+      status: z.number().int().min(0).max(2).openapi({
+        description: 'クリップの状態 (0: 未読, 1: 読み中, 2: 読了)',
+        example: 1,
+      }),
+      progress: z.number().int().min(0).max(100).openapi({
+        description: 'クリップの読了率 (0 ~ 100)',
+        example: 50,
+      }),
+      comment: z.string().openapi({
+        description: 'クリップに対するコメント',
+        example: 'コメント',
+      }),
     })
-    .partial(),
+    .partial()
+    .openapi({
+      description: '更新するクリップの情報',
+      example: {
+        status: 1,
+        progress: 50,
+        comment: 'コメント',
+      },
+    }),
 });
 
 export const patchClipResponseSchema = z.object({
   clip: ClipSchema,
 });
 
-const patchUserClipRouteBase: RouteConfig = {
+const patchUserClipRouteBase = {
   method: 'patch',
-  path: '/users/me/clips/:clipId',
+  path: '/users/me/clips/:clipId' as const,
+  description: 'クリップを更新します',
   request: {
     params: patchClipRequestParamsSchema,
     body: {
       content: {
         'application/json': {
           schema: patchClipRequestBodySchema,
-          examples: {
-            'update-status-and-progress': {
-              clip: {
-                status: 1,
-                progress: 50,
-              },
-            },
-            'update-comment': {
-              clip: {
-                comment: 'This is a comment',
-              },
-            },
-            'make-clip-as-read': {
-              clip: {
-                status: 2,
-                progress: 100,
-              },
-            },
-            'make-clip-as-unread': {
-              clip: {
-                status: 0,
-                progress: 0,
-              },
-            },
-          },
         },
       },
     },
@@ -71,34 +72,13 @@ const patchUserClipRouteBase: RouteConfig = {
   responses: {
     ...okJsonResponse({
       schema: patchClipResponseSchema,
-      example: {
-        clip: {
-          id: 1,
-          status: 0,
-          progress: 0,
-          comment: 'This is a comment',
-          articleId: 1,
-          userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
-          createdAt: '2023-11-15T09:05:15.452Z',
-          updatedAt: '2023-11-15T09:05:15.452Z',
-          article: {
-            id: 1,
-            url: 'https://example.com',
-            title: 'Example',
-            description: 'This is an example',
-            image: 'https://example.com/image.png',
-            createdAt: '2023-11-15T09:05:15.452Z',
-            updatedAt: '2023-11-15T09:05:15.452Z',
-          },
-        },
-      },
     }),
     ...badRequestResponse(),
     ...unauthorizedResponse(),
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const patchMyClipRoute = createRoute(patchUserClipRouteBase);
 

@@ -9,16 +9,17 @@ import {
 } from '@/routes/helpers/response';
 import { userIdPathRouteHelper } from '@/routes/users/common';
 
-const deleteUserApiKeyRouteBase: RouteConfig = {
+const deleteUserApiKeyRouteBase = {
   method: 'delete',
-  path: '/users/me/api-keys',
+  path: '/users/me/api-keys' as const,
+  description: 'APIキーを削除します',
   responses: {
     ...okResponse(),
     ...unauthorizedResponse(),
     ...notFoundResponse(),
     ...internalServerErrorResponse(),
   },
-};
+} satisfies RouteConfig;
 
 export const deleteMyApiKeyRoute = createRoute(deleteUserApiKeyRouteBase);
 

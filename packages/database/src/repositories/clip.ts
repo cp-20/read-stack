@@ -1,8 +1,12 @@
 import { excludeFalsy } from '@read-stack/lib';
-import { and, eq, inArray, lt } from 'drizzle-orm';
+import { and, desc, eq, inArray, or, sql } from 'drizzle-orm';
 
 import { db } from '@/database/drizzleClient';
-import { clips } from '@/models';
+import { articles, clips } from '@/models';
+import {
+  convertSearchQuery,
+  type SearchQuery,
+} from '@/repositories/utils/searchQuery';
 
 export const findClipById = async (id: number) => {
   const clip = await db.query.clips.findFirst({
@@ -17,7 +21,7 @@ export const findClipById = async (id: number) => {
 
 export const findClipByArticleIdAndUserId = async (
   articleId: number,
-  userId: string
+  userId: string,
 ) => {
   const clip = await db.query.clips.findFirst({
     where: (fields) =>
@@ -43,15 +47,13 @@ export const createClip = async (clip: Clip) => {
     })
     .returning();
 
-  if (newClip.length === 0) return null;
-
   return newClip[0];
 };
 
 export const saveClip = async (
   articleId: number,
   userId: string,
-  getClip: () => Clip | Promise<Clip>
+  getClip: () => Clip | Promise<Clip>,
 ) => {
   const clip = await findClipByArticleIdAndUserId(articleId, userId);
 
@@ -66,46 +68,52 @@ export const saveClip = async (
   return { exist: false, clip: newClip };
 };
 
-const findCursorTimestamp = async (userId: string, cursor?: number) => {
-  if (cursor === undefined) return undefined;
+const converter = convertSearchQuery(clips.updatedAt);
 
-  const clip = await db.query.clips.findFirst({
-    columns: {
-      updatedAt: true,
-    },
-    where: (fields) => and(eq(fields.id, cursor), eq(fields.userId, userId)),
-  });
-
-  return clip?.updatedAt;
-};
-
-export const findClipsByUserIdOrderByUpdatedAt = async (
+export const findClipsByUserIdAndReadStatus = async (
   userId: string,
-  limit: number,
-  unreadOnly = true,
-  cursor?: number
+  query: SearchQuery,
+  readStatus: 'all' | 'read' | 'unread' = 'all',
+  text = '',
 ) => {
-  const cursorTimestamp = await findCursorTimestamp(userId, cursor);
+  const { params, condition } = converter(query);
 
-  const selectedClips = await db.query.clips.findMany({
-    where: (fields) => {
-      const filters = excludeFalsy([
-        unreadOnly && inArray(fields.status, [0, 1]),
-        cursorTimestamp !== undefined && lt(fields.updatedAt, cursorTimestamp),
-      ]);
-      return and(eq(fields.userId, userId), ...filters);
-    },
-    orderBy: (fields, { desc }) => desc(fields.updatedAt),
-    limit: Math.min(100, limit) + 1,
-    with: {
-      article: true,
-    },
-  });
+  const selectedClips = await db
+    .select({
+      clips,
+      articles: {
+        id: articles.id,
+        title: articles.title,
+        body: sql`left(${articles.body}, 200)`,
+        ogImageUrl: articles.ogImageUrl,
+        createdAt: articles.createdAt,
+        updatedAt: articles.updatedAt,
+        summary: articles.summary,
+        url: articles.url,
+      },
+    })
+    .from(clips)
+    .where(
+      and(
+        ...excludeFalsy([
+          eq(clips.userId, userId),
+          condition,
+          readStatus === 'unread' && inArray(clips.status, [0, 1]),
+          readStatus === 'read' && eq(clips.status, 2),
+          text !== '' &&
+            or(
+              sql`to_tsvector(${articles.body}) @@ to_tsquery(${text})`,
+              sql`to_tsvector(${articles.title}) @@ to_tsquery(${text})`,
+            ),
+        ]),
+      ),
+    )
+    .orderBy(desc(params.orderBy))
+    .limit(params.limit)
+    .offset(params.offset)
+    .leftJoin(articles, eq(articles.id, clips.articleId));
 
-  const finished = selectedClips.length < Math.min(100, limit) + 1;
-  const clipData = selectedClips.slice(0, Math.min(100, limit));
-
-  return { clips: clipData, finished };
+  return selectedClips;
 };
 
 export interface ClipInfo {
@@ -117,7 +125,7 @@ export interface ClipInfo {
 export const updateClipByIdAndUserId = async (
   id: number,
   userId: string,
-  clip: Partial<ClipInfo>
+  clip: Partial<ClipInfo>,
 ) => {
   const updatedClip = await db
     .update(clips)

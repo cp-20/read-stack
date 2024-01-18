@@ -12,91 +12,89 @@ import {
 import { userIdPathRouteHelper } from '@/routes/users/common';
 import { ClipWithArticleSchema } from '@/schema';
 
-export const getClipsRequestQuerySchema = z.object({
-  // limit: z.number().int().min(1).max(100).default(20),
-  // unreadOnly: z.boolean().default(true),
-  // cursor: z.number().int().optional(),
-  limit: z.string().default('20'),
-  unreadOnly: z.string().default('true'),
-  cursor: z.string().optional(),
-});
+export const getClipsRequestQuerySchema = z
+  .object({
+    readStatus: z
+      .union([z.literal('all'), z.literal('read'), z.literal('unread')])
+      .default('all')
+      .openapi({
+        param: {
+          name: 'unreadOnly',
+          in: 'query',
+          required: false,
+          description: 'クリップの未読ステータス',
+        },
+        example: 'all',
+      }),
+    limit: z
+      .string()
+      .default('20')
+      .openapi({
+        param: {
+          name: 'limit',
+          in: 'query',
+          required: false,
+          description: '取得するクリップの数',
+        },
+        example: '20',
+      }),
+    offset: z.string().openapi({
+      param: {
+        name: 'offset',
+        in: 'query',
+        required: false,
+        description: '取得するクリップのオフセット',
+      },
+      example: '0',
+    }),
+    before: z.string().openapi({
+      param: {
+        name: 'before',
+        in: 'query',
+        required: false,
+        description: '取得するクリップの作成日時の上限',
+      },
+      example: '2021-01-01T00:00:00.000Z',
+    }),
+    after: z.string().openapi({
+      param: {
+        name: 'after',
+        in: 'query',
+        required: false,
+        description: '取得するクリップの作成日時の下限',
+      },
+      example: '2021-01-01T00:00:00.000Z',
+    }),
+    text: z.string().openapi({
+      param: {
+        name: 'text',
+        in: 'query',
+        required: false,
+        description: 'クリップの検索クエリ',
+      },
+      example: 'TypeScript',
+    }),
+  })
+  .partial();
 
 export const getClipsResponseSchema = z.object({
   clips: z.array(ClipWithArticleSchema),
-  finished: z.boolean(),
+  finished: z.boolean().openapi({
+    description: 'これ以上取得できるクリップがないかどうか',
+    example: false,
+  }),
 });
 
 const getClipsRouteBase = {
   method: 'get',
   path: '/users/me/clips',
+  description: 'クリップを取得します',
   request: {
     query: getClipsRequestQuerySchema,
   },
   responses: {
     ...okJsonResponse({
       schema: getClipsResponseSchema,
-      example: {
-        clips: [
-          {
-            id: 1,
-            status: 0,
-            progress: 0,
-            comment: 'This is a comment',
-            articleId: 1,
-            userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
-            createdAt: '2023-11-15T09:05:15.452Z',
-            updatedAt: '2023-11-15T09:05:15.452Z',
-            article: {
-              id: 1,
-              url: 'https://example.com',
-              title: 'This is a title',
-              body: 'This is a body',
-              ogImageUrl: null,
-              summary: null,
-              createdAt: '2023-11-15T09:05:15.452Z',
-              updatedAt: '2023-11-15T09:05:15.452Z',
-            },
-          },
-          {
-            id: 2,
-            status: 1,
-            progress: 70,
-            articleId: 2,
-            userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
-            createdAt: '2023-11-15T09:05:15.452Z',
-            updatedAt: '2023-11-15T09:05:15.452Z',
-            article: {
-              id: 2,
-              url: 'https://example.com',
-              title: 'This is a title',
-              body: 'This is a body',
-              ogImageUrl: null,
-              summary: null,
-              createdAt: '2023-11-15T09:05:15.452Z',
-              updatedAt: '2023-11-15T09:05:15.452Z',
-            },
-          },
-          {
-            id: 3,
-            status: 2,
-            progress: 100,
-            articleId: 3,
-            userId: '99d09600-f420-4ceb-91d3-19a7662eaed6',
-            createdAt: '2023-11-15T09:05:15.452Z',
-            updatedAt: '2023-11-15T09:05:15.452Z',
-            article: {
-              id: 3,
-              url: 'https://example.com',
-              title: 'This is a title',
-              body: 'This is a body',
-              ogImageUrl: null,
-              summary: null,
-              createdAt: '2023-11-15T09:05:15.452Z',
-              updatedAt: '2023-11-15T09:05:15.452Z',
-            },
-          },
-        ],
-      },
     }),
     ...badRequestResponse(),
     ...unauthorizedResponse(),

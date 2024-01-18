@@ -1,0 +1,58 @@
+/* HTML: <div class="loader"></div> */
+.loader {
+  position: relative;
+  width: 24px;
+  aspect-ratio: 1;
+}
+
+.loader::before,
+.loader::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  margin: -8px 0 0 -8px;
+  animation:
+    l1-1 2s infinite,
+    l1-2 0.5s infinite;
+  aspect-ratio: 1;
+  content: "";
+}
+
+.loader::after {
+  animation-delay: -1s, 0s;
+}
+
+@keyframes l1-1 {
+  0% {
+    top: 0;
+    left: 0;
+  }
+
+  25% {
+    top: 100%;
+    left: 0;
+  }
+
+  50% {
+    top: 100%;
+    left: 100%;
+  }
+
+  75% {
+    top: 0;
+    left: 100%;
+  }
+
+  100% {
+    top: 0;
+    left: 0;
+  }
+}
+
+@keyframes l1-2 {
+  80%,
+  100% {
+    transform: rotate(0.5turn);
+  }
+}
