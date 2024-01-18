@@ -16,7 +16,7 @@
     l1-1 2s infinite,
     l1-2 0.5s infinite;
   aspect-ratio: 1;
-  content: '';
+  content: "";
 }
 
 .loader::after {

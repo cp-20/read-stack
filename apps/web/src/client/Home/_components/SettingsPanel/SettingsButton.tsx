@@ -13,14 +13,14 @@ export const SettingsButton: FC = () => {
     <div>
       <UnstyledButton
         css={css`
-      display: grid;
-    width: 2.25rem;
-    height: 2.25rem;
-    border: 1px solid ${theme.colors.gray[4]};
-    border-radius: ${theme.radius.md};
-    color: ${theme.colors.gray[5]};
-    place-items: center;
-    `}
+          display: grid;
+          width: 2.25rem;
+          height: 2.25rem;
+          border: 1px solid ${theme.colors.gray[4]};
+          border-radius: ${theme.radius.md};
+          color: ${theme.colors.gray[5]};
+          place-items: center;
+        `}
         onClick={handlers.open}
       >
         <IconSettings />

@@ -95,24 +95,24 @@ export const TextSearchModal: FC<TextSearchModalProps> = ({
         ) : null}
         <ScrollArea
           css={css`
-          display: flex;
-          max-height: 50vh;
-          flex-direction: column;
-          margin: 0 -1rem;
-        `}
+            display: flex;
+            max-height: 50vh;
+            flex-direction: column;
+            margin: 0 -1rem;
+          `}
         >
           {sortedArticles.map((article) => (
             <div
               css={css`
-              padding: 1rem;
-            `}
+                padding: 1rem;
+              `}
               key={article.id}
             >
               <Highlight
                 color="blue"
                 component="a"
                 css={css`
-                  &:hover { 
+                  &:hover {
                     text-decoration: underline;
                   }
                 `}

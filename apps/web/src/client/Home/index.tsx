@@ -75,9 +75,9 @@ export const Home: NextPage = () => {
           </Link>
           <div
             css={css`
-          display: flex;
-          gap: 0.5rem;
-          `}
+              display: flex;
+              gap: 0.5rem;
+            `}
           >
             <ArticleSearchBox />
             <SettingsButton />

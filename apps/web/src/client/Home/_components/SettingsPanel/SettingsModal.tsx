@@ -62,37 +62,37 @@ export const SettingsModal: FC<SettingsModalProps> = ({ opened, onClose }) => {
           {rssItems.length === 0 && <Text>購読しているRSSはありません</Text>}
           <div
             css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          `}
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+            `}
           >
             {rssItems.map((rssItem) => (
               <div
                 css={css`
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              gap: 0.5rem;
-            `}
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  gap: 0.5rem;
+                `}
                 key={rssItem.url}
               >
                 <div
                   css={css`
-              display: flex;
-              gap: 0.25rem;`}
+                    display: flex;
+                    gap: 0.25rem;
+                  `}
                 >
                   <a
                     css={css`
-                color: ${theme.colors.blue[6]};
-                text-decoration: none;
-                word-break: break-all;
+                      color: ${theme.colors.blue[6]};
+                      text-decoration: none;
+                      word-break: break-all;
 
-                &:hover {
-                  text-decoration: underline;
-                }
-
-              `}
+                      &:hover {
+                        text-decoration: underline;
+                      }
+                    `}
                     href={rssItem.url}
                     rel="noopener noreferrer"
                     target="_blank"
@@ -116,17 +116,17 @@ export const SettingsModal: FC<SettingsModalProps> = ({ opened, onClose }) => {
           </div>
           <form
             css={css`
-          display: flex;
-          flex-direction: column;
-            margin-top: 1rem;
-          gap: 0.5rem;
-          `}
+              display: flex;
+              flex-direction: column;
+              margin-top: 1rem;
+              gap: 0.5rem;
+            `}
             onSubmit={handleSubmit}
           >
             <TextInput
               css={css`
-              flex: 1;
-            `}
+                flex: 1;
+              `}
               onChange={(e) => {
                 setNewRssUrl(e.target.value);
               }}
@@ -135,8 +135,8 @@ export const SettingsModal: FC<SettingsModalProps> = ({ opened, onClose }) => {
             />
             <TextInput
               css={css`
-              flex: 1;
-            `}
+                flex: 1;
+              `}
               onChange={(e) => {
                 setNewRssName(e.target.value);
               }}

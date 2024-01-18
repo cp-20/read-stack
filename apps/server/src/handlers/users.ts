@@ -288,7 +288,7 @@ export const registerUsersHandlers = (
     const body = await parseBody(c, deleteUserRssRequestBodySchema);
     if (body === null) return c.json({ error: 'invalid body' }, 400);
 
-    const deletedRss = deleteUserRss(user.id, body.url);
+    const deletedRss = await deleteUserRss(user.id, body.url);
 
     if (deletedRss === null) {
       return c.json({ error: 'rss not found' }, 404);
