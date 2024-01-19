@@ -53,6 +53,7 @@ const MyApp = ({
             xl: '1200px',
           },
           fontFamily: font.style.fontFamily,
+          primaryColor: 'cyan',
         }}
         withGlobalStyles
         withNormalizeCSS

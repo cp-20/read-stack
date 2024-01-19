@@ -81,7 +81,7 @@ export const SettingsModal: FC<SettingsModalProps> = ({ opened, onClose }) => {
                 <Text>
                   <a
                     css={css`
-                      color: ${theme.colors.blue[6]};
+                      color: ${theme.colors[theme.primaryColor][6]};
                       text-decoration: none;
                       word-break: break-all;
 

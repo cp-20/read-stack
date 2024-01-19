@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
   TextInput,
+  useMantineTheme,
 } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconSearch } from '@tabler/icons-react';
@@ -36,6 +37,7 @@ export const TextSearchModal: FC<TextSearchModalProps> = ({
   opened,
   onClose,
 }) => {
+  const theme = useMantineTheme();
   const [searchText, setSearchText] = useState('');
   const [debouncedSearchText] = useDebouncedValue(searchText, 100);
   const { articles, loadNext, isLoading } = useTextSearch(debouncedSearchText);
@@ -109,7 +111,7 @@ export const TextSearchModal: FC<TextSearchModalProps> = ({
               key={article.id}
             >
               <Highlight
-                color="blue"
+                color={theme.primaryColor}
                 component="a"
                 css={css`
                   &:hover {
