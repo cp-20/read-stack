@@ -1,6 +1,6 @@
 import { deliverRss } from '@/features/rss/deliver';
 
-export const pollingInterval = 1000 * 60 * 5;
+const pollingInterval = 1000 * 60 * 5;
 
 let interval: NodeJS.Timeout | null = null;
 

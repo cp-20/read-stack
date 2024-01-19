@@ -29,8 +29,12 @@ export const deliverRss = async () => {
       );
 
       const savedRssContents = await saveRssContents(rssContents);
+
       const newRssContents = savedRssContents.filter(
-        (c) => c.createdAt.getTime() === date.getTime(),
+        (c) =>
+          // 1sレベルで比較する
+          Math.floor(c.createdAt.getTime() / 1000) ===
+          Math.floor(date.getTime() / 1000),
       );
 
       const newArticles = await fetchRssContentArticles(
