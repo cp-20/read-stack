@@ -30,6 +30,7 @@ export const SettingsModal: FC<SettingsModalProps> = ({ opened, onClose }) => {
     e.preventDefault();
     addNewRss(newRssUrl, newRssName || null);
     setNewRssUrl('');
+    setNewRssName('');
   };
 
   return (
@@ -77,12 +78,7 @@ export const SettingsModal: FC<SettingsModalProps> = ({ opened, onClose }) => {
                 `}
                 key={rssItem.url}
               >
-                <div
-                  css={css`
-                    display: flex;
-                    gap: 0.25rem;
-                  `}
-                >
+                <Text>
                   <a
                     css={css`
                       color: ${theme.colors.blue[6]};
@@ -100,9 +96,15 @@ export const SettingsModal: FC<SettingsModalProps> = ({ opened, onClose }) => {
                     {rssItem.url}
                   </a>
                   {rssItem.name !== '' && rssItem.name !== null && (
-                    <span>({rssItem.name})</span>
+                    <span
+                      css={css`
+                        margin-left: 0.25rem;
+                      `}
+                    >
+                      ({rssItem.name})
+                    </span>
                   )}
-                </div>
+                </Text>
 
                 <ActionIcon
                   onClick={() => {
