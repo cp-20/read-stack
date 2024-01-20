@@ -14,17 +14,15 @@ export interface ArticleResponse {
 export const fetchArticle = async (
   url: string,
 ): Promise<ArticleResponse | null> => {
-  const { host } = new URL(url);
-
-  if (host === 'note.com') {
+  if (/https?:\/\/note.com\/[^/]+\/n\/[^/]+/.exec(url)) {
     return fetchArticleFromNote(url);
   }
 
-  if (host === 'qiita.com') {
+  if (/https?:\/\/qiita.com\/[^/]+\/items\/[^/]+/.exec(url)) {
     return fetchArticleFromQiita(url);
   }
 
-  if (host === 'zenn.dev') {
+  if (/https?:\/\/zenn.dev\/[^/]+\/articles\/[^/]+/.exec(url)) {
     return fetchArticleFromZenn(url);
   }
 
