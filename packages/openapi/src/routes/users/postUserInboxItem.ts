@@ -8,7 +8,7 @@ import {
   okJsonResponse,
   unauthorizedResponse,
 } from '@/routes/helpers/response';
-import { InboxItemSchema } from '@/schema';
+import { InboxItemWithArticleSchema } from '@/schema';
 
 export const postInboxItemRequestBodySchema = z.union([
   z.object({
@@ -22,7 +22,7 @@ export const postInboxItemRequestBodySchema = z.union([
 ]);
 
 export const postInboxItemResponseSchema = z.object({
-  item: InboxItemSchema,
+  item: InboxItemWithArticleSchema,
 });
 
 const postInboxItemRouteBase: RouteConfig = {
