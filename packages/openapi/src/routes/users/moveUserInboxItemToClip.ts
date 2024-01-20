@@ -30,7 +30,7 @@ export const moveInboxItemToClipResponseSchema = z.object({
 
 const moveInboxItemToClipRouteBase = {
   method: 'post',
-  path: '/users/me/inboxes/:itemId/move-to-clip' as const,
+  path: '/users/me/inboxes/{itemId}/move-to-clip' as const,
   operationId: 'moveMyInboxItemToClip',
   description: '受信箱のアイテムをスタックに移動します',
   request: {

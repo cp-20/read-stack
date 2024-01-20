@@ -57,7 +57,7 @@ export const patchClipResponseSchema = z.object({
 
 const patchUserClipRouteBase = {
   method: 'patch',
-  path: '/users/me/clips/:clipId' as const,
+  path: '/users/me/clips/{clipId}' as const,
   operationId: 'patchMyClip',
   description: 'クリップを更新します',
   request: {

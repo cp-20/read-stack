@@ -30,7 +30,7 @@ export const getInboxItemResponseSchema = z.object({
 
 export const getInboxItemRouteBase = {
   method: 'get',
-  path: '/users/me/inboxes/:itemId' as const,
+  path: '/users/me/inboxes/{itemId}' as const,
   operationId: 'getMyInboxItem',
   description: '受信箱のアイテムを取得します',
   request: {

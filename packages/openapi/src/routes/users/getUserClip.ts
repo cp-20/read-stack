@@ -30,7 +30,7 @@ export const getUserClipResponseSchema = z.object({
 
 export const getUserClipRouteBase = {
   method: 'get',
-  path: '/users/me/clips/:clipId' as const,
+  path: '/users/me/clips/{clipId}' as const,
   operationId: 'getMyClip',
   description: 'クリップを取得します',
   request: {

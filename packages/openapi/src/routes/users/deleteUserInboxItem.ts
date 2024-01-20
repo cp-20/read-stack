@@ -30,7 +30,7 @@ export const deleteInboxItemResponseSchema = z.object({
 
 const deleteInboxItemRouteBase = {
   method: 'delete',
-  path: '/users/me/inboxes/:itemId' as const,
+  path: '/users/me/inboxes/{itemId}' as const,
   operationId: 'deleteMyInboxItem',
   description: '受信箱のアイテムを削除します',
   request: {
