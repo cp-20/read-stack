@@ -19,13 +19,22 @@ export const getClipsRequestQuerySchema = z
       .default('all')
       .openapi({
         param: {
-          name: 'unreadOnly',
+          name: 'readStatus',
           in: 'query',
           required: false,
           description: 'クリップの未読ステータス',
         },
         example: 'all',
       }),
+    text: z.string().openapi({
+      param: {
+        name: 'text',
+        in: 'query',
+        required: false,
+        description: 'クリップの検索クエリ',
+      },
+      example: 'TypeScript',
+    }),
     limit: z
       .string()
       .default('20')
@@ -64,15 +73,6 @@ export const getClipsRequestQuerySchema = z
         description: '取得するクリップの作成日時の下限',
       },
       example: '2021-01-01T00:00:00.000Z',
-    }),
-    text: z.string().openapi({
-      param: {
-        name: 'text',
-        in: 'query',
-        required: false,
-        description: 'クリップの検索クエリ',
-      },
-      example: 'TypeScript',
     }),
   })
   .partial();
