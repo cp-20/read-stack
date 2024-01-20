@@ -1,4 +1,5 @@
-import { and, desc, eq, sql } from 'drizzle-orm';
+import { and, desc, eq, or, sql } from 'drizzle-orm';
+import { excludeFalsy } from '@read-stack/lib';
 
 import { db } from '@/database/drizzleClient';
 import { articles, inboxes } from '@/models';
@@ -64,6 +65,8 @@ const converter = convertSearchQuery(inboxes.createdAt, 20);
 export const findInboxItemsByUserId = async (
   userId: string,
   query: SearchQuery,
+  text = '',
+  url = '',
 ) => {
   const { condition, params } = converter(query);
   const items = await db
@@ -81,7 +84,20 @@ export const findInboxItemsByUserId = async (
       },
     })
     .from(inboxes)
-    .where(and(eq(inboxes.userId, userId), condition))
+    .where(
+      and(
+        ...excludeFalsy([
+          eq(inboxes.userId, userId),
+          condition,
+          text !== '' &&
+            or(
+              sql`to_tsvector(${articles.body}) @@ to_tsquery(${text})`,
+              sql`to_tsvector(${articles.title}) @@ to_tsquery(${text})`,
+            ),
+          url !== '' && eq(articles.url, url),
+        ]),
+      ),
+    )
     .orderBy(desc(params.orderBy))
     .limit(params.limit)
     .offset(params.offset)
