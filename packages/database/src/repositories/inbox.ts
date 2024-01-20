@@ -85,6 +85,7 @@ export const findInboxItemsByUserId = async (
     .orderBy(desc(params.orderBy))
     .limit(params.limit)
     .offset(params.offset)
+    .leftJoin(articles, eq(articles.id, inboxes.articleId))
     .execute();
 
   return items;
