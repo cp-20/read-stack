@@ -100,11 +100,12 @@ export const registerUsersHandlers = (
       { ...query, limit: query.limit + 1 },
       readStatus,
       c.req.query('text'),
+      c.req.query('url'),
     );
 
     const clips = selectedClips.map((clip) => ({
-      ...clip.clips,
-      article: clip.articles,
+      ...clip.clip,
+      article: clip.article,
     }));
 
     return c.json(
@@ -312,15 +313,20 @@ export const registerUsersHandlers = (
       return c.json({ error: message }, 400);
     }
 
-    const inboxItems = await findInboxItemsByUserId(user.id, {
+    const selectedItems = await findInboxItemsByUserId(user.id, {
       ...query,
       limit: query.limit + 1,
     });
 
+    const items = selectedItems.map((item) => ({
+      ...item.item,
+      article: item.article,
+    }));
+
     return c.json(
       {
-        items: inboxItems.slice(0, query.limit),
-        finished: inboxItems.length <= query.limit,
+        items: items.slice(0, query.limit),
+        finished: items.length <= query.limit,
       },
       200,
     );

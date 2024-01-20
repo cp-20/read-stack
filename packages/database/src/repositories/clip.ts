@@ -75,13 +75,14 @@ export const findClipsByUserIdAndReadStatus = async (
   query: SearchQuery,
   readStatus: 'all' | 'read' | 'unread' = 'all',
   text = '',
+  url = '',
 ) => {
   const { params, condition } = converter(query);
 
   const selectedClips = await db
     .select({
-      clips,
-      articles: {
+      clip: clips,
+      article: {
         id: articles.id,
         title: articles.title,
         body: sql`left(${articles.body}, 200)`,
@@ -105,6 +106,7 @@ export const findClipsByUserIdAndReadStatus = async (
               sql`to_tsvector(${articles.body}) @@ to_tsquery(${text})`,
               sql`to_tsvector(${articles.title}) @@ to_tsquery(${text})`,
             ),
+          url !== '' && eq(articles.url, url),
         ]),
       ),
     )

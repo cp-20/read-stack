@@ -35,6 +35,15 @@ export const getClipsRequestQuerySchema = z
       },
       example: 'TypeScript',
     }),
+    url: z.string().openapi({
+      param: {
+        name: 'url',
+        in: 'query',
+        required: false,
+        description: 'クリップのURL',
+      },
+      example: 'https://example.com',
+    }),
     limit: z
       .string()
       .default('20')

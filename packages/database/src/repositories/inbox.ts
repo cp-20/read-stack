@@ -1,7 +1,7 @@
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, sql } from 'drizzle-orm';
 
 import { db } from '@/database/drizzleClient';
-import { inboxes } from '@/models';
+import { articles, inboxes } from '@/models';
 import {
   type SearchQuery,
   convertSearchQuery,
@@ -66,14 +66,26 @@ export const findInboxItemsByUserId = async (
   query: SearchQuery,
 ) => {
   const { condition, params } = converter(query);
-  const items = await db.query.inboxes.findMany({
-    where: and(eq(inboxes.userId, userId), condition),
-    ...params,
-    orderBy: desc(params.orderBy),
-    with: {
-      article: true,
-    },
-  });
+  const items = await db
+    .select({
+      item: inboxes,
+      article: {
+        id: articles.id,
+        title: articles.title,
+        body: sql`left(${articles.body}, 200)`,
+        ogImageUrl: articles.ogImageUrl,
+        createdAt: articles.createdAt,
+        updatedAt: articles.updatedAt,
+        summary: articles.summary,
+        url: articles.url,
+      },
+    })
+    .from(inboxes)
+    .where(and(eq(inboxes.userId, userId), condition))
+    .orderBy(desc(params.orderBy))
+    .limit(params.limit)
+    .offset(params.offset)
+    .execute();
 
   return items;
 };
