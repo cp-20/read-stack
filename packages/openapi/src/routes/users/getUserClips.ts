@@ -88,6 +88,7 @@ export const getClipsResponseSchema = z.object({
 const getClipsRouteBase = {
   method: 'get',
   path: '/users/me/clips',
+  operationId: 'getMyClips',
   description: 'クリップを取得します',
   request: {
     query: getClipsRequestQuerySchema,

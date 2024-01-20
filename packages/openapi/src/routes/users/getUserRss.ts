@@ -17,6 +17,7 @@ export const getRssResponseSchema = z.object({
 const getRssRouteBase = {
   method: 'get',
   path: '/users/me/rss' as const,
+  operationId: 'getMyRss',
   description: '登録されているRSSの一覧を取得します',
   responses: {
     ...okJsonResponse({

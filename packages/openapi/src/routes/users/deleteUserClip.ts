@@ -31,6 +31,7 @@ export const deleteClipResponseSchema = z.object({
 const deleteUserClipRouteBase = {
   method: 'delete',
   path: '/users/me/clips/:clipId' as const,
+  operationId: 'deleteMyClip',
   description: 'クリップを削除します',
   request: {
     params: deleteClipRequestParamsSchema,

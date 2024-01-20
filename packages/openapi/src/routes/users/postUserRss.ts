@@ -22,6 +22,7 @@ export const postRssResponseSchema = z.object({
 const postRssRouteBase: RouteConfig = {
   method: 'post',
   path: '/users/me/rss' as const,
+  operationId: 'postMyRss',
   description: 'RSSを登録します',
   request: {
     body: {

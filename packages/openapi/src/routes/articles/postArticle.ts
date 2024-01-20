@@ -22,6 +22,7 @@ export const postArticleResponseSchema = z.object({
 export const postArticleRoute = createRoute({
   method: 'post',
   path: '/articles',
+  operationId: 'postArticle',
   description: '記事のURLから記事を登録します (内容は自動取得されます)',
   request: {
     body: {

@@ -29,6 +29,7 @@ export const postClipResponseSchema = z.object({
 const postUserClipRouteBase: RouteConfig = {
   method: 'post',
   path: '/users/me/clips' as const,
+  operationId: 'postMyClip',
   description: 'クリップを作成します',
   request: {
     body: {

@@ -26,6 +26,7 @@ export const deleteUserRssResponseSchema = z.object({
 const deleteRssRouteBase = {
   method: 'delete',
   path: '/users/me/rss' as const,
+  operationId: 'deleteMyRss',
   description: 'URLからRSSを削除します',
   request: {
     body: {

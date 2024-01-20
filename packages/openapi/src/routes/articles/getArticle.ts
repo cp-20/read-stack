@@ -28,6 +28,7 @@ export const getArticleResponseSchema = z.object({
 export const getArticleRoute = createRoute({
   method: 'get',
   path: '/articles/:articleId',
+  operationId: 'getArticle',
   description: '記事のIDから記事を取得します',
   request: {
     params: getArticleRequestParamsSchema,

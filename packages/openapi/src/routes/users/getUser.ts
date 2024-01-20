@@ -19,6 +19,7 @@ export const getUserResponseSchema = z.object({
 const getUserRouteBase = {
   method: 'get',
   path: '/users/me' as const,
+  operationId: 'getMe',
   description: '自分の情報を取得します',
   responses: {
     ...okJsonResponse({

@@ -21,6 +21,7 @@ export const postUserApiKeyRequestBodySchema = z.object({
 const postUserApiKeyRouteBase: RouteConfig = {
   method: 'post',
   path: '/users/me/api-keys' as const,
+  operationId: 'postMyApiKey',
   description: 'APIキーを登録します',
   request: {
     body: {

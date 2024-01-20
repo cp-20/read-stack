@@ -31,6 +31,7 @@ export const moveUserClipToInboxResponseSchema = z.object({
 const moveClipToInboxRouteBase = {
   method: 'post',
   path: '/users/me/clips/:clipId/move-to-inbox' as const,
+  operationId: 'moveMyClipToInbox',
   description: 'クリップを受信箱に移動します',
   request: {
     params: moveClipToInboxRequestParamsSchema,

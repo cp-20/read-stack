@@ -67,6 +67,7 @@ export const getInboxItemsResponseSchema = z.object({
 const getInboxItemsRouteBase = {
   method: 'get',
   path: '/users/me/inboxes' as const,
+  operationId: 'getMyInboxItems',
   description: '受信箱のアイテムの一覧を取得します',
   request: {
     query: getInboxItemsRequestQuerySchema,
