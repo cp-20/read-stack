@@ -313,10 +313,15 @@ export const registerUsersHandlers = (
       return c.json({ error: message }, 400);
     }
 
-    const selectedItems = await findInboxItemsByUserId(user.id, {
-      ...query,
-      limit: query.limit + 1,
-    });
+    const selectedItems = await findInboxItemsByUserId(
+      user.id,
+      {
+        ...query,
+        limit: query.limit + 1,
+      },
+      c.req.query('text'),
+      c.req.query('url'),
+    );
 
     const items = selectedItems.map((item) => ({
       ...item.item,
