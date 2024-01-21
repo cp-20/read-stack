@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { BottomNavigation } from '@/client/LandingPage/_components/BottomNavigation';
 import { Description } from '@/shared/components/Description';
 import ogImage from '~/public/icon.svg';
+import { useUser } from '@supabase/auth-helpers-react';
 
 const font = fontRaleway({
   weight: ['600'],
@@ -14,7 +15,9 @@ const font = fontRaleway({
 });
 
 export const LandingPage: NextPage = () => {
+  useUser();
   const theme = useMantineTheme();
+
   return (
     <>
       <Description
