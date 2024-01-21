@@ -1,5 +1,5 @@
 const API_ENDPOINT =
-  import.meta.env.VITE_API_ENDPOINT ?? 'https://read-stack.vercel.app/api';
+  import.meta.env.VITE_API_ENDPOINT ?? 'https://read-stack.cp20.dev/api';
 
 export default [
   {

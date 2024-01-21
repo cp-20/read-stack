@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import type { FC } from 'react';
 
-const appUrl = 'https://read-stack.vercel.app';
+const appUrl = 'https://read-stack.cp20.dev';
 
 interface DescriptionProps {
   title: string;
