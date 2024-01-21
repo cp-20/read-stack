@@ -83,7 +83,6 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
 
             return result;
           },
-          throwOnError: true,
         },
       );
 
@@ -105,7 +104,6 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
 
             return [newResult, ...prev];
           },
-          throwOnError: true,
         },
       );
     } catch (err) {

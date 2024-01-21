@@ -60,7 +60,6 @@ export const AddNewClipForm: FC = () => {
 
             return [newResult, ...prev];
           },
-          throwOnError: true,
         },
       );
     } catch (err) {

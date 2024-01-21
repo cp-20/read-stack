@@ -83,7 +83,6 @@ const ActionSection: FC<ActionSectionProps> = ({ item }) => {
 
             return result;
           },
-          throwOnError: true,
         },
       );
 
@@ -106,7 +105,6 @@ const ActionSection: FC<ActionSectionProps> = ({ item }) => {
 
             return [newResult, ...prev];
           },
-          throwOnError: true,
         },
       );
     } catch (err) {
