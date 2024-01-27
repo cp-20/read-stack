@@ -8,19 +8,12 @@ import { registerUsersHandlers } from '@/handlers/users';
 import { loggerMiddleware } from '@/middleware/logger';
 import type { SupabaseMiddlewareVariable } from '@/middleware/supabase';
 import { supabaseMiddleware } from '@/middleware/supabase';
+import { corsMiddleware } from '@/middleware/cors';
 
 export const app = new OpenAPIHono().basePath('/api');
 
 app.use('*', loggerMiddleware);
-
-app.use('*', async (c, next) => {
-  c.header('Access-Control-Allow-Origin', '*');
-  c.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  c.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  c.header('Access-Control-Allow-Credentials', 'true');
-  c.header('Access-Control-Max-Age', '86400');
-  await next();
-});
+app.use('*', corsMiddleware);
 
 const v1 = app.basePath('/v1');
 
