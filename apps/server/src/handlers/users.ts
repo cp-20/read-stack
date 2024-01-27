@@ -1,4 +1,3 @@
-import type { OpenAPIHono } from '@hono/zod-openapi';
 import {
   createApiKey,
   createUserRss,
@@ -50,12 +49,10 @@ import {
 import { extractUserInfoFromSupabase } from '@/handlers/helpers/extractUserInfoFromSupabase';
 import { getUser } from '@/handlers/helpers/getUser';
 import { parseBody } from '@/handlers/helpers/parseBody';
-import type { SupabaseMiddlewareVariable } from '@/middleware/supabase';
+import type { WithSupabaseClient } from '@/middleware/supabase';
 import { parseSearchQuery } from '@/handlers/helpers/parseSearchQuery';
 
-export const registerUsersHandlers = (
-  app: OpenAPIHono<{ Variables: SupabaseMiddlewareVariable }>,
-) => {
+export const registerUsersHandlers = (app: WithSupabaseClient) => {
   app.openapi(getMeRoute, async (c) => {
     const user = await getUser(c);
     if (user === null) return c.json({ user: null }, 401);

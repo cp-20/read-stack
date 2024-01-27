@@ -6,7 +6,7 @@ import { registerAuthHandlers } from '@/handlers/auth';
 import { registerDocsHandler } from '@/handlers/docs';
 import { registerUsersHandlers } from '@/handlers/users';
 import { loggerMiddleware } from '@/middleware/logger';
-import type { SupabaseMiddlewareVariable } from '@/middleware/supabase';
+import type { WithSupabaseClient } from '@/middleware/supabase';
 import { supabaseMiddleware } from '@/middleware/supabase';
 import { corsMiddleware } from '@/middleware/cors';
 
@@ -21,12 +21,10 @@ v1.use('*', supabaseMiddleware);
 
 registerUsersHandlers(
   // うまくEnvに型を付けたい
-  v1 as unknown as OpenAPIHono<{ Variables: SupabaseMiddlewareVariable }>,
+  v1 as unknown as WithSupabaseClient,
 );
 registerArticlesHandlers(v1);
 registerDocsHandler(v1);
-registerAuthHandlers(
-  v1 as unknown as OpenAPIHono<{ Variables: SupabaseMiddlewareVariable }>,
-);
+registerAuthHandlers(v1 as unknown as WithSupabaseClient);
 
 export const handler = handle(app);

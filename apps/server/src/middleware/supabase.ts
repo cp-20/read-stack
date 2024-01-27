@@ -2,8 +2,17 @@ import { createServerClient } from '@supabase/ssr';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Context, MiddlewareHandler } from 'hono';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
+import type { OpenAPIHono } from '@hono/zod-openapi';
 
 import { SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL } from '@/utils/env';
+
+export type WithSupabaseClient = OpenAPIHono<{
+  Variables: SupabaseMiddlewareVariable;
+}>;
+
+export type WithSupabaseContext = Context<{
+  Variables: SupabaseMiddlewareVariable;
+}>;
 
 export interface SupabaseMiddlewareVariable {
   supabase: SupabaseClient;

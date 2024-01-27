@@ -1,17 +1,12 @@
 import { findUserFromApiKey } from '@read-stack/database';
-import type { Context } from 'hono';
 
-import type { SupabaseMiddlewareVariable } from '@/middleware/supabase';
+import type { WithSupabaseContext } from '@/middleware/supabase';
 
-export const getUser = async (
-  c: Context<{ Variables: SupabaseMiddlewareVariable }>,
-) => {
+export const getUser = async (c: WithSupabaseContext) => {
   return (await getUserFromApiKey(c)) ?? (await getUserFromSupabase(c)) ?? null;
 };
 
-const getUserFromApiKey = async (
-  c: Context<{ Variables: SupabaseMiddlewareVariable }>,
-) => {
+const getUserFromApiKey = async (c: WithSupabaseContext) => {
   const authHeader = c.req.header().authorization;
   const match = /Bearer (?<apiKey>.+)/.exec(authHeader);
 
@@ -28,9 +23,7 @@ const getUserFromApiKey = async (
   return { authType: 'apiKey', ...user } as const;
 };
 
-const getUserFromSupabase = async (
-  c: Context<{ Variables: SupabaseMiddlewareVariable }>,
-) => {
+const getUserFromSupabase = async (c: WithSupabaseContext) => {
   const {
     data: { user },
   } = await c.var.supabase.auth.getUser();

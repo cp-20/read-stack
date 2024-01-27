@@ -1,24 +1,20 @@
-import type { OpenAPIHono } from '@hono/zod-openapi';
+import type { WithSupabaseClient } from '@/middleware/supabase';
 
-import type { SupabaseMiddlewareVariable } from '@/middleware/supabase';
-
-export const registerAuthHandlers = (
-  c: OpenAPIHono<{ Variables: SupabaseMiddlewareVariable }>,
-) => {
-  c.get('/auth-callback', async (ctx) => {
+export const registerAuthHandlers = (app: WithSupabaseClient) => {
+  app.get('/auth-callback', async (c) => {
     try {
-      const { error } = await ctx.var.supabase.auth.exchangeCodeForSession(
-        ctx.req.query('code') ?? '',
+      const { error } = await c.var.supabase.auth.exchangeCodeForSession(
+        c.req.query('code') ?? '',
       );
       if (error) {
         console.error(error);
-        return ctx.redirect('/');
+        return c.redirect('/');
       }
     } catch (error) {
       console.error(error);
-      return ctx.redirect('/');
+      return c.redirect('/');
     }
 
-    return ctx.redirect('/');
+    return c.redirect('/');
   });
 };
