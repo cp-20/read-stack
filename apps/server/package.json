@@ -12,6 +12,7 @@
     "dev": "bun run --hot src/main.ts"
   },
   "dependencies": {
+    "@hono/prometheus": "^1.0.0",
     "@hono/zod-openapi": "^0.9.5",
     "@read-stack/database": "workspace:*",
     "@read-stack/lib": "workspace:*",
@@ -19,6 +20,7 @@
     "@read-stack/tsconfig": "workspace:*",
     "@supabase/ssr": "^0.0.10",
     "hono": "^3.11.11",
+    "prom-client": "^15.1.0",
     "rss-parser": "^3.13.0",
     "zod": "^3.22.4"
   },
