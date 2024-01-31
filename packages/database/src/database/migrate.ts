@@ -19,6 +19,9 @@ const db = drizzle(migrationsClient, { logger: true });
 await migrate(db, { migrationsFolder: './drizzle' });
 
 await db.execute(
+  sql`CREATE INDEX IF NOT EXISTS idx_title_on_articles ON ${articles} USING pgroonga (title);`,
+);
+await db.execute(
   sql`CREATE INDEX IF NOT EXISTS idx_body_on_articles ON ${articles} USING pgroonga (body);`,
 );
 
