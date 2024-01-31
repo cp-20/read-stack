@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm';
 import {
+  index,
   integer,
   pgTable,
   primaryKey,
@@ -10,15 +11,22 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
-export const users = pgTable('users', {
-  id: varchar('id').primaryKey(),
-  email: text('email').notNull(),
-  name: varchar('name', { length: 1024 }).notNull(),
-  displayName: varchar('display_name', { length: 1024 }),
-  avatarUrl: text('avatar_url'),
-  createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { mode: 'date' }).notNull(),
-});
+export const users = pgTable(
+  'users',
+  {
+    id: varchar('id').primaryKey(),
+    email: text('email').notNull(),
+    name: varchar('name', { length: 1024 }).notNull(),
+    displayName: varchar('display_name', { length: 1024 }),
+    avatarUrl: text('avatar_url'),
+    createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { mode: 'date' }).notNull(),
+  },
+  (t) => ({
+    unique: unique('email_on_users').on(t.email),
+    email: index('idx_email_on_users').on(t.email),
+  }),
+);
 
 export const apiKeys = pgTable(
   'api_keys',
