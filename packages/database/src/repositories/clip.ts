@@ -103,8 +103,8 @@ export const findClipsByUserIdAndReadStatus = async (
           readStatus === 'read' && eq(clips.status, 2),
           text !== '' &&
             or(
-              sql`to_tsvector(${articles.body}) @@ to_tsquery(${text})`,
-              sql`to_tsvector(${articles.title}) @@ to_tsquery(${text})`,
+              sql`${articles.body} &@~ ${text}`,
+              sql`${articles.title} &@~ ${text}`,
             ),
           url !== '' && eq(articles.url, url),
         ]),
