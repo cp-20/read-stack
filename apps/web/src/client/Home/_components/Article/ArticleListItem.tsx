@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { Text, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Text, useMantineTheme } from '@mantine/core';
 import type { Article } from '@read-stack/openapi';
+import { IconArchive, IconTrash } from '@tabler/icons-react';
 import type { ComponentProps, FC, ReactNode } from 'react';
 
 export interface ArticleListItemProps {
@@ -67,6 +68,24 @@ export const ArticleListItem: FC<ArticleListItemProps & ComponentProps<'div'>> =
               </Text>
             </div>
             <div>
+              <div
+                css={css`
+                  display: flex;
+                  justify-content: flex-end;
+                  border-radius: ${theme.radius.md};
+                  margin-bottom: 0.5rem;
+                  background-color: ${theme.white};
+                  color: ${theme.white};
+                  gap: 0.1rem;
+                `}
+              >
+                <ActionIcon onClick={() => void 0}>
+                  <IconArchive />
+                </ActionIcon>
+                <ActionIcon onClick={() => void 0}>
+                  <IconTrash />
+                </ActionIcon>
+              </div>
               {article.ogImageUrl ? (
                 <img
                   alt=""
