@@ -6,11 +6,15 @@ const qiitaApiSchema = z.object({
   rendered_body: z.string(),
 });
 
+const apiToken = process.env.QIITA_API_TOKEN;
+
 export const fetchArticleFromQiita = async (url: string) => {
   const { pathname } = new URL(url);
   const key = pathname.split('/').slice(-1)[0];
 
-  const apiResponse = await fetch(`https://qiita.com/api/v2/items/${key}`);
+  const apiResponse = await fetch(`https://qiita.com/api/v2/items/${key}`, {
+    headers: { Authorization: apiToken ? `Bearer ${apiToken}` : '' },
+  });
   const query = qiitaApiSchema.parse(await apiResponse.json());
 
   const { title, rendered_body: body } = query;
