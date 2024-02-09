@@ -21,16 +21,15 @@ import {
 import { useMutators } from './useMutators';
 
 export interface ReadClipAdditionalProps {
-  clips: ClipWithArticle[];
+  clip: ClipWithArticle;
 }
 
 export const readClipsFetcher = async (url: string) => {
   const res = await fetcher(url);
   const body = getClipsResponseSchema.parse(res);
   const result: FetchArticleResult<ReadClipAdditionalProps> = {
-    articles: body.clips.map((clip) => clip.article),
+    articles: body.clips.map((clip) => ({ ...clip.article, clip })),
     finished: body.finished,
-    clips: body.clips,
   };
   return result;
 };
@@ -78,7 +77,6 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
             const result = prev.map((r) => ({
               ...r,
               articles: r.articles.filter((a) => a.id !== clip.articleId),
-              clips: r.clips.filter((c) => c.id !== clip.id),
             }));
 
             return result;
@@ -97,8 +95,7 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
             if (prev === undefined) return [];
 
             const newResult: FetchArticleResult<ReadClipAdditionalProps> = {
-              articles: [clip.article],
-              clips: [{ ...clip, status: 2 }],
+              articles: [{ ...clip.article, clip: { ...clip, status: 2 } }],
               finished: false,
             };
 
@@ -131,14 +128,7 @@ export const ReadClipList: FC = () => {
         fetcher={readClipsFetcher}
         keyConstructor={readClipsKeyConstructor}
         noContentComponent={NoContentComponent}
-        renderActions={(article, results) => {
-          const clip = results
-            .flatMap((r) => r.clips)
-            .find((c) => c.articleId === article.id);
-          if (clip === undefined) return null;
-
-          return <ActionSection clip={clip} />;
-        }}
+        renderActions={(article) => <ActionSection clip={article.clip} />}
         stateKey="readClip"
       />
     </ArticleListLayout>

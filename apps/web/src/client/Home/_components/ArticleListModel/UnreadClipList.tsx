@@ -3,7 +3,7 @@ import { ArticleList } from '@/client/Home/_components/Article/ArticleList';
 import { ArticleListLayout, keyConstructorGenerator } from './common';
 import { fetcher } from '@/features/swr/fetcher';
 import { Stack, Button, Text } from '@mantine/core';
-import type { ClipWithArticle } from '@read-stack/openapi';
+import type { Clip, ClipWithArticle } from '@read-stack/openapi';
 import {
   getClipsResponseSchema,
   moveUserClipToInboxResponseSchema,
@@ -27,16 +27,15 @@ import { readClipsFetcher, readClipsKeyConstructor } from './ReadClipList';
 import { AddNewClipForm } from '@/client/Home/_components/Article/AddNewClipForm';
 
 export interface UnreadClipAdditionalProps {
-  clips: ClipWithArticle[];
+  clip: Clip;
 }
 
 export const unreadClipsFetcher = async (url: string) => {
   const res = await fetcher(url);
   const body = getClipsResponseSchema.parse(res);
   const result: FetchArticleResult<UnreadClipAdditionalProps> = {
-    articles: body.clips.map((clip) => clip.article),
+    articles: body.clips.map((clip) => ({ ...clip.article, clip })),
     finished: body.finished,
-    clips: body.clips,
   };
   return result;
 };
@@ -115,7 +114,6 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
             const result = prev.map((r) => ({
               ...r,
               articles: r.articles.filter((a) => a.id !== clip.articleId),
-              clips: r.clips.filter((c) => c.id !== clip.id),
             }));
 
             return result;
@@ -135,8 +133,7 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
             if (prev === undefined) return [];
 
             const newResult: FetchArticleResult<InboxItemAdditionalProps> = {
-              articles: [clip.article],
-              items: [{ ...item, article: clip.article }],
+              articles: [{ ...clip.article, item }],
               finished: false,
             };
 
@@ -175,7 +172,6 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
             const result = prev.map((r) => ({
               ...r,
               articles: r.articles.filter((a) => a.id !== clip.articleId),
-              clips: r.clips.filter((c) => c.id !== clip.id),
             }));
 
             return result;
@@ -194,8 +190,7 @@ const ActionSection: FC<ActionSectionProps> = ({ clip }) => {
             if (prev === undefined) return [];
 
             const newResult: FetchArticleResult<ReadClipAdditionalProps> = {
-              articles: [clip.article],
-              clips: [{ ...clip, status: 2 }],
+              articles: [{ ...clip.article, clip: { ...clip, status: 2 } }],
               finished: false,
             };
 
@@ -225,16 +220,9 @@ export const UnreadClipList: FC = () => {
         fetcher={unreadClipsFetcher}
         keyConstructor={unreadClipsKeyConstructor}
         noContentComponent={NoContentComponent}
-        renderActions={(article, results) => {
-          const clip = results
-            .flatMap((r) => r.clips)
-            .find((c) => c.articleId === article.id);
-          if (clip === undefined) {
-            return <PresentationActionSection />;
-          }
-
-          return <ActionSection clip={clip} />;
-        }}
+        renderActions={(article) => (
+          <ActionSection clip={{ ...article.clip, article }} />
+        )}
         stateKey="unreadClip"
       />
     </ArticleListLayout>

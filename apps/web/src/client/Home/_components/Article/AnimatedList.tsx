@@ -1,7 +1,7 @@
 import type { AnimatedListItemProps } from '@/client/Home/_components/Article/AnimatedListItem';
 import { AnimatedListItem } from '@/client/Home/_components/Article/AnimatedListItem';
 import type { Article } from '@read-stack/openapi';
-import { type FC, useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 
 // FIXME: 入れ替えとかで壊れるかも
 // 和集合を順序をなるべく考慮して取る
@@ -51,21 +51,21 @@ const mergeArray = <T extends { id: unknown }>(prev: T[], next: T[]) => {
   return result;
 };
 
-interface AnimatedListProps {
-  articles: Article[];
+interface AnimatedListProps<T> {
+  articles: (Article & T)[];
   duration: number;
-  itemProps?: Omit<AnimatedListItemProps, 'article' | 'isRemoved'>;
+  itemProps?: Omit<AnimatedListItemProps<T>, 'article' | 'isRemoved'>;
 }
 
 const isSubset = <T,>(a: T[], b: T[]) => a.every((v) => b.includes(v));
 
-export const AnimatedList: FC<AnimatedListProps> = ({
+export const AnimatedList = <T,>({
   articles,
   duration,
   itemProps,
-}) => {
+}: AnimatedListProps<T>) => {
   const [displayedArticles, setDisplayedArticles] =
-    useState<Article[]>(articles);
+    useState<(Article & T)[]>(articles);
   const [removingArticleIds, setRemovingArticleIds] = useState<number[]>([]);
 
   const articleIds = articles.map((a) => a.id);
@@ -110,7 +110,7 @@ export const AnimatedList: FC<AnimatedListProps> = ({
   return (
     <>
       {displayedArticles.map((a) => (
-        <AnimatedListItem
+        <AnimatedListItem<T>
           article={a}
           isRemoved={removingArticleIds.includes(a.id)}
           key={a.id}

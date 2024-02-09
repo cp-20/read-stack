@@ -1,16 +1,16 @@
 import type { ArticleListItemProps } from '@/client/Home/_components/Article/ArticleListItem';
 import { ArticleListItem } from '@/client/Home/_components/Article/ArticleListItem';
 import { css } from '@emotion/react';
-import { memo, type FC } from 'react';
+import { memo } from 'react';
 
-export type AnimatedListItemProps = {
+export type AnimatedListItemProps<T> = {
   isRemoved: boolean;
-} & ArticleListItemProps;
+} & ArticleListItemProps<T>;
 
-const UnmemorizedAnimatedListItem: FC<AnimatedListItemProps> = ({
+const UnmemorizedAnimatedListItem = <T,>({
   isRemoved,
   ...props
-}) => {
+}: AnimatedListItemProps<T>) => {
   return (
     <ArticleListItem
       css={css`
@@ -85,4 +85,4 @@ export const AnimatedListItem = memo(
       prev.article.id === next.article.id,
     ].every(Boolean);
   },
-);
+) as typeof UnmemorizedAnimatedListItem;

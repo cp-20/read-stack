@@ -13,10 +13,10 @@ import { useRef, type ReactNode, useEffect, useCallback } from 'react';
 import type { KeyedMutator } from 'swr';
 import useSWRInfinite from 'swr/infinite';
 
-export type FetchArticleResult<T> = {
-  articles: Article[];
+export interface FetchArticleResult<T> {
+  articles: (Article & T)[];
   finished: boolean;
-} & T;
+}
 
 export interface ArticleListProps<T extends MutatorKey> {
   stateKey: T;
@@ -25,10 +25,7 @@ export interface ArticleListProps<T extends MutatorKey> {
     prev?: FetchArticleResult<AdditionalProps[T]>,
   ) => string | null;
   fetcher: (url: string) => Promise<FetchArticleResult<AdditionalProps[T]>>;
-  renderActions?: (
-    article: Article,
-    results: FetchArticleResult<AdditionalProps[T]>[],
-  ) => ReactNode;
+  renderActions?: (article: Article & AdditionalProps[T]) => ReactNode;
   noContentComponent: ReactNode;
 }
 
@@ -110,12 +107,7 @@ export const ArticleList = <T extends MutatorKey>({
         <AnimatedList
           articles={articles}
           duration={2000}
-          itemProps={{
-            renderActions: (a) => {
-              if (!data) return;
-              return renderActions?.(a, data);
-            },
-          }}
+          itemProps={{ renderActions }}
         />
       </div>
 

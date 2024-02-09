@@ -3,7 +3,7 @@ import { ArticleList } from '@/client/Home/_components/Article/ArticleList';
 import { ArticleListLayout, keyConstructorGenerator } from './common';
 import { fetcher } from '@/features/swr/fetcher';
 import { Stack, Button, Text } from '@mantine/core';
-import type { InboxItemWithArticle } from '@read-stack/openapi';
+import type { InboxItem, InboxItemWithArticle } from '@read-stack/openapi';
 import {
   getInboxItemsResponseSchema,
   moveInboxItemToClipResponseSchema,
@@ -22,16 +22,15 @@ import {
 } from './UnreadClipList';
 
 export interface InboxItemAdditionalProps {
-  items: InboxItemWithArticle[];
+  item: InboxItem;
 }
 
 export const inboxFetcher = async (url: string) => {
   const res = await fetcher(url);
   const body = getInboxItemsResponseSchema.parse(res);
   const result: FetchArticleResult<InboxItemAdditionalProps> = {
-    articles: body.items.map((item) => item.article),
+    articles: body.items.map((item) => ({ ...item.article, item })),
     finished: body.finished,
-    items: body.items,
   };
   return result;
 };
@@ -78,7 +77,6 @@ const ActionSection: FC<ActionSectionProps> = ({ item }) => {
             const result = prev.map((r) => ({
               ...r,
               articles: r.articles.filter((a) => a.id !== item.articleId),
-              items: r.items.filter((i) => i.id !== item.id),
             }));
 
             return result;
@@ -98,8 +96,7 @@ const ActionSection: FC<ActionSectionProps> = ({ item }) => {
             if (prev === undefined) return [];
 
             const newResult: FetchArticleResult<UnreadClipAdditionalProps> = {
-              articles: [item.article],
-              clips: [{ ...clip, article: item.article }],
+              articles: [{ ...item.article, clip }],
               finished: false,
             };
 
@@ -132,14 +129,9 @@ export const InboxItemList: FC = () => {
         fetcher={inboxFetcher}
         keyConstructor={inboxKeyConstructor}
         noContentComponent={NoContentComponent}
-        renderActions={(article, results) => {
-          const item = results
-            .flatMap((r) => r.items)
-            .find((i) => i.articleId === article.id);
-          if (item === undefined) return null;
-
-          return <ActionSection item={item} />;
-        }}
+        renderActions={(article) => (
+          <ActionSection item={{ ...article.item, article }} />
+        )}
         stateKey="inboxItem"
       />
     </ArticleListLayout>
