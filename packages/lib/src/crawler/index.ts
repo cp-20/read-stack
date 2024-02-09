@@ -1,6 +1,7 @@
 import { fetchArticleFromNote } from '@/crawler/note';
 import { fetchArticleFromQiita } from '@/crawler/qiita';
 import { fetchUsingReadability } from '@/crawler/readability';
+import { trimUrl } from '@/crawler/trim';
 import { fetchArticleFromZenn } from '@/crawler/zenn';
 
 export interface ArticleResponse {
@@ -12,19 +13,21 @@ export interface ArticleResponse {
 
 // server-side only
 export const fetchArticle = async (
-  url: string,
+  url: string
 ): Promise<ArticleResponse | null> => {
-  if (/https?:\/\/note.com\/[^/]+\/n\/[^/]+/.exec(url)) {
-    return fetchArticleFromNote(url);
+  const trimmedUrl = trimUrl(url);
+
+  if (/https?:\/\/note.com\/[^/]+\/n\/[^/]+/.exec(trimmedUrl)) {
+    return fetchArticleFromNote(trimmedUrl);
   }
 
-  if (/https?:\/\/qiita.com\/[^/]+\/items\/[^/]+/.exec(url)) {
-    return fetchArticleFromQiita(url);
+  if (/https?:\/\/qiita.com\/[^/]+\/items\/[^/]+/.exec(trimmedUrl)) {
+    return fetchArticleFromQiita(trimmedUrl);
   }
 
-  if (/https?:\/\/zenn.dev\/[^/]+\/articles\/[^/]+/.exec(url)) {
-    return fetchArticleFromZenn(url);
+  if (/https?:\/\/zenn.dev\/[^/]+\/articles\/[^/]+/.exec(trimmedUrl)) {
+    return fetchArticleFromZenn(trimmedUrl);
   }
 
-  return fetchUsingReadability(url);
+  return fetchUsingReadability(trimmedUrl);
 };
