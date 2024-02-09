@@ -13,7 +13,7 @@ export const fetchArticleFromQiita = async (url: string) => {
   const key = pathname.split('/').slice(-1)[0];
 
   const apiResponse = await fetch(`https://qiita.com/api/v2/items/${key}`, {
-    headers: { Authorization: apiToken ? `Bearer ${apiToken}` : '' },
+    headers: apiToken ? { Authorization: `Bearer ${apiToken}` } : {},
   });
   const query = qiitaApiSchema.parse(await apiResponse.json());
 
