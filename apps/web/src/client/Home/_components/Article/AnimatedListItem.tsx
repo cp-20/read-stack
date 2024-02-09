@@ -16,9 +16,9 @@ const UnmemorizedAnimatedListItem: FC<AnimatedListItemProps> = ({
       css={css`
         min-height: 0;
         max-height: ${isRemoved ? '0' : '300px'};
-        animation: ${isRemoved
-          ? 'disappear 0.2s forwards'
-          : 'appear 0.2s forwards'};
+        animation: ${
+          isRemoved ? 'disappear 0.2s forwards' : 'appear 0.2s forwards'
+        };
         opacity: ${isRemoved ? 0 : 1};
         transform: ${isRemoved ? 'scale(0.9)' : 'none'};
         transition:
