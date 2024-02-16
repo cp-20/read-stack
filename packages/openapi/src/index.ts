@@ -19,5 +19,6 @@ export * from '@/routes/users/postUserInboxItem';
 export * from '@/routes/users/deleteUserInboxItem';
 export * from '@/routes/users/moveUserInboxItemToClip';
 export * from '@/routes/users/moveUserClipToInbox';
+export * from '@/routes/users/archiveUserInboxItem';
 export * from '@/routes/articles/getArticle';
 export * from '@/routes/articles/postArticle';

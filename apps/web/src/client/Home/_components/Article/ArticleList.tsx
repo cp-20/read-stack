@@ -1,4 +1,5 @@
 import { AnimatedList } from '@/client/Home/_components/Article/AnimatedList';
+import type { ArticleListItemProps } from '@/client/Home/_components/Article/ArticleListItem';
 import type {
   AdditionalProps,
   MutatorKey,
@@ -13,24 +14,20 @@ import { useRef, type ReactNode, useEffect, useCallback } from 'react';
 import type { KeyedMutator } from 'swr';
 import useSWRInfinite from 'swr/infinite';
 
-export type FetchArticleResult<T> = {
-  articles: Article[];
+export interface FetchArticleResult<T> {
+  articles: (Article & T)[];
   finished: boolean;
-} & T;
+}
 
-export interface ArticleListProps<T extends MutatorKey> {
+export type ArticleListProps<T extends MutatorKey> = {
   stateKey: T;
   keyConstructor: (
     size: number,
     prev?: FetchArticleResult<AdditionalProps[T]>,
   ) => string | null;
   fetcher: (url: string) => Promise<FetchArticleResult<AdditionalProps[T]>>;
-  renderActions?: (
-    article: Article,
-    results: FetchArticleResult<AdditionalProps[T]>[],
-  ) => ReactNode;
   noContentComponent: ReactNode;
-}
+} & Omit<ArticleListItemProps<AdditionalProps[T]>, 'article'>;
 
 const useLoaderIntersection = (loadNext: () => void, isLoading: boolean) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,8 +51,8 @@ export const ArticleList = <T extends MutatorKey>({
   stateKey,
   keyConstructor,
   fetcher,
-  renderActions,
   noContentComponent,
+  ...itemProps
 }: ArticleListProps<T>): ReactNode => {
   const { setMutator, removeMutator } = useSetMutator();
   const { data, setSize, isLoading, mutate } = useSWRInfinite(
@@ -110,12 +107,7 @@ export const ArticleList = <T extends MutatorKey>({
         <AnimatedList
           articles={articles}
           duration={2000}
-          itemProps={{
-            renderActions: (a) => {
-              if (!data) return;
-              return renderActions?.(a, data);
-            },
-          }}
+          itemProps={itemProps}
         />
       </div>
 

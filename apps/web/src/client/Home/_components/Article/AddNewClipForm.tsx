@@ -53,8 +53,7 @@ export const AddNewClipForm: FC = () => {
             if (prev === undefined) return [];
 
             const newResult: FetchArticleResult<UnreadClipAdditionalProps> = {
-              articles: [clip.article],
-              clips: [clip],
+              articles: [{ ...clip.article, clip }],
               finished: false,
             };
 

@@ -20,6 +20,7 @@ import {
 } from '@read-stack/database';
 import { fetchArticle, parseIntWithDefaultValue } from '@read-stack/lib';
 import {
+  archiveMyInboxItemRoute,
   deleteMyApiKeyRoute,
   deleteMyClipRoute,
   deleteMyInboxItemRoute,
@@ -477,5 +478,32 @@ export const registerUsersHandlers = (app: WithSupabaseClient) => {
     await deleteClipByIdAndUserId(clipId, user.id);
 
     return c.json({ item }, 200);
+  });
+
+  app.openapi(archiveMyInboxItemRoute, async (c) => {
+    const user = await getUser(c);
+    if (user === null) return c.json({}, 401);
+
+    const itemIdStr = c.req.param('itemId');
+    const itemId = parseIntWithDefaultValue(itemIdStr, null);
+
+    if (itemId === null) {
+      return c.json({ error: 'itemId is not configured and valid' }, 400);
+    }
+
+    const item = await findInboxItemById(itemId);
+    if (item === undefined || item.userId !== user.id) {
+      return c.json({ error: 'item not found' }, 404);
+    }
+
+    await deleteInboxItemByIdAndUserId(itemId, user.id);
+    const { clip } = await saveClip(item.articleId, user.id, () => ({
+      articleId: item.articleId,
+      userId: user.id,
+      progress: 100,
+      status: 2,
+    }));
+
+    return c.json({ clip }, 200);
   });
 };
