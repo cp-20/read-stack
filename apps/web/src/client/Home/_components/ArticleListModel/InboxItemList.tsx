@@ -147,8 +147,6 @@ const useReducers = () => {
         );
 
         const clip = await mutating;
-        console.log('clip', clip);
-
         void mutators.readClip?.(
           async () => {
             const result = await readClipsFetcher(readClipsKeyConstructor(1));
