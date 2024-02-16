@@ -7,11 +7,15 @@ import type { ComponentProps, ReactNode } from 'react';
 export interface ArticleListItemProps<T> {
   article: Article & T;
   renderActions?: (article: Article & T) => ReactNode;
+  onDelete?: (article: Article & T) => void;
+  onArchive?: (article: Article & T) => void;
 }
 
 export const ArticleListItem = <T,>({
   article,
   renderActions,
+  onDelete,
+  onArchive,
   ...props
 }: ArticleListItemProps<T> & ComponentProps<'div'>) => {
   const theme = useMantineTheme();
@@ -82,12 +86,24 @@ export const ArticleListItem = <T,>({
                   gap: 0.1rem;
                 `}
             >
-              <ActionIcon onClick={() => void 0}>
-                <IconArchive />
-              </ActionIcon>
-              <ActionIcon onClick={() => void 0}>
-                <IconTrash />
-              </ActionIcon>
+              {onArchive ? (
+                <ActionIcon
+                  onClick={() => {
+                    onArchive(article);
+                  }}
+                >
+                  <IconArchive />
+                </ActionIcon>
+              ) : null}
+              {onDelete ? (
+                <ActionIcon
+                  onClick={() => {
+                    onDelete(article);
+                  }}
+                >
+                  <IconTrash />
+                </ActionIcon>
+              ) : null}
             </div>
             {article.ogImageUrl ? (
               <img
