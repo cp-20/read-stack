@@ -13,7 +13,7 @@ export interface ArticleResponse {
 
 // server-side only
 export const fetchArticle = async (
-  url: string
+  url: string,
 ): Promise<ArticleResponse | null> => {
   const trimmedUrl = trimUrl(url);
 

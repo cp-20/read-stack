@@ -77,14 +77,14 @@ export const ArticleListItem = <T,>({
           <div>
             <div
               css={css`
-                  display: flex;
-                  justify-content: flex-end;
-                  border-radius: ${theme.radius.md};
-                  margin-bottom: 0.5rem;
-                  background-color: ${theme.white};
-                  color: ${theme.white};
-                  gap: 0.1rem;
-                `}
+                display: flex;
+                justify-content: flex-end;
+                border-radius: ${theme.radius.md};
+                margin-bottom: 0.5rem;
+                background-color: ${theme.white};
+                color: ${theme.white};
+                gap: 0.1rem;
+              `}
             >
               {onArchive ? (
                 <ActionIcon
