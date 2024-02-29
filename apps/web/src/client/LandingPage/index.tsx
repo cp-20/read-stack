@@ -160,13 +160,12 @@ export const LandingPage: NextPage = () => {
               css={css`
                 display: inline-block;
               `}
-              disabled
-              href=""
+              href="https://testflight.apple.com/join/6LnlRyD3"
               rel="noopener noreferrer"
               target="_blank"
               variant="outline"
             >
-              iOSアプリ (準備中)
+              iOSアプリ (TestFlight)
             </Button>
           </Flex>
         </div>
